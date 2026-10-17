@@ -24,7 +24,7 @@ KiteO is rule-based, so "training" here means: build a labeled dev set to improv
 
 ## Split
 
-`merge_labels.mjs` puts all solutions of the same problem (both languages, all approaches) on the same side, so held-out solutions never share a problem with development ones. Roughly 30% of problems are held out. Keep the held-out records out of the folder that you or an agent use while tuning.
+`merge_labels.mjs` puts all solutions of the same problem (both languages, all approaches) on the same side, so held-out solutions never share a problem with development ones. Roughly 30% of problems are held out. Keep the held-out records out of the working directory used while tuning the analyzer.
 
 ## Legal and safety
 
