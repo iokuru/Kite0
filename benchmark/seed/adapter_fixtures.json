@@ -1,0 +1,288 @@
+{
+  "name": "KiteO adapter fixture manifest v3",
+  "policy": [
+    "Adapters only read: source, language, editor state, page type, contest state. They never modify the editor, the submission or the page.",
+    "Adapters contain no complexity logic. The Rust analyzer stays platform independent.",
+    "Save sanitized structural fixtures only: minimal DOM, selectors, a stub editor-state object. Never commit cookies, tokens, session IDs, usernames, private source, or large third-party page bodies.",
+    "Pages that need a login or JavaScript must be captured by the user by hand (capture_method manual_save_by_user). Do not automate logins, bypass bot protection, or ignore robots.txt and rate limits.",
+    "Large raw captures stay in a gitignored cache.",
+    "Never capture a page during a live contest."
+  ],
+  "fixture_format": {
+    "files": [
+      "fixture.html (sanitized minimal DOM)",
+      "editor_state.json (stub: text, language, readOnly)",
+      "expected.json (platform, page_type, editor_type, language, contest_state)"
+    ],
+    "test": "Load fixture.html in Playwright, inject editor_state.json through the same page-context bridge the extension uses, and compare adapter output with expected.json."
+  },
+  "support_status_values": [
+    "untested",
+    "mock_page",
+    "saved_real_page",
+    "live_verified"
+  ],
+  "support_rule": "An adapter may be listed as supported only at saved_real_page or live_verified.",
+  "fixtures": [
+    {
+      "id": "codeforces_problem",
+      "platform": "Codeforces",
+      "url": "https://codeforces.com/problemset/problem/1/A",
+      "url_verified": false,
+      "page_type": "problem_statement",
+      "expected_editor_type": "none (statement page)",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable_false"
+      ],
+      "capture_method": "public_page",
+      "notes": "Problem pages have no editor; the extension must report that no editor is available."
+    },
+    {
+      "id": "codeforces_submit",
+      "platform": "Codeforces",
+      "url": "https://codeforces.com/problemset/submit",
+      "url_verified": false,
+      "page_type": "submit_form",
+      "expected_editor_type": "textarea or Ace-style editor",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable",
+        "getSource",
+        "getLanguage",
+        "contest_vs_practice_detection",
+        "no_editor_mutation"
+      ],
+      "capture_method": "manual_save_by_user",
+      "notes": "Needs a logged-in session. User saves a sanitized copy by hand. Test both the textarea and the editor toggle."
+    },
+    {
+      "id": "codeforces_submission_view",
+      "platform": "Codeforces",
+      "url": "https://codeforces.com/problemset/submission/1/1",
+      "url_verified": false,
+      "page_type": "submission_view",
+      "expected_editor_type": "pre block (read-only)",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "no_editor_mutation"
+      ],
+      "capture_method": "public_page",
+      "notes": "Read-only code view. Verify the extension never alters it."
+    },
+    {
+      "id": "leetcode_problem",
+      "platform": "LeetCode",
+      "url": "https://leetcode.com/problems/two-sum/",
+      "url_verified": false,
+      "page_type": "problem_with_editor",
+      "expected_editor_type": "Monaco (virtualized)",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable",
+        "getSource",
+        "getLanguage",
+        "contest_vs_practice_detection",
+        "no_editor_mutation",
+        "read_whole_model_not_visible_lines",
+        "function_signature_binding"
+      ],
+      "capture_method": "manual_save_by_user",
+      "notes": "Static HTML cannot hold Monaco's model. Fixture = minimal DOM shell + a stub exposing the editor model API; also run a manual live checklist."
+    },
+    {
+      "id": "codechef_problem",
+      "platform": "CodeChef",
+      "url": "https://www.codechef.com/problems/START01",
+      "url_verified": false,
+      "page_type": "problem_with_editor",
+      "expected_editor_type": "CodeChef editor",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable",
+        "getSource",
+        "getLanguage",
+        "contest_vs_practice_detection",
+        "no_editor_mutation"
+      ],
+      "capture_method": "manual_save_by_user",
+      "notes": "Verify the problem code still exists; pick any current practice problem."
+    },
+    {
+      "id": "atcoder_task",
+      "platform": "AtCoder",
+      "url": "https://atcoder.jp/contests/abc086/tasks/abc086_a",
+      "url_verified": false,
+      "page_type": "task_with_editor",
+      "expected_editor_type": "Ace/CodeMirror-based editor",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable",
+        "getSource",
+        "getLanguage",
+        "contest_vs_practice_detection",
+        "no_editor_mutation",
+        "language_selection"
+      ],
+      "capture_method": "public_page",
+      "notes": "Public task page. Editor appears when logged in and during or after the contest."
+    },
+    {
+      "id": "hackerrank_challenge",
+      "platform": "HackerRank",
+      "url": "https://www.hackerrank.com/challenges/solve-me-first/problem",
+      "url_verified": false,
+      "page_type": "problem_with_editor",
+      "expected_editor_type": "Monaco-based editor",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable",
+        "getSource",
+        "getLanguage",
+        "contest_vs_practice_detection",
+        "no_editor_mutation"
+      ],
+      "capture_method": "manual_save_by_user",
+      "notes": "Editor loads after JS; headless static capture is not enough."
+    },
+    {
+      "id": "gfg_problem",
+      "platform": "GeeksforGeeks",
+      "url": "https://www.geeksforgeeks.org/problems/two-sum-1587115621/1",
+      "url_verified": false,
+      "page_type": "problem_with_editor",
+      "expected_editor_type": "Ace-based editor",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable",
+        "getSource",
+        "getLanguage",
+        "contest_vs_practice_detection",
+        "no_editor_mutation",
+        "function_style_entry_point"
+      ],
+      "capture_method": "manual_save_by_user",
+      "notes": "Function-style (class Solution) code. Verify the URL still resolves."
+    },
+    {
+      "id": "hackerearth_problem",
+      "platform": "HackerEarth",
+      "url": "https://www.hackerearth.com/practice/",
+      "url_verified": false,
+      "page_type": "problem_with_editor",
+      "expected_editor_type": "HackerEarth editor",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable",
+        "getSource",
+        "getLanguage",
+        "contest_vs_practice_detection",
+        "no_editor_mutation"
+      ],
+      "capture_method": "manual_save_by_user",
+      "notes": "Index URL given; the user must pick one concrete problem page that shows the editor."
+    },
+    {
+      "id": "cses_task",
+      "platform": "CSES",
+      "url": "https://cses.fi/problemset/task/1068",
+      "url_verified": false,
+      "page_type": "task_page",
+      "expected_editor_type": "submission form with file upload or paste",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "getSource",
+        "getLanguage",
+        "no_editor_mutation"
+      ],
+      "capture_method": "public_page",
+      "notes": "CSES submission may use a file input; define what 'source' means there."
+    },
+    {
+      "id": "onlinegdb",
+      "platform": "OnlineGDB",
+      "url": "https://www.onlinegdb.com/",
+      "url_verified": false,
+      "page_type": "editor_page",
+      "expected_editor_type": "Ace editor",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable",
+        "getSource",
+        "getLanguage",
+        "contest_vs_practice_detection",
+        "no_editor_mutation"
+      ],
+      "capture_method": "public_page",
+      "notes": "Editor on the home page. Anonymous use is fine."
+    },
+    {
+      "id": "jdoodle",
+      "platform": "JDoodle",
+      "url": "https://www.jdoodle.com/",
+      "url_verified": false,
+      "page_type": "editor_page",
+      "expected_editor_type": "embedded editor",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable",
+        "getSource",
+        "getLanguage",
+        "contest_vs_practice_detection",
+        "no_editor_mutation"
+      ],
+      "capture_method": "public_page",
+      "notes": "Home page may only link to compilers; pick the C++ and Java compiler pages."
+    },
+    {
+      "id": "programiz",
+      "platform": "Programiz",
+      "url": "https://www.programiz.com/",
+      "url_verified": false,
+      "page_type": "editor_page",
+      "expected_editor_type": "embedded editor",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable",
+        "getSource",
+        "getLanguage",
+        "contest_vs_practice_detection",
+        "no_editor_mutation"
+      ],
+      "capture_method": "public_page",
+      "notes": "Pick the online C++ and Java compiler pages."
+    },
+    {
+      "id": "replit",
+      "platform": "Replit",
+      "url": "https://replit.com/",
+      "url_verified": false,
+      "page_type": "editor_page",
+      "expected_editor_type": "CodeMirror editor",
+      "required_checks": [
+        "platform_detection",
+        "page_type_detection",
+        "isEditorAvailable",
+        "getSource",
+        "getLanguage",
+        "contest_vs_practice_detection",
+        "no_editor_mutation"
+      ],
+      "capture_method": "manual_save_by_user",
+      "notes": "Needs an account. Sanitize heavily."
+    }
+  ]
+}

@@ -1,0 +1,433 @@
+{
+  "schema_version": "3.0",
+  "catalog_version": "kiteo-39-v1",
+  "counts": {
+    "total": 80,
+    "by_status": {
+      "seed_only": 80
+    },
+    "by_language": {
+      "cpp": 40,
+      "java": 40
+    },
+    "by_rating": {
+      "800": 18,
+      "900": 4,
+      "1000": 3,
+      "1100": 2,
+      "1200": 10,
+      "1300": 16,
+      "1400": 12,
+      "1500": 6,
+      "1600": 2,
+      "1800": 1,
+      "None": 6
+    },
+    "audited": 0,
+    "human_confirmed": 0,
+    "heldout": 0
+  },
+  "milestone_targets": {
+    "total_cases_150": {
+      "have": 80,
+      "need": 150,
+      "met": false
+    },
+    "cpp_60": {
+      "have": 40,
+      "need": 60,
+      "met": false
+    },
+    "java_60": {
+      "have": 40,
+      "need": 60,
+      "met": false
+    },
+    "rating_1600_1800_25": {
+      "have": 3,
+      "need": 25,
+      "met": false
+    },
+    "no_catalog_algorithm_10": {
+      "have": 0,
+      "need": 10,
+      "met": false
+    },
+    "multi_variable_20": {
+      "have": 0,
+      "need": 20,
+      "met": false
+    },
+    "amortized_10": {
+      "have": 0,
+      "need": 10,
+      "met": false
+    },
+    "legit_unknown_10": {
+      "have": 0,
+      "need": 10,
+      "met": false
+    },
+    "paired_cpp_java_20": {
+      "have": 0,
+      "need": 20,
+      "met": false
+    }
+  },
+  "per_label": {
+    "BFS": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Backtracking": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Binary Lifting": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Binary Search": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Binary Search on Answer": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Bitmask DP": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Coordinate Compression": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Cycle Detection": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "DFS": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "DSU": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Difference Array": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Dijkstra": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Divide and Conquer": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Dynamic Programming": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Fast and Slow Pointers": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Fenwick Tree": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Heap / Priority Queue": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "KMP": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Kadane's Algorithm": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "LCA": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Linked List Reversal": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "MST": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Monotonic Queue": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Monotonic Stack": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Prefix Sum": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Rolling Hash": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Segment Tree": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Sieve": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Sliding Window": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Sorting": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Sparse Table": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Strongly Connected Components": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Top K": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Topological Sort": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Tree DP": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Trie": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Two Heaps": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Two Pointers": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    },
+    "Z Algorithm": {
+      "audited_positive": 0,
+      "audited_negative": 0,
+      "smoke_target": 3,
+      "smoke_met": false,
+      "heldout_confirmed_positive": 0,
+      "heldout_confirmed_negative": 0,
+      "approval_eligible": false
+    }
+  },
+  "approval_gate": "A label may be marked approved in catalog.toml only when approval_eligible is true AND its detector reaches >=95% precision on the human-confirmed held-out set.",
+  "schema_errors": [],
+  "schema_error_count": 0
+}

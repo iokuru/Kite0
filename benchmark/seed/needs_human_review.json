@@ -1,0 +1,418 @@
+{
+  "purpose": "Records that need human confirmation before they can become locked ground truth. The audit agent appends reasons; a human sets status to human_confirmed.",
+  "required_review_triggers": [
+    "label differs from the seed hint",
+    "label_disputed",
+    "complexity above O(n log n)",
+    "multiple independent variables",
+    "expected or amortized semantics",
+    "recursion or DP recurrence",
+    "hidden library cost (substr, copy by value, erase front, string keys)",
+    "ambiguous algorithm label",
+    "no clear catalog algorithm",
+    "expected_tc or expected_sc is Unknown",
+    "every held-out record"
+  ],
+  "records": [
+    {
+      "id": "cf-cpp-001",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-002",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-003",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-004",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-005",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-006",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-007",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-008",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-009",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-010",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-011",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-012",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-013",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-014",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-015",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-016",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-017",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-018",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-019",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-020",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-021",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-022",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-023",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-024",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-025",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-026",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-027",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-028",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-029",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-030",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-031",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-032",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-033",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-034",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-035",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-036",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-037",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-038",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-039",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-cpp-040",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-001",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-002",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-003",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-004",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-005",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-006",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-007",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-008",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-009",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-010",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-011",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-012",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-013",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-014",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-015",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-016",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-017",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-018",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-019",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-020",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-021",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-022",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-023",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-024",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-025",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-026",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-027",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-028",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-029",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-030",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-031",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-032",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-033",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-034",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-035",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-036",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-037",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-038",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-039",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    },
+    {
+      "id": "cf-java-040",
+      "reason": "seed_only: not fetched or audited yet",
+      "status": "seed_only"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+slug,target_pattern,hint_optimal_tc,hint_optimal_sc,hint_other_approach
+two-sum,"(hash technique, no catalog label)",O(n),O(n),brute force O(n^2) with O(1) space
+3sum,Two Pointers,O(n^2),O(1) aux,brute force O(n^3)
+container-with-most-water,Two Pointers,O(n),O(1),brute force O(n^2)
+trapping-rain-water,Two Pointers,O(n),O(1),prefix/suffix arrays O(n) time and space
+longest-substring-without-repeating-characters,Sliding Window,O(n),O(A),brute force O(n^2) or worse
+minimum-window-substring,Sliding Window,O(n + m),O(A),brute force O(n^2 * m)
+minimum-size-subarray-sum,Sliding Window,O(n),O(1),prefix sums + binary search O(n log n)
+subarray-sum-equals-k,Prefix Sum,O(n),O(n),brute force O(n^2)
+range-sum-query-immutable,Prefix Sum,"O(n) build, O(1) query",O(n),sum per query O(n)
+product-of-array-except-self,Prefix Sum,O(n),O(1) aux,division-free brute force O(n^2)
+binary-search,Binary Search,O(log n),O(1),linear scan O(n)
+search-in-rotated-sorted-array,Binary Search,O(log n),O(1),linear scan O(n)
+koko-eating-bananas,Binary Search on Answer,O(n log A),O(1),try every speed O(n*A)
+capacity-to-ship-packages-within-d-days,Binary Search on Answer,O(n log A),O(1),try every capacity
+maximum-subarray,Kadane's Algorithm,O(n),O(1),brute force O(n^2)
+linked-list-cycle,Cycle Detection,O(n),O(1),hash set O(n) space
+linked-list-cycle-ii,Cycle Detection,O(n),O(1),hash set O(n) space
+find-the-duplicate-number,Fast and Slow Pointers,O(n),O(1),hash set or sort
+reverse-linked-list,Linked List Reversal,O(n),O(1),recursive O(n) stack
+reverse-linked-list-ii,Linked List Reversal,O(n),O(1),-
+daily-temperatures,Monotonic Stack,O(n),O(n),brute force O(n^2)
+largest-rectangle-in-histogram,Monotonic Stack,O(n),O(n),brute force O(n^2)
+sliding-window-maximum,Monotonic Queue,O(n),O(k),scan each window O(nk)
+kth-largest-element-in-an-array,Heap / Priority Queue,O(n log k),O(k),sort O(n log n)
+top-k-frequent-elements,Top K,O(n log k),O(n),sort by frequency
+find-median-from-data-stream,Two Heaps,"O(log n) add, O(1) median",O(n),sorted insert O(n)
+merge-k-sorted-lists,Heap / Priority Queue,O(N log k),O(k),merge one by one O(N k)
+number-of-islands,DFS,O(mn),O(mn),BFS version
+clone-graph,DFS,O(V + E),O(V),BFS version
+binary-tree-level-order-traversal,BFS,O(n),O(n),-
+word-ladder,BFS,BFS over words (check by audit),audit,-
+course-schedule,Topological Sort,O(V + E),O(V + E),DFS cycle detection
+course-schedule-ii,Topological Sort,O(V + E),O(V + E),DFS postorder
+number-of-provinces,DSU,O(n^2) (matrix input),O(n),DFS version
+redundant-connection,DSU,O(n alpha(n)),O(n),DFS cycle check per edge O(n^2)
+network-delay-time,Dijkstra,O((V + E) log V),O(V + E),Bellman-Ford O(VE)
+cheapest-flights-within-k-stops,Shortest path (Bellman-Ford) - not in catalog,O(kE),O(V),-
+swim-in-rising-water,Dijkstra,O(n^2 log n),O(n^2),binary search + BFS
+min-cost-to-connect-all-points,MST,O(n^2) Prim or O(n^2 log n) Kruskal,O(n^2) or O(n),-
+lowest-common-ancestor-of-a-binary-tree,LCA,O(n),O(h),path comparison
+kth-ancestor-of-a-tree-node,Binary Lifting,"O(n log n) build, O(log n) query",O(n log n),walk up O(k)
+implement-trie-prefix-tree,Trie,O(L) per operation,O(total characters),hash set of prefixes
+climbing-stairs,Dynamic Programming,O(n),O(1),recursion O(2^n)
+house-robber,Dynamic Programming,O(n),O(1),recursion O(2^n)
+coin-change,Dynamic Programming,O(n * amount),O(amount),recursion without memo
+longest-increasing-subsequence,Dynamic Programming,O(n^2) DP or O(n log n) with Binary Search,O(n),brute force exponential
+edit-distance,Dynamic Programming,O(mn),O(mn),recursion without memo
+longest-palindromic-substring,(no catalog label unless DP),O(n^2),O(1) or O(n^2),expand around center vs DP
+house-robber-iii,Tree DP,O(n),O(h),recursion without memo
+binary-tree-maximum-path-sum,Tree DP,O(n),O(h),-
+shortest-path-visiting-all-nodes,Bitmask DP,O(2^n * n^2) approx (audit),O(2^n * n),"BFS over (mask, node)"
+partition-to-k-equal-sum-subsets,Backtracking,exponential (audit),O(n),bitmask DP O(2^n * n)
+subsets,Backtracking,O(n * 2^n),O(n) aux,iterative bitmask
+permutations,Backtracking,O(n * n!),O(n),-
+n-queens,Backtracking,O(n!),O(n),-
+sort-an-array,Divide and Conquer,O(n log n),O(n),heap sort or quick sort
+range-sum-query-mutable,Fenwick Tree,"O(log n) per op, O(n) build",O(n),segment tree
+count-of-smaller-numbers-after-self,Fenwick Tree,O(n log n),O(n),merge sort or segment tree
+count-primes,Sieve,O(n log log n),O(n),trial division O(n sqrt n)
+find-the-index-of-the-first-occurrence-in-a-string,KMP,O(n + m),O(m),naive O(nm)
+sum-of-scores-of-built-strings,Z Algorithm,O(n),O(n),naive O(n^2)
+repeated-dna-sequences,Rolling Hash,O(n),O(n),substring hash set O(10 n)
+longest-duplicate-substring,Rolling Hash,O(n log n),O(n),naive O(n^3)
+corporate-flight-bookings,Difference Array,O(n + m),O(n),update each range O(n m)
+car-pooling,Difference Array,O(n + M),O(M),simulate each stop
+merge-intervals,Sorting,O(n log n),O(n),-
+non-overlapping-intervals,Sorting,O(n log n),O(1) aux,DP O(n^2)
+longest-consecutive-sequence,"(hash set technique, no catalog label)",O(n),O(n),sort O(n log n)
+valid-parentheses,"(stack technique, no catalog label)",O(n),O(n),-

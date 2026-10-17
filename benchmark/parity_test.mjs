@@ -35,8 +35,11 @@ function serializeNode(node, fieldName = null) {
 
 async function main() {
   const args = process.argv.slice(2);
+  const isTough = args.includes('--tough') || args.includes('--complex');
   const isDev2 = args.includes('--dev2') || args.includes('--held-out') || args.includes('-h');
-  const corpusRel = isDev2
+  const corpusRel = isTough
+    ? 'benchmark/corpus/tough_benchmark.json'
+    : isDev2
     ? (fs.existsSync(path.resolve(rootDir, 'benchmark/corpus/dev2.json'))
         ? 'benchmark/corpus/dev2.json'
         : 'benchmark/corpus/held_out.json')
@@ -55,7 +58,9 @@ async function main() {
   // 1. Obtain native runner results
   console.log('[PARITY TEST] Running native runner with --json...');
   const runnerArgs = ['run', '-p', 'kiteo-runner', '--', '--json'];
-  if (isDev2) {
+  if (isTough) {
+    runnerArgs.push('--tough');
+  } else if (isDev2) {
     runnerArgs.push('--dev2');
   }
 

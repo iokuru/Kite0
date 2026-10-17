@@ -847,14 +847,20 @@ fn main() {
     let is_dev2 = args
         .iter()
         .any(|a| a == "--dev2" || a == "--held-out" || a == "-h");
+    let is_tough = args.iter().any(|a| a == "--tough" || a == "--complex");
     let is_all = args.iter().any(|a| a == "--all");
     let is_real = args.iter().any(|a| a == "--real" || a == "--real-verbose");
     let is_verbose = args
         .iter()
         .any(|a| a == "--real-verbose" || a == "--verbose");
     let is_debug = args.iter().any(|a| a == "--debug") || cfg!(debug_assertions);
+    let file_arg = args.iter().position(|a| a == "--file").and_then(|i| args.get(i + 1));
 
-    let corpus_file = if is_dev2 {
+    let corpus_file = if let Some(f) = file_arg {
+        f.as_str()
+    } else if is_tough {
+        "benchmark/corpus/tough_benchmark.json"
+    } else if is_dev2 {
         "benchmark/corpus/dev2.json"
     } else {
         "benchmark/corpus/snippets.json"
@@ -875,6 +881,18 @@ fn main() {
         evaluate_corpus(
             "benchmark/corpus/dev2.json",
             "Dev2 Synthetic Solutions (70 Cases)",
+        );
+        println!("\n\n");
+        evaluate_corpus(
+            "benchmark/corpus/tough_benchmark.json",
+            "Tough & Complex Problems Benchmark (50 Cases)",
+        );
+    } else if file_arg.is_some() {
+        evaluate_corpus(corpus_file, &format!("Custom Corpus ({corpus_file})"));
+    } else if is_tough {
+        evaluate_corpus(
+            "benchmark/corpus/tough_benchmark.json",
+            "Tough & Complex Problems Benchmark (50 Cases)",
         );
     } else if is_dev2 {
         evaluate_corpus(
