@@ -20,5 +20,3 @@ playwright-report/
 dist-*/
 extension/dist-*/
 .astro/
-__pycache__/
-*.pyc

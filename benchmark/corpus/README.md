@@ -6,4 +6,4 @@ This directory contains curated benchmark test suites:
 - **`dev2.json`** (70 cases / 35 problems): Synthetic stress suite validating edge-case induction bounds, nested loops, and recursion.
 - **`tough_benchmark.json`** (500 cases / 250 problems): Scaled competitive programming and Online Assessment (OA) corpus spanning the full 68-algorithm taxonomy.
 
-Evaluation on authentic competitive programming submissions is conducted strictly in `benchmark/real/`. To validate corpus integrity and parity, run `python benchmark/tools/validate_suite.py`.
+Evaluation on authentic competitive programming submissions is conducted strictly in `benchmark/real/`. To validate corpus integrity and parity, run `node benchmark/tools/validate_suite.mjs`.

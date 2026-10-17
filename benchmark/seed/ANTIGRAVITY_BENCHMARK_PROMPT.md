@@ -38,7 +38,7 @@ Other techniques (Greedy, Math, Implementation, Brute Force, Number Theory, Simu
 
 Canonical complexity: equivalent forms compare equal (O(mn) = O(nm)); different forms stay different (O(n + q) != O(nq)). The literal `Unknown` is a valid expected value when no sound bound can be determined from the code.
 
-## Coverage to reach (run `python check_benchmark.py`)
+## Coverage to reach (run `node check_benchmark.mjs`)
 
 Milestone targets (all must be met before declaring the benchmark complete):
 - 150+ cases, 60+ C++, 60+ Java
@@ -73,6 +73,6 @@ Adapters only read editor state. No complexity logic in adapters.
 
 ## Before you report done
 
-Run `python check_benchmark.py` and paste its output. Confirm: every source resolves, every hash matches, every record has a pinned commit, every label is in the catalog, every disputed record is flagged, duplicates removed, language balance checked, split locked.
+Run `node check_benchmark.mjs` and paste its output. Confirm: every source resolves, every hash matches, every record has a pinned commit, every label is in the catalog, every disputed record is flagged, duplicates removed, language balance checked, split locked.
 
 Then stop. Do not start analyzer feature work from these labels until a human has confirmed the audit and the split manifest.

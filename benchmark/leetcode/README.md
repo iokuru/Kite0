@@ -11,9 +11,9 @@ KiteO is rule-based, so "training" here means: build a labeled dev set to improv
    `<slug>__<approach>.<cpp|java>`   approach = optimal, brute, alt, alt2
    Collect at least a brute force AND an optimal solution when you can. The brute/optimal pair is what teaches the engine to tell O(n^2) from O(n).
    Copy from your own LeetCode "Submissions" page, one by one, by hand. Do not scrape. Do not add solutions you did not write.
-3. Run `python ingest_leetcode.py`. It creates `leetcode_records.json` and `label_sheet.csv`. The sheet shows each solution's entry signature (the method signature gives the sizes: nums.size(), s.length(), ...).
+3. Run `node ingest_leetcode.mjs`. It creates `leetcode_records.json` and `label_sheet.csv`. The sheet shows each solution's entry signature (the method signature gives the sizes: nums.size(), s.length(), ...).
 4. Open `label_sheet.csv` in a spreadsheet and fill, for each solution, from reading the CODE (not from the problem title and not from KiteO's output): expected_tc, expected_sc, expected_algorithms, variables, case_type, label_notes. Add negative_for for look-alikes. Put "yes" in confirmed only after you checked it.
-5. Run `python merge_labels.py`. It validates, assigns the split, and prints coverage. Fix errors and repeat.
+5. Run `node merge_labels.mjs`. It validates, assigns the split, and prints coverage. Fix errors and repeat.
 
 ## Rules for labels
 
@@ -24,7 +24,7 @@ KiteO is rule-based, so "training" here means: build a labeled dev set to improv
 
 ## Split
 
-`merge_labels.py` puts all solutions of the same problem (both languages, all approaches) on the same side, so held-out solutions never share a problem with development ones. Roughly 30% of problems are held out. Keep the held-out records out of the folder that you or an agent use while tuning.
+`merge_labels.mjs` puts all solutions of the same problem (both languages, all approaches) on the same side, so held-out solutions never share a problem with development ones. Roughly 30% of problems are held out. Keep the held-out records out of the folder that you or an agent use while tuning.
 
 ## Legal and safety
 
@@ -43,6 +43,6 @@ KiteO is rule-based, so "training" here means: build a labeled dev set to improv
 ## Files
 
 - `leetcode_problem_list.csv`: suggested problems and hints (hints are NOT labels)
-- `ingest_leetcode.py`, `merge_labels.py`: tools (Python 3, no packages)
+- `ingest_leetcode.mjs`, `merge_labels.mjs`, `split_records.mjs`: tools (Node.js standard library)
 - `benchmark_schema.json`: catalog and conventions shared with the Codeforces benchmark
 - `examples/`: three sample solutions to test the tools

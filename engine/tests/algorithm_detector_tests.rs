@@ -146,17 +146,19 @@ fn test_grid_dfs_positive() {
 }
 
 #[test]
-fn test_python_bfs_num_islands() {
+fn test_java_bfs_num_islands() {
     let code = r#"
-    class Solution:
-        def numIslands(self, grid: List[List[str]]) -> int:
-            visited = set()
-            def bfs(r, c):
-                q = collections.deque()
-                visited.add((r, c))
-                q.append((r, c))
-                while q:
-                    row, col = q.popleft()
+    class Solution {
+        public int numIslands(char[][] grid) {
+            Queue<int[]> q = new LinkedList<>();
+            boolean[][] visited = new boolean[10][10];
+            q.offer(new int[]{0, 0});
+            while (!q.isEmpty()) {
+                int[] curr = q.poll();
+            }
+            return 1;
+        }
+    }
     "#;
     assert!(AlgorithmDetector::detect_raw(code).contains(&AllowedAlgorithm::Bfs));
 }

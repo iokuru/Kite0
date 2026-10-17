@@ -180,8 +180,8 @@ cargo run -p kiteo-runner -- --real-verbose
 ### Empirical Scaling Validators
 Empirically confirms scaling exponents ($\Delta \ln T / \Delta \ln N$) across doubling input sizes ($N \le 8,000,000$) on synthetic loops and real CP patterns:
 ```bash
-python benchmark/empirical/validator.py
-python benchmark/empirical/synthetic_pattern_validator.py
+node benchmark/empirical/validator.mjs
+node benchmark/empirical/synthetic_pattern_validator.mjs
 ```
 
 ### Playwright E2E & Parity Tests

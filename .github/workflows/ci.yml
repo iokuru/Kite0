@@ -33,16 +33,16 @@ jobs:
       - name: Dev2 Synthetic Benchmark Evaluation (70 Cases)
         run: cargo run -p kiteo-runner -- --dev2
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
+          node-version: 20
 
       - name: Empirical Scaling Validator (Synthetic Loops)
-        run: python benchmark/empirical/validator.py
+        run: node benchmark/empirical/validator.mjs
 
       - name: Empirical Scaling Validator (CP Patterns)
-        run: python benchmark/empirical/synthetic_pattern_validator.py
+        run: node benchmark/empirical/synthetic_pattern_validator.mjs
 
       - name: WASM Compilation Check
         run: cargo check -p kiteo-engine --target wasm32-unknown-unknown
