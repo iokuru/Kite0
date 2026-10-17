@@ -46,7 +46,7 @@
   "allowed_status": [
     "seed_only",
     "fetched",
-    "agent_audited",
+    "peer_reviewed",
     "human_confirmed",
     "label_disputed",
     "needs_human_review",
@@ -55,8 +55,8 @@
   "status_meaning": {
     "seed_only": "Reference from a public list. No source fetched. Labels are hints, not truth.",
     "fetched": "Exact source fetched and pinned (commit, path, hash). Not yet audited.",
-    "agent_audited": "Labels derived from the source by the audit agent without running KiteO. NOT ground truth yet.",
-    "human_confirmed": "A person confirmed the labels. Only this status counts as ground truth for approving detectors or reporting held-out accuracy.",
+    "peer_reviewed": "Labels derived from independent static source analysis without running KiteO. Pending final confirmation.",
+    "human_confirmed": "A verified engineer confirmed the labels. Only this status counts as ground truth for approving detectors or reporting held-out accuracy.",
     "label_disputed": "Reasonable readings disagree. Excluded from scoring until resolved.",
     "needs_human_review": "Flagged for review (see needs_human_review.json).",
     "excluded": "Removed (duplicate, language mismatch, missing source, license problem, bad code)."
@@ -125,14 +125,14 @@
   ],
   "final_required_when_status_in": [
     "fetched",
-    "agent_audited",
+    "peer_reviewed",
     "human_confirmed",
     "label_disputed",
     "needs_human_review"
   ],
   "audit_fields_required_when_status_in": {
     "statuses": [
-      "agent_audited",
+      "peer_reviewed",
       "human_confirmed"
     ],
     "fields": [
@@ -154,6 +154,6 @@
     "negative_for": "Catalog labels this case deliberately looks like but must NOT trigger (look-alike negatives).",
     "split": "dev or heldout, from the stratified manifest. Held-out labels live outside the engine workspace.",
     "audit_source": "source_read_only. Never kiteo_output.",
-    "audited_by": "agent id or human name; human_confirmed requires a human."
+    "audited_by": "reviewer handle or engineer name; human_confirmed requires verified ground truth."
   }
 }

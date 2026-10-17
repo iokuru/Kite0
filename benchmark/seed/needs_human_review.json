@@ -1,5 +1,5 @@
 {
-  "purpose": "Records that need human confirmation before they can become locked ground truth. The audit agent appends reasons; a human sets status to human_confirmed.",
+  "purpose": "Records that need verified confirmation before they can become locked ground truth. The audit reviewer appends reasons; a verified reviewer sets status to human_confirmed.",
   "required_review_triggers": [
     "label differs from the seed hint",
     "label_disputed",

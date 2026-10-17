@@ -168,7 +168,7 @@ for (const r of recs) {
   if (r.source_hash && !r.commit_sha) errors.push(`${r.id}: source_hash without commit_sha`);
 }
 
-const audited = recs.filter((r) => ['agent_audited', 'human_confirmed'].includes(r.status));
+const audited = recs.filter((r) => ['peer_reviewed', 'human_confirmed'].includes(r.status));
 const confirmed = recs.filter((r) => r.status === 'human_confirmed');
 function countMatch(f, pool) {
   return pool.filter(f).length;
