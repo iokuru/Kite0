@@ -41,8 +41,12 @@ def main():
 
     icons_src = os.path.join(EXTENSION_ROOT, "public", "icons")
 
+    with open(os.path.join(EXTENSION_ROOT, "package.json"), "r", encoding="utf-8") as f:
+        pkg_data = json.load(f)
+    version = pkg_data.get("version", "0.1.1")
+
     # 1. Chrome MV3
-    print("\n--- Packaging Chrome (Manifest V3) ---")
+    print(f"\n--- Packaging Chrome (Manifest V3, v{version}) ---")
     chrome_dir = os.path.join(EXTENSION_ROOT, "dist-chrome")
     if os.path.exists(chrome_dir):
         shutil.rmtree(chrome_dir)
@@ -52,7 +56,7 @@ def main():
     chrome_manifest = {
         "manifest_version": 3,
         "name": "Kite0 - Static Complexity Analyzer",
-        "version": "0.1.0",
+        "version": version,
         "description": "Deterministic local static complexity analyzer for competitive programming. Zero telemetry, 100% offline WebAssembly.",
         "icons": {
             "16": "icons/icon-16.png",
@@ -93,11 +97,11 @@ def main():
     with open(os.path.join(chrome_dir, "manifest.json"), "w", encoding="utf-8") as f:
         json.dump(chrome_manifest, f, indent=2)
 
-    chrome_zip = os.path.join(packages_dir, "kiteo-chrome-v0.1.0.zip")
+    chrome_zip = os.path.join(packages_dir, f"kiteo-chrome-v{version}.zip")
     zip_directory(chrome_dir, chrome_zip)
 
     # 2. Firefox (Gecko MV3 / Scripts background)
-    print("\n--- Packaging Firefox ---")
+    print(f"\n--- Packaging Firefox (v{version}) ---")
     firefox_dir = os.path.join(EXTENSION_ROOT, "dist-firefox")
     if os.path.exists(firefox_dir):
         shutil.rmtree(firefox_dir)
@@ -107,7 +111,7 @@ def main():
     firefox_manifest = {
         "manifest_version": 3,
         "name": "Kite0 - Static Complexity Analyzer",
-        "version": "0.1.0",
+        "version": version,
         "description": "Deterministic local static complexity analyzer for competitive programming. Zero telemetry, 100% offline WebAssembly.",
         "browser_specific_settings": {
             "gecko": {
@@ -159,7 +163,7 @@ def main():
     with open(os.path.join(firefox_dir, "manifest.json"), "w", encoding="utf-8") as f:
         json.dump(firefox_manifest, f, indent=2)
 
-    firefox_zip = os.path.join(packages_dir, "kiteo-firefox-v0.1.0.zip")
+    firefox_zip = os.path.join(packages_dir, f"kiteo-firefox-v{version}.zip")
     zip_directory(firefox_dir, firefox_zip)
 
     print("\n=== Extension Packaging Complete ===")
