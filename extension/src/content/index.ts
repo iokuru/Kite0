@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill';
 import { getAdapterForUrl } from '../platform/registry';
+import { detectLanguageFromSource } from '../platform/adapter';
 
 function extractCodeFromPage() {
   const adapter = getAdapterForUrl(window.location.href);
@@ -55,23 +56,20 @@ function extractCodeFromPage() {
 
   source = source.replace(/\u00a0/g, ' ').trim();
 
-  // Smart override for language if source contains explicit C++ or Java tokens
-  if (
-    source.includes('vector<') ||
-    source.includes('public:') ||
-    source.includes('#include') ||
-    source.includes('std::') ||
-    source.includes('cout <<') ||
-    source.includes('int&')
-  ) {
-    language = 'cpp';
-  } else if (
-    source.includes('public class') ||
-    source.includes('System.out') ||
-    source.includes('import java') ||
-    source.includes('String[]')
-  ) {
-    language = 'java';
+  // Balance unclosed braces if Monaco viewport truncated bottom lines
+  let openCount = 0;
+  for (let i = 0; i < source.length; i++) {
+    if (source[i] === '{') openCount++;
+    else if (source[i] === '}') openCount--;
+  }
+  if (openCount > 0) {
+    source += '\n' + '}'.repeat(openCount);
+  }
+
+  // Smart robust detection from source code tokens
+  const detectedLang = detectLanguageFromSource(source);
+  if (detectedLang) {
+    language = detectedLang;
   } else if (!language) {
     language = 'cpp';
   }

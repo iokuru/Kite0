@@ -1,4 +1,4 @@
-import type { PlatformAdapter } from './adapter';
+import { type PlatformAdapter, detectLanguageFromSource } from './adapter';
 import type { SupportedLanguage, ConstraintStatus } from '../shared/types';
 
 export class LeetCodeAdapter implements PlatformAdapter {
@@ -74,8 +74,20 @@ export class LeetCodeAdapter implements PlatformAdapter {
       }
     }
 
+    function balanceBraces(raw: string): string {
+      let openCount = 0;
+      for (let i = 0; i < raw.length; i++) {
+        if (raw[i] === '{') openCount++;
+        else if (raw[i] === '}') openCount--;
+      }
+      if (openCount > 0) {
+        return raw + '\n' + '}'.repeat(openCount);
+      }
+      return raw;
+    }
+
     if (bestCandidate && bestCandidate.length > 0) {
-      return bestCandidate;
+      return balanceBraces(bestCandidate);
     }
 
     // 3. Fallback to generic line extraction
@@ -88,50 +100,46 @@ export class LeetCodeAdapter implements PlatformAdapter {
         lines.push((line.textContent || '').replace(/\u00a0/g, ' '));
       });
       const combined = lines.join('\n').trim();
-      if (combined.length > 0) return combined;
+      if (combined.length > 0) return balanceBraces(combined);
     }
 
     return null;
   }
 
   getLanguage(): SupportedLanguage | null {
-    const src = this.getSource() || '';
-    // Priority 1: Direct language markers in source
-    if (
-      src.includes('vector<') ||
-      src.includes('public:') ||
-      src.includes('#include') ||
-      src.includes('std::') ||
-      src.includes('cout <<') ||
-      src.includes('int&')
-    ) {
-      return 'cpp';
-    }
-    if (
-      src.includes('public class') ||
-      src.includes('System.out') ||
-      src.includes('import java') ||
-      src.includes('String[]')
-    ) {
-      return 'java';
+    // Priority 1: Check Monaco container [data-mode-id] attribute
+    const modeEl = document.querySelector('[data-mode-id]');
+    if (modeEl) {
+      const mode = (modeEl.getAttribute('data-mode-id') || '').toLowerCase();
+      if (mode === 'cpp' || mode === 'c++') return 'cpp';
+      if (mode === 'java') return 'java';
     }
 
-    // Priority 2: Language dropdown in modern LeetCode UI
+    // Priority 2: Check language selector button in modern LeetCode UI
     const candidates = [
-      document.querySelector('[data-mode-id]'),
-      document.querySelector('button[id*="headlessui-listbox-button"]'),
-      document.querySelector('[id*="headlessui-popover-button"]'),
-      document.querySelector('button[class*="rounded"][class*="text-xs"]'),
-      document.querySelector('[data-cy="lang-select"]'),
+      ...Array.from(document.querySelectorAll('button[id*="headlessui-listbox-button"]')),
+      ...Array.from(document.querySelectorAll('[id*="headlessui-popover-button"]')),
+      ...Array.from(document.querySelectorAll('[data-cy="lang-select"]')),
+      ...Array.from(document.querySelectorAll('button[class*="rounded"]')),
+      ...Array.from(document.querySelectorAll('button')),
     ];
 
     for (const btn of candidates) {
       if (btn && btn.textContent) {
-        const text = btn.textContent.toLowerCase();
-        if (text.includes('c++') || text.includes('cpp')) return 'cpp';
-        if (text.includes('java') && !text.includes('javascript')) return 'java';
+        const text = btn.textContent.trim().toLowerCase();
+        if (text === 'java' || (text.startsWith('java') && !text.includes('javascript'))) {
+          return 'java';
+        }
+        if (text === 'c++' || text === 'cpp' || (text.startsWith('c++') && !text.includes('c#'))) {
+          return 'cpp';
+        }
       }
     }
+
+    // Priority 3: Deep AST and token source analysis
+    const src = this.getSource() || '';
+    const detected = detectLanguageFromSource(src);
+    if (detected) return detected;
 
     return 'cpp';
   }

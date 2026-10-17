@@ -5,6 +5,7 @@ import init, {
 } from '../wasm/pkg/kiteo_engine.js';
 import type { AnalysisResult } from './types';
 import Parser from 'web-tree-sitter';
+import { detectLanguageFromSource } from '../platform/adapter';
 
 let wasmInitialized = false;
 let parserInitialized = false;
@@ -91,21 +92,37 @@ export async function analyzeCode(source: string, language?: string): Promise<An
 
   await initAnalyzer();
 
-  const lang = language || 'cpp';
+  let lang = language || 'cpp';
+  const detected = detectLanguageFromSource(source);
+  if (detected && detected !== lang) {
+    lang = detected;
+  }
+
+  // Auto-balance unclosed braces in source if editor virtual rendering cut them off
+  let openCount = 0;
+  for (let i = 0; i < source.length; i++) {
+    if (source[i] === '{') openCount++;
+    else if (source[i] === '}') openCount--;
+  }
+  let balancedSource = source;
+  if (openCount > 0) {
+    balancedSource = source + '\n' + '}'.repeat(openCount);
+  }
+
   let rawJson: string;
 
   if (parserInitialized && ((lang === 'cpp' && cppParser) || (lang === 'java' && javaParser))) {
     try {
-      const preprocessed = preprocess_wasm ? preprocess_wasm(source) : source;
+      const preprocessed = preprocess_wasm ? preprocess_wasm(balancedSource) : balancedSource;
       const parser = lang === 'java' ? javaParser! : cppParser!;
       const tree = parser.parse(preprocessed);
       const ast = serializeNode(tree.rootNode);
       rawJson = analyze_wasm_with_ast(preprocessed, lang, JSON.stringify(ast));
     } catch {
-      rawJson = analyze_wasm(source, lang);
+      rawJson = analyze_wasm(balancedSource, lang);
     }
   } else {
-    rawJson = analyze_wasm(source, lang);
+    rawJson = analyze_wasm(balancedSource, lang);
   }
 
   try {
