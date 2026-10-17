@@ -5,21 +5,21 @@
 
 [[algorithm]]
 name = "Segment Tree"
-status = "candidate"
+status = "approved"
 category = "data_structure"
 priority = 1
 suppresses = ["Prefix Sum"]
 
 [[algorithm]]
 name = "Fenwick Tree"
-status = "candidate"
+status = "approved"
 category = "data_structure"
 priority = 2
 suppresses = ["Prefix Sum"]
 
 [[algorithm]]
 name = "Sparse Table"
-status = "candidate"
+status = "approved"
 category = "data_structure"
 priority = 3
 suppresses = []
@@ -33,14 +33,14 @@ suppresses = ["Segment Tree", "Prefix Sum"]
 
 [[algorithm]]
 name = "Dijkstra"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 5
 suppresses = ["BFS", "Heap / Priority Queue"]
 
 [[algorithm]]
 name = "MST"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 6
 suppresses = []
@@ -68,84 +68,84 @@ suppresses = ["DFS"]
 
 [[algorithm]]
 name = "Topological Sort"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 10
 suppresses = ["BFS", "DFS"]
 
 [[algorithm]]
 name = "LCA"
-status = "candidate"
+status = "approved"
 category = "technique"
 priority = 11
 suppresses = []
 
 [[algorithm]]
 name = "Binary Lifting"
-status = "candidate"
+status = "approved"
 category = "technique"
 priority = 12
 suppresses = []
 
 [[algorithm]]
 name = "Trie"
-status = "candidate"
+status = "approved"
 category = "data_structure"
 priority = 13
 suppresses = []
 
 [[algorithm]]
 name = "DSU"
-status = "candidate"
+status = "approved"
 category = "data_structure"
 priority = 14
 suppresses = []
 
 [[algorithm]]
 name = "KMP"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 15
 suppresses = []
 
 [[algorithm]]
 name = "Z Algorithm"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 16
 suppresses = []
 
 [[algorithm]]
 name = "Rolling Hash"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 17
 suppresses = []
 
 [[algorithm]]
 name = "Sieve"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 18
 suppresses = []
 
 [[algorithm]]
 name = "Kadane's Algorithm"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 19
 suppresses = []
 
 [[algorithm]]
 name = "Tree DP"
-status = "candidate"
+status = "approved"
 category = "paradigm"
 priority = 20
 suppresses = ["Dynamic Programming", "DFS"]
 
 [[algorithm]]
 name = "Bitmask DP"
-status = "candidate"
+status = "approved"
 category = "paradigm"
 priority = 21
 suppresses = ["Dynamic Programming"]
@@ -208,14 +208,14 @@ suppresses = []
 
 [[algorithm]]
 name = "Binary Search on Answer"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 30
 suppresses = ["Binary Search"]
 
 [[algorithm]]
 name = "Two Heaps"
-status = "candidate"
+status = "approved"
 category = "technique"
 priority = 31
 suppresses = ["Heap / Priority Queue"]
@@ -229,21 +229,21 @@ suppresses = ["Heap / Priority Queue"]
 
 [[algorithm]]
 name = "Heap / Priority Queue"
-status = "candidate"
+status = "approved"
 category = "data_structure"
 priority = 33
 suppresses = []
 
 [[algorithm]]
 name = "Monotonic Stack"
-status = "candidate"
+status = "approved"
 category = "technique"
 priority = 34
 suppresses = ["Stack"]
 
 [[algorithm]]
 name = "Monotonic Queue"
-status = "candidate"
+status = "approved"
 category = "technique"
 priority = 35
 suppresses = ["Queue"]
@@ -278,21 +278,21 @@ suppresses = []
 
 [[algorithm]]
 name = "Sliding Window"
-status = "candidate"
+status = "approved"
 category = "technique"
 priority = 40
 suppresses = ["Two Pointers"]
 
 [[algorithm]]
 name = "Two Pointers"
-status = "candidate"
+status = "approved"
 category = "technique"
 priority = 41
 suppresses = []
 
 [[algorithm]]
 name = "Binary Search"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 42
 suppresses = []
@@ -306,7 +306,7 @@ suppresses = ["Prefix Sum"]
 
 [[algorithm]]
 name = "Prefix Sum"
-status = "candidate"
+status = "approved"
 category = "technique"
 priority = 44
 suppresses = []
@@ -460,21 +460,21 @@ suppresses = []
 
 [[algorithm]]
 name = "Sorting"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 66
 suppresses = []
 
 [[algorithm]]
 name = "BFS"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 67
 suppresses = []
 
 [[algorithm]]
 name = "DFS"
-status = "candidate"
+status = "approved"
 category = "algorithm"
 priority = 68
 suppresses = []
