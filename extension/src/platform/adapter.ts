@@ -50,3 +50,12 @@ export function detectLanguageFromSource(source: string): SupportedLanguage | nu
   if (cppScore > javaScore && cppScore >= 3) return 'cpp';
   return null;
 }
+
+export function balanceBraces(source: string): string {
+  let openCount = 0;
+  for (let i = 0; i < source.length; i++) {
+    if (source[i] === '{') openCount++;
+    else if (source[i] === '}') openCount--;
+  }
+  return openCount > 0 ? source + '\n' + '}'.repeat(openCount) : source;
+}

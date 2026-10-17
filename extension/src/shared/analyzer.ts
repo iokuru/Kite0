@@ -5,7 +5,15 @@ import init, {
 } from '../wasm/pkg/kiteo_engine.js';
 import type { AnalysisResult } from './types';
 import Parser from 'web-tree-sitter';
-import { detectLanguageFromSource } from '../platform/adapter';
+import { detectLanguageFromSource, balanceBraces } from '../platform/adapter';
+
+export interface SerializedAstNode {
+  kind: string;
+  field_name: string | null;
+  start_byte: number;
+  end_byte: number;
+  children: SerializedAstNode[];
+}
 
 let wasmInitialized = false;
 let parserInitialized = false;
@@ -13,8 +21,8 @@ let cppParser: Parser | null = null;
 let javaParser: Parser | null = null;
 let initPromise: Promise<void> | null = null;
 
-function serializeNode(node: Parser.SyntaxNode, fieldName: string | null = null): any {
-  const children = [];
+function serializeNode(node: Parser.SyntaxNode, fieldName: string | null = null): SerializedAstNode {
+  const children: SerializedAstNode[] = [];
   for (let i = 0; i < node.children.length; i++) {
     const child = node.children[i];
     const childField = node.fieldNameForChild ? node.fieldNameForChild(i) : null;
@@ -98,16 +106,7 @@ export async function analyzeCode(source: string, language?: string): Promise<An
     lang = detected;
   }
 
-  // Auto-balance unclosed braces in source if editor virtual rendering cut them off
-  let openCount = 0;
-  for (let i = 0; i < source.length; i++) {
-    if (source[i] === '{') openCount++;
-    else if (source[i] === '}') openCount--;
-  }
-  let balancedSource = source;
-  if (openCount > 0) {
-    balancedSource = source + '\n' + '}'.repeat(openCount);
-  }
+  const balancedSource = balanceBraces(source);
 
   let rawJson: string;
 

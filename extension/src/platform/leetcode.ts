@@ -1,4 +1,4 @@
-import { type PlatformAdapter, detectLanguageFromSource } from './adapter';
+import { type PlatformAdapter, detectLanguageFromSource, balanceBraces } from './adapter';
 import type { SupportedLanguage, ConstraintStatus } from '../shared/types';
 
 export class LeetCodeAdapter implements PlatformAdapter {
@@ -72,18 +72,6 @@ export class LeetCodeAdapter implements PlatformAdapter {
           bestCandidate = text;
         }
       }
-    }
-
-    function balanceBraces(raw: string): string {
-      let openCount = 0;
-      for (let i = 0; i < raw.length; i++) {
-        if (raw[i] === '{') openCount++;
-        else if (raw[i] === '}') openCount--;
-      }
-      if (openCount > 0) {
-        return raw + '\n' + '}'.repeat(openCount);
-      }
-      return raw;
     }
 
     if (bestCandidate && bestCandidate.length > 0) {
