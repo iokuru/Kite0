@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && vite build --config vite.config.content.ts",
-    "package": "python scripts/package.py",
+    "package": "node scripts/package.mjs",
+    "package:source": "node scripts/package_source.mjs",
     "test:e2e": "playwright test",
     "test:ast-parity": "node ../benchmark/ast_parity_test.mjs",
     "test:ast-parity:dev2": "node ../benchmark/ast_parity_test.mjs --dev2",
