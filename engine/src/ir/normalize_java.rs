@@ -5,6 +5,7 @@ use crate::parser::AstNode;
 pub struct JavaNormalizer<'a> {
     source: &'a [u8],
     module: IrModule,
+    in_solution_class: bool,
 }
 
 impl<'a> JavaNormalizer<'a> {
@@ -12,6 +13,7 @@ impl<'a> JavaNormalizer<'a> {
         Self {
             source: source.as_bytes(),
             module: IrModule::new(),
+            in_solution_class: false,
         }
     }
 
@@ -29,7 +31,29 @@ impl<'a> JavaNormalizer<'a> {
             "method_declaration" => {
                 self.visit_method(node);
             }
-            "class_declaration" | "program" => {
+            "class_declaration" => {
+                let name = node
+                    .child_by_field_name("name")
+                    .map(|n| self.text(n))
+                    .or_else(|| {
+                        node.children
+                            .iter()
+                            .find(|c| c.kind() == "identifier")
+                            .map(|n| self.text(n))
+                    })
+                    .unwrap_or_default();
+                let is_sol = name == "Solution";
+                if is_sol {
+                    self.module.has_solution_class = true;
+                }
+                let prev_sol = self.in_solution_class;
+                self.in_solution_class = is_sol;
+                for child in &node.children {
+                    self.visit_node(child);
+                }
+                self.in_solution_class = prev_sol;
+            }
+            "program" => {
                 for child in &node.children {
                     self.visit_node(child);
                 }
@@ -46,7 +70,63 @@ impl<'a> JavaNormalizer<'a> {
         let name = node
             .child_by_field_name("name")
             .map(|d| self.text(d))
+            .or_else(|| {
+                node.children
+                    .iter()
+                    .find(|c| c.kind() == "identifier")
+                    .map(|d| self.text(d))
+            })
             .unwrap_or_else(|| "anon".to_string());
+
+        let is_public = node
+            .child_by_field_name("modifiers")
+            .map(|m| self.text(m).contains("public"))
+            .or_else(|| {
+                node.children
+                    .iter()
+                    .find(|c| c.kind() == "modifiers")
+                    .map(|m| self.text(m).contains("public"))
+            })
+            .or_else(|| {
+                if node.children.iter().any(|c| self.text(c) == "public") {
+                    Some(true)
+                } else {
+                    None
+                }
+            })
+            .unwrap_or(false);
+
+        let mut params = Vec::new();
+        let params_node = node.child_by_field_name("parameters").or_else(|| {
+            node.children
+                .iter()
+                .find(|c| c.kind() == "formal_parameters")
+        });
+        if let Some(pn) = params_node {
+            for child in &pn.children {
+                if child.kind() == "formal_parameter" {
+                    let type_name = child
+                        .child_by_field_name("type")
+                        .map(|t| self.text(t))
+                        .unwrap_or_default();
+                    let pname = child
+                        .child_by_field_name("name")
+                        .map(|n| self.text(n))
+                        .or_else(|| {
+                            child
+                                .children
+                                .iter()
+                                .find(|c| c.kind() == "identifier")
+                                .map(|n| self.text(n))
+                        })
+                        .unwrap_or_default();
+                    params.push(IrParam {
+                        name: pname,
+                        type_name,
+                    });
+                }
+            }
+        }
 
         let body_node = node.child_by_field_name("body");
         let body_block = if let Some(body) = body_node {
@@ -57,7 +137,13 @@ impl<'a> JavaNormalizer<'a> {
 
         self.module.functions.push(IrFunction {
             name,
-            params: Vec::new(),
+            is_public: if self.in_solution_class {
+                is_public
+            } else {
+                true
+            },
+            is_in_solution_class: self.in_solution_class,
+            params,
             body: body_block,
         });
     }
@@ -127,6 +213,47 @@ impl<'a> JavaNormalizer<'a> {
                 };
                 Some(self.module.alloc_stmt(stmt))
             }
+            "enhanced_for_statement" => {
+                let body_node = node.child_by_field_name("body");
+                let body = if let Some(b) = body_node {
+                    if b.kind() == "block" {
+                        self.lower_block(b)
+                    } else if let Some(stmt) = self.lower_statement(b) {
+                        self.module.alloc_block(IrBlock { stmts: vec![stmt] })
+                    } else {
+                        self.module.alloc_block(IrBlock::default())
+                    }
+                } else {
+                    self.module.alloc_block(IrBlock::default())
+                };
+
+                let iter_var = self.module.alloc_expr(IrExpr::Var("__iter".to_string()));
+                let bound_expr = if let Some(val_node) = node.child_by_field_name("value") {
+                    self.lower_expr(val_node)
+                } else {
+                    self.module.alloc_expr(IrExpr::Var("n".to_string()))
+                };
+                let cond_expr = self.module.alloc_expr(IrExpr::Binary(
+                    BinaryOp::Lt,
+                    iter_var,
+                    bound_expr,
+                ));
+
+                let zero = self.module.alloc_expr(IrExpr::LiteralInt(0));
+                let init_stmt = self.module.alloc_stmt(IrStmt::Assign("__iter".to_string(), zero));
+
+                let one = self.module.alloc_expr(IrExpr::LiteralInt(1));
+                let next_iter = self.module.alloc_expr(IrExpr::Binary(BinaryOp::Add, iter_var, one));
+                let step_stmt = self.module.alloc_stmt(IrStmt::Assign("__iter".to_string(), next_iter));
+
+                let stmt = IrStmt::For {
+                    init: Some(init_stmt),
+                    cond: Some(cond_expr),
+                    step: Some(step_stmt),
+                    body,
+                };
+                Some(self.module.alloc_stmt(stmt))
+            }
             "while_statement" => {
                 let cond = node
                     .child_by_field_name("condition")
@@ -146,6 +273,36 @@ impl<'a> JavaNormalizer<'a> {
                 };
 
                 Some(self.module.alloc_stmt(IrStmt::While { cond, body }))
+            }
+            "do_statement" | "do_while_statement" => {
+                let cond = node
+                    .child_by_field_name("condition")
+                    .map(|n| self.lower_expr(n))
+                    .unwrap_or_else(|| self.module.alloc_expr(IrExpr::LiteralBool(true)));
+                let body_node = node.child_by_field_name("body");
+                let body = if let Some(b) = body_node {
+                    if b.kind() == "block" {
+                        self.lower_block(b)
+                    } else if let Some(stmt) = self.lower_statement(b) {
+                        self.module.alloc_block(IrBlock { stmts: vec![stmt] })
+                    } else {
+                        self.module.alloc_block(IrBlock::default())
+                    }
+                } else {
+                    self.module.alloc_block(IrBlock::default())
+                };
+
+                Some(self.module.alloc_stmt(IrStmt::While { cond, body }))
+            }
+            "expression_list" => {
+                for child in &node.children {
+                    if child.kind() != "," && child.kind() != ";" {
+                        if let Some(stmt) = self.lower_statement(child) {
+                            return Some(stmt);
+                        }
+                    }
+                }
+                None
             }
             "if_statement" => {
                 let cond = node
@@ -195,6 +352,9 @@ impl<'a> JavaNormalizer<'a> {
             "break_statement" => Some(self.module.alloc_stmt(IrStmt::Break)),
             "continue_statement" => Some(self.module.alloc_stmt(IrStmt::Continue)),
             "local_variable_declaration" => {
+                let type_node = node.child_by_field_name("type");
+                let type_text = type_node.map(|t| self.text(t)).unwrap_or_default();
+
                 for child in &node.children {
                     if child.kind() == "variable_declarator" {
                         let var_name = child
@@ -202,6 +362,47 @@ impl<'a> JavaNormalizer<'a> {
                             .map(|d| self.text(d))
                             .unwrap_or_else(|| "var".to_string());
                         let value_node = child.child_by_field_name("value");
+
+                        if let Some(v) = value_node {
+                            if v.kind() == "array_creation_expression" {
+                                let dims = v.child_by_field_name("dimensions");
+                                let size_expr = if let Some(d) = dims {
+                                    d.children
+                                        .iter()
+                                        .find(|c| c.kind() != "[" && c.kind() != "]")
+                                        .map(|s| self.lower_expr(s))
+                                } else {
+                                    None
+                                };
+                                let alloc = IrAlloc {
+                                    var: var_name.clone(),
+                                    type_name: type_text.clone(),
+                                    size: size_expr,
+                                };
+                                self.module.allocations.push(alloc.clone());
+                                return Some(self.module.alloc_stmt(IrStmt::Alloc(alloc)));
+                            } else if v.kind() == "object_creation_expression" {
+                                let args = v.child_by_field_name("arguments");
+                                let size_expr = if let Some(a) = args {
+                                    a.children
+                                        .iter()
+                                        .find(|c| {
+                                            c.kind() != "(" && c.kind() != ")" && c.kind() != ","
+                                        })
+                                        .map(|s| self.lower_expr(s))
+                                } else {
+                                    None
+                                };
+                                let alloc = IrAlloc {
+                                    var: var_name.clone(),
+                                    type_name: type_text.clone(),
+                                    size: size_expr,
+                                };
+                                self.module.allocations.push(alloc.clone());
+                                return Some(self.module.alloc_stmt(IrStmt::Alloc(alloc)));
+                            }
+                        }
+
                         let val_expr = if let Some(v) = value_node {
                             self.lower_expr(v)
                         } else {
@@ -218,6 +419,43 @@ impl<'a> JavaNormalizer<'a> {
                     .map(|n| self.text(n))
                     .unwrap_or_else(|| "var".to_string());
                 let right_node = node.child_by_field_name("right");
+                if let Some(r) = right_node {
+                    if r.kind() == "array_creation_expression" {
+                        let dims = r.child_by_field_name("dimensions");
+                        let size_expr = if let Some(d) = dims {
+                            d.children
+                                .iter()
+                                .find(|c| c.kind() != "[" && c.kind() != "]")
+                                .map(|s| self.lower_expr(s))
+                        } else {
+                            None
+                        };
+                        let alloc = IrAlloc {
+                            var: left.clone(),
+                            type_name: "array".to_string(),
+                            size: size_expr,
+                        };
+                        self.module.allocations.push(alloc.clone());
+                        return Some(self.module.alloc_stmt(IrStmt::Alloc(alloc)));
+                    } else if r.kind() == "object_creation_expression" {
+                        let args = r.child_by_field_name("arguments");
+                        let size_expr = if let Some(a) = args {
+                            a.children
+                                .iter()
+                                .find(|c| c.kind() != "(" && c.kind() != ")" && c.kind() != ",")
+                                .map(|s| self.lower_expr(s))
+                        } else {
+                            None
+                        };
+                        let alloc = IrAlloc {
+                            var: left.clone(),
+                            type_name: "object".to_string(),
+                            size: size_expr,
+                        };
+                        self.module.allocations.push(alloc.clone());
+                        return Some(self.module.alloc_stmt(IrStmt::Alloc(alloc)));
+                    }
+                }
                 let op = node
                     .child_by_field_name("operator")
                     .map(|n| self.text(n))
@@ -244,6 +482,16 @@ impl<'a> JavaNormalizer<'a> {
                             let l_expr = self.module.alloc_expr(IrExpr::Var(left.clone()));
                             self.module
                                 .alloc_expr(IrExpr::Binary(BinaryOp::Div, l_expr, r_expr))
+                        }
+                        ">>=" => {
+                            let l_expr = self.module.alloc_expr(IrExpr::Var(left.clone()));
+                            self.module
+                                .alloc_expr(IrExpr::Binary(BinaryOp::Shr, l_expr, r_expr))
+                        }
+                        "<<=" => {
+                            let l_expr = self.module.alloc_expr(IrExpr::Var(left.clone()));
+                            self.module
+                                .alloc_expr(IrExpr::Binary(BinaryOp::Shl, l_expr, r_expr))
                         }
                         _ => r_expr,
                     }
@@ -356,6 +604,26 @@ impl<'a> JavaNormalizer<'a> {
                     .map(|n| self.lower_expr(n))
                     .unwrap_or_else(|| self.module.alloc_expr(IrExpr::LiteralInt(0)));
                 self.module.alloc_expr(IrExpr::Index(base, index))
+            }
+            "field_access" => {
+                let object = node
+                    .child_by_field_name("object")
+                    .map(|n| self.lower_expr(n))
+                    .unwrap_or_else(|| self.module.alloc_expr(IrExpr::LiteralInt(0)));
+                let field = node
+                    .child_by_field_name("field")
+                    .map(|n| self.text(n))
+                    .unwrap_or_default();
+                self.module.alloc_expr(IrExpr::MemberAccess(object, field))
+            }
+            "parenthesized_expression" | "condition" => {
+                for child in &node.children {
+                    if child.kind() != "(" && child.kind() != ")" {
+                        return self.lower_expr(child);
+                    }
+                }
+                let text = self.text(node);
+                self.module.alloc_expr(IrExpr::Var(text))
             }
             _ => {
                 let text = self.text(node);

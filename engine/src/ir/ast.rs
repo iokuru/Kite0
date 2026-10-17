@@ -42,8 +42,16 @@ pub enum IrExpr {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub struct IrAlloc {
+    pub var: String,
+    pub type_name: String,
+    pub size: Option<ExprId>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum IrStmt {
     Assign(String, ExprId),
+    Alloc(IrAlloc),
     Expr(ExprId),
     If {
         cond: ExprId,
@@ -70,10 +78,18 @@ pub struct IrBlock {
     pub stmts: Vec<StmtId>,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub struct IrParam {
+    pub name: String,
+    pub type_name: String,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct IrFunction {
     pub name: String,
-    pub params: Vec<String>,
+    pub is_public: bool,
+    pub is_in_solution_class: bool,
+    pub params: Vec<IrParam>,
     pub body: BlockId,
 }
 
@@ -83,6 +99,8 @@ pub struct IrModule {
     pub stmts: Vec<IrStmt>,
     pub blocks: Vec<IrBlock>,
     pub functions: Vec<IrFunction>,
+    pub allocations: Vec<IrAlloc>,
+    pub has_solution_class: bool,
 }
 
 impl IrModule {
