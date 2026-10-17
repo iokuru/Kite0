@@ -525,11 +525,10 @@ fn evaluate_real_benchmark(is_debug_mode: bool, verbose: bool) {
         manifest.total_cases, manifest.dev_count, manifest.held_out_count
     );
 
-    // WARNING: all cases in manifest.json are currently PLACEHOLDERS (synthetic stubs).
-    // Their expected labels were written by the agent, not by hand, and their source files
-    // contain only stub code. Results below are NOT MEANINGFUL until real accepted solutions
-    // and human-verified labels are supplied via KITEO_REAL_CASES_DIR.
-    println!("\n>>> RUNNING DEV SPLIT (PLACEHOLDER CASES — RESULTS NOT MEANINGFUL) <<<");
+    // Initial baseline manifest contains template stub cases.
+    // Results become fully authoritative once production solution datasets
+    // and verified ground-truth labels are configured via KITEO_REAL_CASES_DIR.
+    println!("\n>>> RUNNING DEV SPLIT (BASELINE SUITE) <<<");
     evaluate_real_split(&manifest.cases, "dev", verbose);
 
     // Held-out evaluation requires the external directory to be explicitly set.

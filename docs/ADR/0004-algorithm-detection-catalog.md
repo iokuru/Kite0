@@ -4,7 +4,7 @@
 Accepted
 
 ## Context
-AI code assistants frequently speculate and produce incorrect, noisy algorithmic labels (such as categorizing any loop with an `if` statement as "Greedy"). Kite0 requires strict accuracy and zero speculative hallucinations.
+Heuristic classifiers and probabilistic code tools frequently speculate and produce noisy, inaccurate algorithmic labels (such as classifying arbitrary loops containing conditionals as "Greedy"). Kite0 requires compiler-grade structural precision and zero speculative guesswork.
 
 ## Decision
 1. **Catalog**: Kite0 recognizes only the following 26 canonical algorithm labels:

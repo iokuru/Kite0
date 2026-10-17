@@ -114,7 +114,7 @@ const EXCLUDE_DIRS = new Set([
   '.idea',
   '.vscode',
   '.vite',
-  '.system_generated',
+  '.cache',
   'tmp',
 ]);
 
