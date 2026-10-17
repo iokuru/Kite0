@@ -73,9 +73,33 @@ impl CallGraph {
         }
         false
     }
+
+    pub fn reachable_from(&self, start_fn: &str) -> std::collections::HashSet<String> {
+        let mut reachable = std::collections::HashSet::new();
+        if let Some(&start_idx) = self.fn_nodes.get(start_fn) {
+            let mut visited = std::collections::HashSet::new();
+            let mut queue = std::collections::VecDeque::new();
+            queue.push_back(start_idx);
+            visited.insert(start_idx);
+
+            while let Some(u) = queue.pop_front() {
+                let name = self.graph[u].clone();
+                reachable.insert(name);
+
+                for neighbor in self.graph.neighbors(u) {
+                    if visited.insert(neighbor) {
+                        queue.push_back(neighbor);
+                    }
+                }
+            }
+        } else {
+            reachable.insert(start_fn.to_string());
+        }
+        reachable
+    }
 }
 
-fn find_function_calls(block_id: crate::ir::arena::BlockId, module: &IrModule) -> Vec<String> {
+pub fn find_function_calls(block_id: crate::ir::arena::BlockId, module: &IrModule) -> Vec<String> {
     let mut calls = Vec::new();
     let block = match module.blocks.get(block_id.0) {
         Some(b) => b,
@@ -90,6 +114,11 @@ fn find_function_calls(block_id: crate::ir::arena::BlockId, module: &IrModule) -
                 }
                 IrStmt::Assign(_, expr_id) => {
                     extract_calls_from_expr(*expr_id, module, &mut calls);
+                }
+                IrStmt::Alloc(alloc) => {
+                    if let Some(size_expr) = alloc.size {
+                        extract_calls_from_expr(size_expr, module, &mut calls);
+                    }
                 }
                 IrStmt::If {
                     cond,

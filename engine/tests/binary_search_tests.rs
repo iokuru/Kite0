@@ -19,8 +19,10 @@ fn test_standard_binary_search_cpp() {
     assert_eq!(res.tc, "O(log n)");
     assert_eq!(res.sc, "O(1)");
     assert_eq!(res.algorithms, vec!["Binary Search"]);
-    assert!(kiteo_engine::algorithms::AlgorithmDetector::detect_raw(code)
-        .contains(&kiteo_engine::algorithms::AllowedAlgorithm::BinarySearch));
+    assert!(
+        kiteo_engine::algorithms::AlgorithmDetector::detect_raw(code)
+            .contains(&kiteo_engine::algorithms::AllowedAlgorithm::BinarySearch)
+    );
 }
 
 #[test]
@@ -46,8 +48,10 @@ fn test_binary_search_on_answer_cpp() {
     assert_eq!(res.tc, "O(n log A)");
     assert_eq!(res.sc, "O(1)");
     assert_eq!(res.algorithms, vec!["Binary Search on Answer"]);
-    assert!(kiteo_engine::algorithms::AlgorithmDetector::detect_raw(code)
-        .contains(&kiteo_engine::algorithms::AllowedAlgorithm::BinarySearchOnAnswer));
+    assert!(
+        kiteo_engine::algorithms::AlgorithmDetector::detect_raw(code)
+            .contains(&kiteo_engine::algorithms::AllowedAlgorithm::BinarySearchOnAnswer)
+    );
 }
 
 #[test]

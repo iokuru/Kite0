@@ -50,7 +50,6 @@ fn canonical_from_detected(
     } else {
         algo_names.to_vec()
     };
-    
 
     if detected_algos.contains(&AllowedAlgorithm::Sieve) {
         return Some(AnalysisOutput {
@@ -126,6 +125,14 @@ fn canonical_from_detected(
         });
     }
 
+    if detected_algos.contains(&AllowedAlgorithm::TreeDp) {
+        return Some(AnalysisOutput {
+            tc: "O(n)".to_string(),
+            sc: "O(n)".to_string(),
+            algorithms: resolved_algos.clone(),
+        });
+    }
+
     if detected_algos.contains(&AllowedAlgorithm::TopologicalSort)
         || detected_algos.contains(&AllowedAlgorithm::Bfs)
         || detected_algos.contains(&AllowedAlgorithm::Dfs)
@@ -153,18 +160,26 @@ fn canonical_from_detected(
         });
     }
 
-    if detected_algos.contains(&AllowedAlgorithm::TreeDp) {
+    if detected_algos.contains(&AllowedAlgorithm::BitmaskDp) {
         return Some(AnalysisOutput {
-            tc: "O(n)".to_string(),
+            tc: "O(2^n * n)".to_string(),
+            sc: "O(2^n * n)".to_string(),
+            algorithms: resolved_algos.clone(),
+        });
+    }
+
+    if detected_algos.contains(&AllowedAlgorithm::TwoHeaps) {
+        return Some(AnalysisOutput {
+            tc: "O(n log n)".to_string(),
             sc: "O(n)".to_string(),
             algorithms: resolved_algos.clone(),
         });
     }
 
-    if detected_algos.contains(&AllowedAlgorithm::BitmaskDp) {
+    if detected_algos.contains(&AllowedAlgorithm::HeapPriorityQueue) {
         return Some(AnalysisOutput {
-            tc: "O(2^n * n)".to_string(),
-            sc: "O(2^n * n)".to_string(),
+            tc: "O(n log n)".to_string(),
+            sc: "O(n)".to_string(),
             algorithms: resolved_algos.clone(),
         });
     }
@@ -236,8 +251,8 @@ fn canonical_from_detected(
     if detected_algos.contains(&AllowedAlgorithm::TwoPointers)
         || detected_algos.contains(&AllowedAlgorithm::SlidingWindow)
     {
-        let is_nested =
-            preprocessed.contains("for (int i = 0") || preprocessed.contains("for (int i = 0;");
+        let is_nested = (preprocessed.contains("for (int i = 0") || preprocessed.contains("for (int i = 0;"))
+            && (preprocessed.contains("while (") || preprocessed.contains("while("));
         let tc = if is_nested {
             "O(n^2)".to_string()
         } else {
@@ -277,17 +292,10 @@ pub fn analyze_ast(code: &str, lang: &str, ast: &AstNode) -> AnalysisOutput {
     let preprocessed = preprocessor::preprocess(code);
     let raw_algos = AlgorithmDetector::detect_raw(&preprocessed);
     let detected_algos = AlgorithmDetector::detect(&preprocessed);
-    let algo_names: Vec<String> = if detected_algos.is_empty() {
-        algorithms::select_labels(&raw_algos, &preprocessed, false)
-            .iter()
-            .map(|a| a.as_str().to_string())
-            .collect()
-    } else {
-        detected_algos
-            .iter()
-            .map(|a| a.as_str().to_string())
-            .collect()
-    };
+    let algo_names: Vec<String> = detected_algos
+        .iter()
+        .map(|a| a.as_str().to_string())
+        .collect();
 
     // Check specific known canonical structures first for TC/SC
     if let Some(canonical) = canonical_from_detected(&raw_algos, &algo_names, &preprocessed) {
@@ -303,28 +311,22 @@ pub fn analyze_ast(code: &str, lang: &str, ast: &AstNode) -> AnalysisOutput {
     let analyzer = LoopAnalyzer::new(&ir);
     let computed_tc = analyzer.analyze_module();
 
-    let tc_str = if computed_tc.is_unknown() {
-        "Unknown".to_string()
-    } else if computed_tc.is_const_one() {
-        let has_unmodeled_loops = ir.stmts.iter().any(|s| {
-            matches!(
-                s,
-                ir::ast::IrStmt::For { .. } | ir::ast::IrStmt::While { .. }
-            )
+    let no_entry_point = ir.has_solution_class
+        && !ir.functions.iter().any(|f| {
+            f.is_in_solution_class && f.is_public && f.name != "Solution" && f.name != "~Solution"
         });
-        if has_unmodeled_loops {
-            // The LoopAnalyzer returned Const(1) but the IR still has loop nodes,
-            // which means those loops' bounds could not be determined from the AST.
-            // Prefer Unknown over a wrong O(n) guess.
-            "Unknown".to_string()
-        } else {
-            "O(1)".to_string()
-        }
+
+    let tc_str = if no_entry_point || computed_tc.is_unknown() {
+        "Unknown".to_string()
     } else {
         computed_tc.to_string()
     };
 
-    let sc_str = space::SpaceAnalyzer::analyze_source(&preprocessed).to_string();
+    let sc_str = if no_entry_point {
+        "Unknown".to_string()
+    } else {
+        space::SpaceAnalyzer::analyze(&ir, &preprocessed).to_string()
+    };
 
     AnalysisOutput {
         tc: tc_str,
@@ -337,20 +339,28 @@ pub fn analyze_heuristic(code: &str, _lang: &str) -> AnalysisOutput {
     let preprocessed = preprocessor::preprocess(code);
     let raw_algos = AlgorithmDetector::detect_raw(&preprocessed);
     let detected_algos = AlgorithmDetector::detect(&preprocessed);
-    let algo_names: Vec<String> = if detected_algos.is_empty() {
-        algorithms::select_labels(&raw_algos, &preprocessed, false)
-            .iter()
-            .map(|a| a.as_str().to_string())
-            .collect()
-    } else {
-        detected_algos
-            .iter()
-            .map(|a| a.as_str().to_string())
-            .collect()
-    };
+    let algo_names: Vec<String> = detected_algos
+        .iter()
+        .map(|a| a.as_str().to_string())
+        .collect();
 
     if let Some(canonical) = canonical_from_detected(&raw_algos, &algo_names, &preprocessed) {
         return canonical;
+    }
+
+    if preprocessed.contains("class Solution") {
+        let has_public = if _lang == "java" {
+            preprocessed.contains("public ")
+        } else {
+            preprocessed.contains("public:") || preprocessed.contains("public ")
+        };
+        if !has_public {
+            return AnalysisOutput {
+                tc: "Unknown".to_string(),
+                sc: "Unknown".to_string(),
+                algorithms: algo_names,
+            };
+        }
     }
 
     let mut loop_depth = 0;
@@ -365,20 +375,23 @@ pub fn analyze_heuristic(code: &str, _lang: &str) -> AnalysisOutput {
             || trimmed.starts_with("while ")
             || trimmed.starts_with("while(")
         {
+            loop_depth += 1;
+            if loop_depth > max_depth {
+                max_depth = loop_depth;
+            }
+        }
+        if loop_depth > 0 {
             if trimmed.contains("/= 2")
                 || trimmed.contains("/=2")
                 || trimmed.contains("*= 2")
                 || trimmed.contains("*=2")
                 || trimmed.contains(">>= 1")
+                || trimmed.contains(">>=1")
             {
                 has_halving = true;
             }
             if trimmed.contains("+= i") || trimmed.contains("+=i") {
                 has_harmonic = true;
-            }
-            loop_depth += 1;
-            if loop_depth > max_depth {
-                max_depth = loop_depth;
             }
         }
         if trimmed.contains('}') && loop_depth > 0 {
@@ -479,19 +492,11 @@ pub fn analyze(code: &str, lang: &str) -> AnalysisOutput {
     }
 
     // tree-sitter parse failed for cpp/java — prefer Unknown over a heuristic guess.
-    let raw_algos = AlgorithmDetector::detect_raw(&preprocessed);
     let detected_algos = AlgorithmDetector::detect(&preprocessed);
-    let algo_names: Vec<String> = if detected_algos.is_empty() {
-        algorithms::select_labels(&raw_algos, &preprocessed, false)
-            .iter()
-            .map(|a| a.as_str().to_string())
-            .collect()
-    } else {
-        detected_algos
-            .iter()
-            .map(|a| a.as_str().to_string())
-            .collect()
-    };
+    let algo_names: Vec<String> = detected_algos
+        .iter()
+        .map(|a| a.as_str().to_string())
+        .collect();
     AnalysisOutput {
         tc: "Unknown".to_string(),
         sc: "Unknown".to_string(),
@@ -506,33 +511,17 @@ pub fn analyze(code: &str, lang: &str) -> AnalysisOutput {
 
 #[wasm_bindgen]
 pub fn analyze_wasm(code: &str, lang: &str) -> String {
-    let mut result = analyze(code, lang);
-    if result.algorithms.is_empty() {
-        let preprocessed = preprocessor::preprocess(code);
-        let raw = AlgorithmDetector::detect_raw(&preprocessed);
-        result.algorithms = algorithms::select_labels(&raw, &preprocessed, false)
-            .iter()
-            .map(|a| a.as_str().to_string())
-            .collect();
-    }
+    let result = analyze(code, lang);
     serde_json::to_string(&result).unwrap_or_else(|_| "{}".to_string())
 }
 
 #[wasm_bindgen]
 pub fn analyze_wasm_with_ast(code: &str, lang: &str, ast_json: &str) -> String {
-    let mut result = if let Ok(ast) = serde_json::from_str::<AstNode>(ast_json) {
+    let result = if let Ok(ast) = serde_json::from_str::<AstNode>(ast_json) {
         analyze_ast(code, lang, &ast)
     } else {
         analyze(code, lang)
     };
-    if result.algorithms.is_empty() {
-        let preprocessed = preprocessor::preprocess(code);
-        let raw = AlgorithmDetector::detect_raw(&preprocessed);
-        result.algorithms = algorithms::select_labels(&raw, &preprocessed, false)
-            .iter()
-            .map(|a| a.as_str().to_string())
-            .collect();
-    }
     serde_json::to_string(&result).unwrap_or_else(|_| "{}".to_string())
 }
 
