@@ -37,234 +37,84 @@ impl Default for AnalysisOutput {
     }
 }
 
+fn canonical_complexities(
+    detected: &[AllowedAlgorithm],
+    preprocessed: &str,
+) -> Option<(&'static str, &'static str)> {
+    if detected.contains(&AllowedAlgorithm::Sieve) {
+        Some(("O(n log log n)", "O(n)"))
+    } else if detected.contains(&AllowedAlgorithm::SegmentTree) {
+        Some(("O(n + q log n)", "O(n)"))
+    } else if detected.contains(&AllowedAlgorithm::FenwickTree) {
+        Some(("O(q log n)", "O(n)"))
+    } else if detected.contains(&AllowedAlgorithm::SparseTable) {
+        Some(("O(n log n + q)", "O(n log n)"))
+    } else if detected.contains(&AllowedAlgorithm::Mst) {
+        Some(("O(E log V)", "O(V + E)"))
+    } else if detected.contains(&AllowedAlgorithm::Lca)
+        || detected.contains(&AllowedAlgorithm::BinaryLifting)
+    {
+        Some(("O(n log n + q log n)", "O(n log n)"))
+    } else if detected.contains(&AllowedAlgorithm::ZAlgorithm)
+        || detected.contains(&AllowedAlgorithm::RollingHash)
+    {
+        Some(("O(n)", "O(n)"))
+    } else if detected.contains(&AllowedAlgorithm::Dijkstra) {
+        Some(("O((V + E) log V)", "O(V + E)"))
+    } else if detected.contains(&AllowedAlgorithm::TreeDp) {
+        Some(("O(n)", "O(n)"))
+    } else if detected.contains(&AllowedAlgorithm::TopologicalSort)
+        || detected.contains(&AllowedAlgorithm::Bfs)
+        || detected.contains(&AllowedAlgorithm::Dfs)
+    {
+        Some(("O(V + E)", "O(V + E)"))
+    } else if detected.contains(&AllowedAlgorithm::BinarySearchOnAnswer) {
+        Some(("O(n log A)", "O(1)"))
+    } else if detected.contains(&AllowedAlgorithm::BinarySearch) {
+        Some(("O(log n)", "O(1)"))
+    } else if detected.contains(&AllowedAlgorithm::BitmaskDp) {
+        Some(("O(2^n * n)", "O(2^n * n)"))
+    } else if detected.contains(&AllowedAlgorithm::TwoHeaps)
+        || detected.contains(&AllowedAlgorithm::HeapPriorityQueue)
+    {
+        Some(("O(n log n)", "O(n)"))
+    } else if detected.contains(&AllowedAlgorithm::Sorting) {
+        Some(("O(n log n)", "O(log n)"))
+    } else if detected.contains(&AllowedAlgorithm::Kmp) {
+        Some(("O(n + m)", "O(m)"))
+    } else if detected.contains(&AllowedAlgorithm::MonotonicQueue) {
+        Some(("O(n)", "O(k)"))
+    } else if detected.contains(&AllowedAlgorithm::Trie)
+        || detected.contains(&AllowedAlgorithm::Dsu)
+        || detected.contains(&AllowedAlgorithm::MonotonicStack)
+        || detected.contains(&AllowedAlgorithm::PrefixSum)
+    {
+        Some(("O(n)", "O(n)"))
+    } else if detected.contains(&AllowedAlgorithm::KadanesAlgorithm) {
+        Some(("O(n)", "O(1)"))
+    } else if detected.contains(&AllowedAlgorithm::TwoPointers)
+        || detected.contains(&AllowedAlgorithm::SlidingWindow)
+    {
+        let is_nested = (preprocessed.contains("for (int i = 0")
+            || preprocessed.contains("for (int i = 0;"))
+            && (preprocessed.contains("while (") || preprocessed.contains("while("));
+        let tc = if is_nested { "O(n^2)" } else { "O(n)" };
+        Some((tc, "O(1)"))
+    } else if (preprocessed.contains("factorial(n - 1)")
+        || preprocessed.contains("factorial(n-1)"))
+        && (preprocessed.contains("factorial(") || preprocessed.contains("factorial ("))
+    {
+        Some(("O(n)", "O(n)"))
+    } else {
+        None
+    }
+}
+
 fn canonical_from_detected(
     detected_algos: &[AllowedAlgorithm],
     algo_names: &[String],
     preprocessed: &str,
 ) -> Option<AnalysisOutput> {
-    let resolved_algos = if algo_names.is_empty() {
-        algorithms::select_labels(detected_algos, preprocessed, false)
-            .iter()
-            .map(|a| a.as_str().to_string())
-            .collect()
-    } else {
-        algo_names.to_vec()
-    };
-
-    if detected_algos.contains(&AllowedAlgorithm::Sieve) {
-        return Some(AnalysisOutput {
-            tc: "O(n log log n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::SegmentTree) {
-        return Some(AnalysisOutput {
-            tc: "O(n + q log n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::FenwickTree) {
-        return Some(AnalysisOutput {
-            tc: "O(q log n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::SparseTable) {
-        return Some(AnalysisOutput {
-            tc: "O(n log n + q)".to_string(),
-            sc: "O(n log n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::Mst) {
-        return Some(AnalysisOutput {
-            tc: "O(E log V)".to_string(),
-            sc: "O(V + E)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::Lca)
-        || detected_algos.contains(&AllowedAlgorithm::BinaryLifting)
-    {
-        return Some(AnalysisOutput {
-            tc: "O(n log n + q log n)".to_string(),
-            sc: "O(n log n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::ZAlgorithm) {
-        return Some(AnalysisOutput {
-            tc: "O(n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::RollingHash) {
-        return Some(AnalysisOutput {
-            tc: "O(n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::Dijkstra) {
-        return Some(AnalysisOutput {
-            tc: "O((V + E) log V)".to_string(),
-            sc: "O(V + E)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::TreeDp) {
-        return Some(AnalysisOutput {
-            tc: "O(n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::TopologicalSort)
-        || detected_algos.contains(&AllowedAlgorithm::Bfs)
-        || detected_algos.contains(&AllowedAlgorithm::Dfs)
-    {
-        return Some(AnalysisOutput {
-            tc: "O(V + E)".to_string(),
-            sc: "O(V + E)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::BinarySearchOnAnswer) {
-        return Some(AnalysisOutput {
-            tc: "O(n log A)".to_string(),
-            sc: "O(1)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::BinarySearch) {
-        return Some(AnalysisOutput {
-            tc: "O(log n)".to_string(),
-            sc: "O(1)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::BitmaskDp) {
-        return Some(AnalysisOutput {
-            tc: "O(2^n * n)".to_string(),
-            sc: "O(2^n * n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::TwoHeaps) {
-        return Some(AnalysisOutput {
-            tc: "O(n log n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::HeapPriorityQueue) {
-        return Some(AnalysisOutput {
-            tc: "O(n log n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::Sorting) {
-        return Some(AnalysisOutput {
-            tc: "O(n log n)".to_string(),
-            sc: "O(log n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::Kmp) {
-        return Some(AnalysisOutput {
-            tc: "O(n + m)".to_string(),
-            sc: "O(m)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::Trie) {
-        return Some(AnalysisOutput {
-            tc: "O(n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::Dsu) {
-        return Some(AnalysisOutput {
-            tc: "O(n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::MonotonicStack) {
-        return Some(AnalysisOutput {
-            tc: "O(n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::MonotonicQueue) {
-        return Some(AnalysisOutput {
-            tc: "O(n)".to_string(),
-            sc: "O(k)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::KadanesAlgorithm) {
-        return Some(AnalysisOutput {
-            tc: "O(n)".to_string(),
-            sc: "O(1)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::PrefixSum) {
-        return Some(AnalysisOutput {
-            tc: "O(n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
-    if detected_algos.contains(&AllowedAlgorithm::TwoPointers)
-        || detected_algos.contains(&AllowedAlgorithm::SlidingWindow)
-    {
-        let is_nested = (preprocessed.contains("for (int i = 0") || preprocessed.contains("for (int i = 0;"))
-            && (preprocessed.contains("while (") || preprocessed.contains("while("));
-        let tc = if is_nested {
-            "O(n^2)".to_string()
-        } else {
-            "O(n)".to_string()
-        };
-        return Some(AnalysisOutput {
-            tc,
-            sc: "O(1)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
-
     if (preprocessed.contains("x -= x & -x") || preprocessed.contains("x -= x&-x"))
         && detected_algos.is_empty()
     {
@@ -275,17 +125,22 @@ fn canonical_from_detected(
         });
     }
 
-    if (preprocessed.contains("factorial(n - 1)") || preprocessed.contains("factorial(n-1)"))
-        && (preprocessed.contains("factorial(") || preprocessed.contains("factorial ("))
-    {
-        return Some(AnalysisOutput {
-            tc: "O(n)".to_string(),
-            sc: "O(n)".to_string(),
-            algorithms: resolved_algos.clone(),
-        });
-    }
+    let (tc, sc) = canonical_complexities(detected_algos, preprocessed)?;
 
-    None
+    let resolved_algos = if algo_names.is_empty() {
+        algorithms::select_labels(detected_algos, preprocessed, false)
+            .iter()
+            .map(|a| a.as_str().to_string())
+            .collect()
+    } else {
+        algo_names.to_vec()
+    };
+
+    Some(AnalysisOutput {
+        tc: tc.to_string(),
+        sc: sc.to_string(),
+        algorithms: resolved_algos,
+    })
 }
 
 pub fn analyze_ast(code: &str, lang: &str, ast: &AstNode) -> AnalysisOutput {

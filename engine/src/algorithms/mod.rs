@@ -712,6 +712,12 @@ fn has_monotonic_stack_structure(source: &str) -> bool {
     false
 }
 
+#[inline]
+pub(crate) fn contains_any(source: &str, patterns: &[&str]) -> bool {
+    patterns.iter().any(|&p| source.contains(p))
+}
+
+
 pub struct AlgorithmDetector;
 
 impl AlgorithmDetector {
@@ -723,78 +729,64 @@ impl AlgorithmDetector {
         let mut detected = Vec::new();
 
         // 1. Sieve
-        let has_prime_ident = source.contains("p * p")
-            || source.contains("p*p")
-            || source.contains("i * i")
-            || source.contains("i*i")
-            || source.contains("d * d")
-            || source.contains("d*d")
-            || source.contains("isPrime")
-            || source.contains("is_prime")
-            || source.contains("primes")
-            || source.contains("prime")
-            || source.contains("sieve")
-            || source.contains("seive")
-            || source.contains("composite")
-            || source.contains("isComp")
-            || source.contains("not_prime");
-        let has_sieve_step = source.contains("+= p")
-            || source.contains("+=p")
-            || source.contains("+= i")
-            || source.contains("+=i")
-            || source.contains("+= j")
-            || source.contains("+=j")
-            || source.contains("+= d")
-            || source.contains("+=d")
-            || source.contains("+= prime");
+        let has_prime_ident = contains_any(
+            source,
+            &[
+                "p * p", "p*p", "i * i", "i*i", "d * d", "d*d", "isPrime", "is_prime",
+                "primes", "prime", "sieve", "seive", "composite", "isComp", "not_prime",
+            ],
+        );
+        let has_sieve_step = contains_any(
+            source,
+            &[
+                "+= p", "+=p", "+= i", "+=i", "+= j", "+=j", "+= d", "+=d", "+= prime",
+            ],
+        );
         if (has_prime_ident && has_sieve_step)
             || has_sieve_structure(source)
-            || source.contains("void sieve")
-            || source.contains("sieve(")
+            || contains_any(source, &["void sieve", "sieve("])
         {
             detected.push(AllowedAlgorithm::Sieve);
         }
 
         // 2. Segment Tree
-        if (source.contains("4 * n")
-            || source.contains("4*n")
-            || source.contains("2 * node")
-            || source.contains("2*node"))
-            && (source.contains("mid") || source.contains("update") || source.contains("query"))
+        if contains_any(source, &["4 * n", "4*n", "2 * node", "2*node"])
+            && contains_any(source, &["mid", "update", "query"])
         {
             detected.push(AllowedAlgorithm::SegmentTree);
         }
 
         // 3. Fenwick Tree
-        let has_lowbit = source.contains("& -") || source.contains("&-");
-        if (has_lowbit || source.contains("Fenwick") || source.contains("BinaryIndexedTree"))
+        let has_lowbit = contains_any(source, &["& -", "&-"]);
+        if (has_lowbit || contains_any(source, &["Fenwick", "BinaryIndexedTree"]))
             && !detected.contains(&AllowedAlgorithm::SegmentTree)
-            && (source.contains("Fenwick")
-                || source.contains("BinaryIndexedTree")
-                || ((source.contains("add(")
-                    || source.contains("update(")
-                    || source.contains("add ")
-                    || source.contains("update "))
-                    && (source.contains("query(")
-                        || source.contains("query ")
-                        || source.contains("sumRange")
-                        || source.contains("sum("))))
+            && (contains_any(source, &["Fenwick", "BinaryIndexedTree"])
+                || (contains_any(source, &["add(", "update(", "add ", "update "])
+                    && contains_any(source, &["query(", "query ", "sumRange", "sum("])))
         {
             detected.push(AllowedAlgorithm::FenwickTree);
         }
 
         // 4. Sparse Table
-        if (source.contains("st[")
-            || source.contains("st.")
-            || source.contains(" st(")
-            || source.contains("\nst(")
-            || source.contains("SparseTable")
-            || source.contains("sparse_table"))
-            && (source.contains("1 << j")
-                || source.contains("1<<j")
-                || source.contains("31 - __builtin_clz")
-                || source.contains("numberOfLeadingZeros"))
-        {
+        if contains_any(
+            source,
+            &[
+                "st[",
+                "st.",
+                " st(",
+                "\nst(",
+                "SparseTable",
+                "sparse_table",
+            ],
+        ) && contains_any(
+            source,
+            &[
+                "1 << j",
+                "1<<j",
+                "31 - __builtin_clz",
+                "numberOfLeadingZeros",
+            ],
+        ) {
             detected.push(AllowedAlgorithm::SparseTable);
         }
 
@@ -1799,13 +1791,17 @@ impl AlgorithmDetector {
         }
 
         // 60. Dynamic Programming general fallback
-        if (source.contains("dp[")
-            || source.contains("int[] dp")
-            || source.contains("int[][] dp")
-            || source.contains("dp = new")
-            || source.contains("vector<int> dp")
-            || source.contains("vector<vector<int>> dp"))
-            && !detected.contains(&AllowedAlgorithm::OneDDp)
+        if contains_any(
+            source,
+            &[
+                "dp[",
+                "int[] dp",
+                "int[][] dp",
+                "dp = new",
+                "vector<int> dp",
+                "vector<vector<int>> dp",
+            ],
+        ) && !detected.contains(&AllowedAlgorithm::OneDDp)
             && !detected.contains(&AllowedAlgorithm::TwoDDp)
             && !detected.contains(&AllowedAlgorithm::KnapsackDp)
             && !detected.contains(&AllowedAlgorithm::IntervalDp)
@@ -1818,79 +1814,81 @@ impl AlgorithmDetector {
         }
 
         // 61. Backtracking
-        let has_board_undo = (source.contains("board[") || source.contains("grid["))
-            && (source.contains("solve(")
-                || source.contains("backtrack(")
-                || source.contains("dfs("))
-            && (source.contains(" = '.'")
-                || source.contains(" = ' '")
-                || source.contains(" = 0")
-                || source.contains(" = false"));
-        let has_backtrack = ((source.contains(".push_back(")
-            || source.contains(".add(")
-            || source.contains(".append("))
-            && (source.contains(".pop_back()")
-                || source.contains(".remove(path.size() - 1)")
-                || source.contains(".remove(")
-                || source.contains(".pop()"))
-            && (source.contains("backtrack")
-                || source.contains("dfs")
-                || source.contains("solve")
-                || source.contains("helper")
-                || source.contains("search")))
+        let has_board_undo = contains_any(source, &["board[", "grid["])
+            && contains_any(source, &["solve(", "backtrack(", "dfs("])
+            && contains_any(source, &[" = '.'", " = ' '", " = 0", " = false"]);
+        let has_backtrack = (contains_any(source, &[".push_back(", ".add(", ".append("])
+            && contains_any(
+                source,
+                &[
+                    ".pop_back()",
+                    ".remove(path.size() - 1)",
+                    ".remove(",
+                    ".pop()",
+                ],
+            )
+            && contains_any(source, &["backtrack", "dfs", "solve", "helper", "search"]))
             || has_board_undo;
         if has_backtrack && !detected.contains(&AllowedAlgorithm::MonotonicStack) {
             detected.push(AllowedAlgorithm::Backtracking);
         }
 
         // 62. Divide and Conquer
-        let has_divide_conquer = (source.contains("(left, mid)")
-            || source.contains("(l, mid)")
-            || source.contains("(start, mid)")
-            || source.contains("start, mid")
-            || source.contains("low, mid")
-            || source.contains("(low, mid)")
-            || source.contains("l, mid"))
-            && (source.contains("(mid + 1, right)")
-                || source.contains("(mid + 1, r)")
-                || source.contains("(mid + 1, end)")
-                || source.contains("(mid + 1, high)")
-                || source.contains("mid + 1, end")
-                || source.contains("mid + 1, high")
-                || source.contains("mid + 1, right")
-                || source.contains("mid + 1, r"))
-            && (source.contains("merge")
-                || source.contains("combine")
-                || source.contains("conquer")
-                || source.contains("solve")
-                || source.contains("divide")
-                || source.contains("sort"));
+        let has_divide_conquer = contains_any(
+            source,
+            &[
+                "(left, mid)",
+                "(l, mid)",
+                "(start, mid)",
+                "start, mid",
+                "low, mid",
+                "(low, mid)",
+                "l, mid",
+            ],
+        ) && contains_any(
+            source,
+            &[
+                "(mid + 1, right)",
+                "(mid + 1, r)",
+                "(mid + 1, end)",
+                "(mid + 1, high)",
+                "mid + 1, end",
+                "mid + 1, high",
+                "mid + 1, right",
+                "mid + 1, r",
+            ],
+        ) && contains_any(
+            source,
+            &["merge", "combine", "conquer", "solve", "divide", "sort"],
+        );
         if has_divide_conquer && !detected.contains(&AllowedAlgorithm::SegmentTree) {
             detected.push(AllowedAlgorithm::DivideAndConquer);
         }
 
         // 63. Greedy
-        let has_greedy = (source.contains("sort") || source.contains("Sort"))
-            && (source.contains("greedy")
-                || source.contains("ans++")
-                || source.contains("res++")
-                || source.contains("count++"))
+        let has_greedy = contains_any(source, &["sort", "Sort"])
+            && contains_any(source, &["greedy", "ans++", "res++", "count++"])
             && !detected.contains(&AllowedAlgorithm::Intervals)
             && !detected.contains(&AllowedAlgorithm::TwoPointers)
             && !detected.contains(&AllowedAlgorithm::Mst)
             && !detected.contains(&AllowedAlgorithm::CoordinateCompression);
-        if has_greedy || source.contains("greedy") || source.contains("Greedy") {
+        if has_greedy || contains_any(source, &["greedy", "Greedy"]) {
             detected.push(AllowedAlgorithm::Greedy);
         }
 
         // 64. Bit Manipulation
-        let has_bit_manip = source.contains("__builtin_popcount")
-            || source.contains("Integer.bitCount")
-            || source.contains("__builtin_clz")
-            || source.contains("Integer.numberOfLeadingZeros")
-            || (source.contains("x & (x - 1)") || source.contains("n & (n - 1)"))
-            || (source.contains("^=")
-                && (source.contains("singleNumber") || source.contains("unique")));
+        let has_bit_manip = contains_any(
+            source,
+            &[
+                "__builtin_popcount",
+                "Integer.bitCount",
+                "__builtin_clz",
+                "Integer.numberOfLeadingZeros",
+                "x & (x - 1)",
+                "n & (n - 1)",
+            ],
+        ) || (source.contains("^=")
+            && contains_any(source, &["singleNumber", "unique"]));
         if has_bit_manip
             && !detected.contains(&AllowedAlgorithm::FenwickTree)
             && !detected.contains(&AllowedAlgorithm::BitmaskDp)
@@ -1899,42 +1897,33 @@ impl AlgorithmDetector {
         }
 
         // 65. Meet in the Middle
-        let has_mitm = source.contains("meet_in_the_middle")
-            || source.contains("meetInTheMiddle")
-            || ((source.contains("n / 2")
-                || source.contains("n/2")
-                || source.contains("len / 2")
-                || source.contains("len/2"))
-                && (source.contains("first_half")
-                    || source.contains("second_half")
-                    || source.contains("left_half")
-                    || source.contains("right_half")
-                    || source.contains("part1")
-                    || source.contains("part2"))
-                && (source.contains("lower_bound")
-                    || source.contains("binary_search")
-                    || source.contains("HashMap")
-                    || source.contains("unordered_map")));
+        let has_mitm = contains_any(source, &["meet_in_the_middle", "meetInTheMiddle"])
+            || (contains_any(source, &["n / 2", "n/2", "len / 2", "len/2"])
+                && contains_any(
+                    source,
+                    &[
+                        "first_half",
+                        "second_half",
+                        "left_half",
+                        "right_half",
+                        "part1",
+                        "part2",
+                    ],
+                )
+                && contains_any(
+                    source,
+                    &["lower_bound", "binary_search", "HashMap", "unordered_map"],
+                ));
         if has_mitm {
             detected.push(AllowedAlgorithm::MeetInTheMiddle);
         }
 
         // 66. Sweep Line
-        let has_sweep_line = (source.contains("events")
-            || source.contains("Event")
-            || source.contains("points")
-            || source.contains("endpoints"))
-            && (source.contains("sort") || source.contains("Sort"))
-            && (source.contains("+1")
-                || source.contains("-1")
-                || source.contains("START")
-                || source.contains("END")
-                || source.contains("type")
-                || source.contains("delta"));
+        let has_sweep_line = contains_any(source, &["events", "Event", "points", "endpoints"])
+            && contains_any(source, &["sort", "Sort"])
+            && contains_any(source, &["+1", "-1", "START", "END", "type", "delta"]);
         if (has_sweep_line
-            || source.contains("sweepLine")
-            || source.contains("sweep_line")
-            || source.contains("SweepLine"))
+            || contains_any(source, &["sweepLine", "sweep_line", "SweepLine"]))
             && !detected.contains(&AllowedAlgorithm::Intervals)
         {
             detected.push(AllowedAlgorithm::SweepLine);
