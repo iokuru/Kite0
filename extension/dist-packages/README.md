@@ -26,4 +26,4 @@ Pre-compiled, ready-to-load distribution packages for Kite0 v0.1.1. No build too
 ---
 
 ## Standalone Playground
-You can also open [`../dist/test-page.html`](../dist/test-page.html) directly in any browser to test C++ and Java complexity analysis without installing the extension.
+You can also open [`../test-page.html`](../test-page.html) directly in any browser to test C++ and Java complexity analysis without installing the extension.

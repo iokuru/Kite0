@@ -41,7 +41,7 @@ The official browser extension for **Kite0** — a non-generative, 100% offline 
 ## Non-Terminal Offline Playground (Zero Install)
 
 You can run static analysis without installing any browser extension or using a terminal:
-1. Double-click or open [`dist/test-page.html`](dist/test-page.html) directly in any web browser.
+1. Double-click or open [`test-page.html`](test-page.html) directly in any web browser.
 2. Select your language (**C++** or **Java**).
 3. Paste any problem solution or code snippet.
 4. Click **Analyze Code** — Time Complexity, Space Complexity, and Detected Algorithms are displayed immediately on the page.
