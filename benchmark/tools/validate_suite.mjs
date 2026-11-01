@@ -5,7 +5,7 @@
  * Validates integrity, schema compliance, and language parity across Kite0 benchmark corpora:
  * - snippets.json (Canonical Dev Suite, 152 cases)
  * - dev2.json (Synthetic Stress Suite, 70 cases)
- * - tough_benchmark.json (Comprehensive OA Taxonomy Suite, 500 cases)
+ * - tough_benchmark.json (Comprehensive OA Taxonomy Suite, 600 cases)
  */
 
 import fs from 'fs';
@@ -19,7 +19,7 @@ const CORPUS_DIR = path.resolve(__dirname, '..', 'corpus');
 const SUITES = {
   'snippets.json': { expectedCases: 152, expectedProblems: 76 },
   'dev2.json': { expectedCases: 70, expectedProblems: 35 },
-  'tough_benchmark.json': { expectedCases: 500, expectedProblems: 250 },
+  'tough_benchmark.json': { expectedCases: 600, expectedProblems: 300 },
 };
 
 function validateCorpus(filename, expectedCases, expectedProblems) {

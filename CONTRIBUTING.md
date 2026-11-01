@@ -56,7 +56,7 @@ We welcome ideas for new loop structures, standard library container cost models
 
 We maintain extensive benchmark corpora:
 - `benchmark/corpus/snippets.json`: 152 canonical dev cases (76 C++, 76 Java).
-- `benchmark/corpus/tough_benchmark.json`: 500 tough OA benchmark cases.
+- `benchmark/corpus/tough_benchmark.json`: 600 tough OA benchmark cases.
 
 To add a verified test case:
 1. Provide valid C++ or Java code.
@@ -132,7 +132,7 @@ cargo test --workspace
 cargo run -p kiteo-runner
 cargo run -p kiteo-runner -- --dev2
 
-# 3. Native vs WebAssembly parity tests (152 canonical + 500 tough cases)
+# 3. Native vs WebAssembly parity tests (152 canonical + 600 tough cases)
 node benchmark/parity_test.mjs
 node benchmark/parity_test.mjs --tough
 

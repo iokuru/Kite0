@@ -2007,7 +2007,7 @@
       "string"
     ],
     "expected_tc": "O(n^2)",
-    "expected_sc": "O(n)",
+    "expected_sc": "O(1)",
     "expected_algorithms": [],
     "code": "class Solution {\n    public String pushDominoes(String dominoes) {\n        String d = \"L\" + dominoes + \"R\";\n        StringBuilder res = new StringBuilder();\n        int l = 0;\n        for (int r = 1; r < d.length(); r++) {\n            if (d.charAt(r) == '.') continue;\n            if (l > 0) res.append(d.charAt(l));\n            int mid = r - l - 1;\n            if (d.charAt(l) == d.charAt(r)) {\n                for (int k = 0; k < mid; k++) res.append(d.charAt(l));\n            } else if (d.charAt(l) == 'L' && d.charAt(r) == 'R') {\n                for (int k = 0; k < mid; k++) res.append('.');\n            } else {\n                for (int k = 0; k < mid / 2; k++) res.append('R');\n                if (mid % 2 == 1) res.append('.');\n                for (int k = 0; k < mid / 2; k++) res.append('L');\n            }\n            l = r;\n        }\n        return res.toString();\n    }\n}"
   },
@@ -3630,9 +3630,11 @@
       "intervals",
       "sorting"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(n)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    vector<vector<int>> merge(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end());\n        vector<vector<int>> res;\n        for (const auto& iv : intervals) {\n            if (res.empty() || res.back()[1] < iv[0]) {\n                res.push_back(iv);\n            } else {\n                res.back()[1] = max(res.back()[1], iv[1]);\n            }\n        }\n        return res;\n    }\n};"
   },
   {
@@ -3686,9 +3688,11 @@
       "intervals",
       "greedy"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(1)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        if (intervals.empty()) return 0;\n        sort(intervals.begin(), intervals.end(), [](const vector<int>& a, const vector<int>& b) {\n            return a[1] < b[1];\n        });\n        int count = 0, end = intervals[0][1];\n        for (int i = 1; i < intervals.size(); i++) {\n            if (intervals[i][0] < end) count++;\n            else end = intervals[i][1];\n        }\n        return count;\n    }\n};"
   },
   {
@@ -3716,9 +3720,11 @@
       "intervals",
       "sorting"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(1)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    bool canAttendMeetings(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end());\n        for (int i = 1; i < intervals.size(); i++) {\n            if (intervals[i][0] < intervals[i - 1][1]) return false;\n        }\n        return true;\n    }\n};"
   },
   {
@@ -3746,9 +3752,11 @@
       "intervals",
       "two_pointers"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(n)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int minMeetingRooms(vector<vector<int>>& intervals) {\n        int n = intervals.size();\n        vector<int> start(n), end(n);\n        for (int i = 0; i < n; i++) {\n            start[i] = intervals[i][0];\n            end[i] = intervals[i][1];\n        }\n        sort(start.begin(), start.end());\n        sort(end.begin(), end.end());\n        int rooms = 0, end_ptr = 0;\n        for (int i = 0; i < n; i++) {\n            if (start[i] < end[end_ptr]) rooms++;\n            else end_ptr++;\n        }\n        return rooms;\n    }\n};"
   },
   {
@@ -3776,9 +3784,11 @@
       "intervals",
       "greedy"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(1)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int findMinArrowShots(vector<vector<int>>& points) {\n        if (points.empty()) return 0;\n        sort(points.begin(), points.end(), [](const vector<int>& a, const vector<int>& b) {\n            return a[1] < b[1];\n        });\n        int arrows = 1, end = points[0][1];\n        for (int i = 1; i < points.size(); i++) {\n            if (points[i][0] > end) {\n                arrows++;\n                end = points[i][1];\n            }\n        }\n        return arrows;\n    }\n};"
   },
   {
@@ -3806,9 +3816,11 @@
       "monotonic_stack",
       "sorting"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(n)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int carFleet(int target, vector<int>& position, vector<int>& speed) {\n        int n = position.size();\n        vector<pair<int, double>> cars(n);\n        for (int i = 0; i < n; i++) {\n            cars[i] = {position[i], (double)(target - position[i]) / speed[i]};\n        }\n        sort(cars.rbegin(), cars.rend());\n        int fleets = 0;\n        double max_time = 0;\n        for (int i = 0; i < n; i++) {\n            if (cars[i].second > max_time) {\n                max_time = cars[i].second;\n                fleets++;\n            }\n        }\n        return fleets;\n    }\n};"
   },
   {
@@ -3877,7 +3889,7 @@
       "sorting"
     ],
     "expected_tc": "O(n^2)",
-    "expected_sc": "O(n)",
+    "expected_sc": "O(1)",
     "expected_algorithms": [],
     "code": "class Solution {\n    public String customSortString(String order, String s) {\n        int[] count = new int[26];\n        for (char c : s.toCharArray()) count[c - 'a']++;\n        StringBuilder res = new StringBuilder();\n        for (char c : order.toCharArray()) {\n            while (count[c - 'a']-- > 0) res.append(c);\n        }\n        for (int i = 0; i < 26; i++) {\n            while (count[i]-- > 0) res.append((char)('a' + i));\n        }\n        return res.toString();\n    }\n}"
   },
@@ -3890,9 +3902,11 @@
       "sorting",
       "greedy"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(n)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <string>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    string largestNumber(vector<int>& nums) {\n        vector<string> s_nums;\n        for (int x : nums) s_nums.push_back(to_string(x));\n        sort(s_nums.begin(), s_nums.end(), [](const string& a, const string& b) {\n            return a + b > b + a;\n        });\n        if (s_nums[0] == \"0\") return \"0\";\n        string res = \"\";\n        for (const string& s : s_nums) res += s;\n        return res;\n    }\n};"
   },
   {
@@ -3919,9 +3933,11 @@
     "tags": [
       "sorting"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(1)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int hIndex(vector<int>& citations) {\n        sort(citations.begin(), citations.end());\n        int n = citations.size();\n        for (int i = 0; i < n; i++) {\n            if (citations[i] >= n - i) return n - i;\n        }\n        return 0;\n    }\n};"
   },
   {
@@ -3948,9 +3964,11 @@
       "sorting",
       "sliding_window"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(1)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int minimumDifference(vector<int>& nums, int k) {\n        if (k == 1) return 0;\n        sort(nums.begin(), nums.end());\n        int min_diff = 1e9;\n        for (int i = 0; i + k - 1 < nums.size(); i++) {\n            min_diff = min(min_diff, nums[i + k - 1] - nums[i]);\n        }\n        return min_diff;\n    }\n};"
   },
   {
@@ -3978,9 +3996,11 @@
       "greedy",
       "sorting"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(1)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int maximumUnits(vector<vector<int>>& boxTypes, int truckSize) {\n        sort(boxTypes.begin(), boxTypes.end(), [](const vector<int>& a, const vector<int>& b) {\n            return a[1] > b[1];\n        });\n        int total_units = 0;\n        for (const auto& b : boxTypes) {\n            int take = min(truckSize, b[0]);\n            total_units += take * b[1];\n            truckSize -= take;\n            if (truckSize == 0) break;\n        }\n        return total_units;\n    }\n};"
   },
   {
@@ -4008,9 +4028,11 @@
       "greedy",
       "sorting"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(1)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int maxIceCream(vector<int>& costs, int coins) {\n        sort(costs.begin(), costs.end());\n        int count = 0;\n        for (int c : costs) {\n            if (coins >= c) {\n                coins -= c;\n                count++;\n            } else break;\n        }\n        return count;\n    }\n};"
   },
   {
@@ -4038,9 +4060,11 @@
       "sorting",
       "greedy"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(1)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int minIncrementForUnique(vector<int>& nums) {\n        sort(nums.begin(), nums.end());\n        int moves = 0;\n        for (int i = 1; i < nums.size(); i++) {\n            if (nums[i] <= nums[i - 1]) {\n                moves += nums[i - 1] + 1 - nums[i];\n                nums[i] = nums[i - 1] + 1;\n            }\n        }\n        return moves;\n    }\n};"
   },
   {
@@ -4068,9 +4092,11 @@
       "sorting",
       "greedy"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(1)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int arrayPairSum(vector<int>& nums) {\n        sort(nums.begin(), nums.end());\n        int sum = 0;\n        for (int i = 0; i < nums.size(); i += 2) sum += nums[i];\n        return sum;\n    }\n};"
   },
   {
@@ -4124,9 +4150,11 @@
       "sorting",
       "bit_manipulation"
     ],
-    "expected_tc": "O(1)",
-    "expected_sc": "O(1)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\n    static int bitCount(int x) {\n        int cnt = 0;\n        while (x) { cnt += (x & 1); x >>= 1; }\n        return cnt;\n    }\npublic:\n    vector<int> sortByBits(vector<int>& arr) {\n        sort(arr.begin(), arr.end(), [](int a, int b) {\n            int ca = bitCount(a), cb = bitCount(b);\n            if (ca != cb) return ca < cb;\n            return a < b;\n        });\n        return arr;\n    }\n};"
   },
   {
@@ -4154,9 +4182,11 @@
       "sorting",
       "greedy"
     ],
-    "expected_tc": "O(n)",
-    "expected_sc": "O(1)",
-    "expected_algorithms": [],
+    "expected_tc": "O(n log n)",
+    "expected_sc": "O(log n)",
+    "expected_algorithms": [
+      "Sorting"
+    ],
     "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int maxCoins(vector<int>& piles) {\n        sort(piles.begin(), piles.end());\n        int ans = 0, n = piles.size(), rounds = n / 3;\n        for (int i = n - 2; rounds > 0; i -= 2, rounds--) {\n            ans += piles[i];\n        }\n        return ans;\n    }\n};"
   },
   {
@@ -4435,10 +4465,12 @@
       "monotonic_stack",
       "greedy"
     ],
-    "expected_tc": "O(n k)",
+    "expected_tc": "O(n)",
     "expected_sc": "O(n)",
-    "expected_algorithms": [],
-    "code": "import java.util.*;\nclass Solution {\n    public String removeKdigits(String num, int k) {\n        StringBuilder st = new StringBuilder();\n        for (char c : num.toCharArray()) {\n            while (st.length() > 0 && k > 0 && st.charAt(st.length() - 1) > c) {\n                st.deleteCharAt(st.length() - 1);\n                k--;\n            }\n            if (st.length() > 0 || c != '0') st.append(c);\n        }\n        while (st.length() > 0 && k > 0) {\n            st.deleteCharAt(st.length() - 1);\n            k--;\n        }\n        return st.length() == 0 ? \"0\" : st.toString();\n    }\n}"
+    "expected_algorithms": [
+      "Monotonic Stack"
+    ],
+    "code": "import java.util.*;\nclass Solution {\n    public String removeKdigits(String num, int k) {\n        Deque<Character> st = new ArrayDeque<>();\n        for (char c : num.toCharArray()) {\n            while (!st.isEmpty() && k > 0 && st.peekLast() > c) {\n                st.pollLast();\n                k--;\n            }\n            st.addLast(c);\n        }\n        while (k > 0 && !st.isEmpty()) {\n                st.pollLast();\n                k--;\n        }\n        StringBuilder sb = new StringBuilder();\n        boolean leading = true;\n        for (char c : st) {\n            if (leading && c == '0') continue;\n            leading = false;\n            sb.append(c);\n        }\n        return sb.length() == 0 ? \"0\" : sb.toString();\n    }\n}"
   },
   {
     "id": "oa_144_132_pattern_cpp",
@@ -7765,5 +7797,1497 @@
     "expected_sc": "O(1)",
     "expected_algorithms": [],
     "code": "class Solution {\n    public double myPow(double x, int n) {\n        long N = n;\n        if (N < 0) {\n            x = 1 / x;\n            N = -N;\n        }\n        double ans = 1;\n        double currentProduct = x;\n        while (N > 0) {\n            if (N % 2 == 1) ans *= currentProduct;\n            currentProduct *= currentProduct;\n            N >>= 1;\n        }\n        return ans;\n    }\n}"
+  },
+  {
+    "id": "oa_251_reverse_linked_list_cpp",
+    "name": "Reverse Linked List (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    ListNode* reverseList(ListNode* head) {\n        ListNode* prev = nullptr;\n        ListNode* curr = head;\n        while (curr != nullptr) {\n            ListNode* nextTemp = curr->next;\n            curr->next = prev;\n            prev = curr;\n            curr = nextTemp;\n        }\n        return prev;\n    }\n};"
+  },
+  {
+    "id": "oa_251_reverse_linked_list_java",
+    "name": "Reverse Linked List (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\nclass Solution {\n    public ListNode reverseList(ListNode head) {\n        ListNode prev = null;\n        ListNode curr = head;\n        while (curr != null) {\n            ListNode nextTemp = curr.next;\n            curr.next = prev;\n            prev = curr;\n            curr = nextTemp;\n        }\n        return prev;\n    }\n}"
+  },
+  {
+    "id": "oa_252_middle_of_linked_list_cpp",
+    "name": "Middle of the Linked List (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    ListNode* middleNode(ListNode* head) {\n        ListNode* slow = head;\n        ListNode* fast = head;\n        while (fast != nullptr && fast->next != nullptr) {\n            slow = slow->next;\n            fast = fast->next->next;\n        }\n        return slow;\n    }\n};"
+  },
+  {
+    "id": "oa_252_middle_of_linked_list_java",
+    "name": "Middle of the Linked List (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\nclass Solution {\n    public ListNode middleNode(ListNode head) {\n        ListNode slow = head;\n        ListNode fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        return slow;\n    }\n}"
+  },
+  {
+    "id": "oa_253_linked_list_cycle_cpp",
+    "name": "Linked List Cycle (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    bool hasCycle(ListNode *head) {\n        if (!head || !head->next) return false;\n        ListNode *slow = head;\n        ListNode *fast = head->next;\n        while (slow != fast) {\n            if (!fast || !fast->next) return false;\n            slow = slow->next;\n            fast = fast->next->next;\n        }\n        return true;\n    }\n};"
+  },
+  {
+    "id": "oa_253_linked_list_cycle_java",
+    "name": "Linked List Cycle (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\npublic class Solution {\n    public boolean hasCycle(ListNode head) {\n        if (head == null || head.next == null) return false;\n        ListNode slow = head;\n        ListNode fast = head.next;\n        while (slow != fast) {\n            if (fast == null || fast.next == null) return false;\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        return true;\n    }\n}"
+  },
+  {
+    "id": "oa_254_linked_list_cycle_ii_cpp",
+    "name": "Linked List Cycle II (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    ListNode *detectCycle(ListNode *head) {\n        if (!head || !head->next) return nullptr;\n        ListNode *slow = head, *fast = head;\n        while (fast && fast->next) {\n            slow = slow->next;\n            fast = fast->next->next;\n            if (slow == fast) break;\n        }\n        if (slow != fast) return nullptr;\n        slow = head;\n        while (slow != fast) {\n            slow = slow->next;\n            fast = fast->next;\n        }\n        return slow;\n    }\n};"
+  },
+  {
+    "id": "oa_254_linked_list_cycle_ii_java",
+    "name": "Linked List Cycle II (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\npublic class Solution {\n    public ListNode detectCycle(ListNode head) {\n        if (head == null || head.next == null) return null;\n        ListNode slow = head, fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow == fast) break;\n        }\n        if (slow != fast) return null;\n        slow = head;\n        while (slow != fast) {\n            slow = slow.next;\n            fast = fast.next;\n        }\n        return slow;\n    }\n}"
+  },
+  {
+    "id": "oa_255_intersection_of_two_linked_lists_cpp",
+    "name": "Intersection of Two Linked Lists (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {\n        ListNode *pA = headA, *pB = headB;\n        while (pA != pB) {\n            pA = pA ? pA->next : headB;\n            pB = pB ? pB->next : headA;\n        }\n        return pA;\n    }\n};"
+  },
+  {
+    "id": "oa_255_intersection_of_two_linked_lists_java",
+    "name": "Intersection of Two Linked Lists (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\npublic class Solution {\n    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {\n        ListNode pA = headA, pB = headB;\n        while (pA != pB) {\n            pA = pA == null ? headB : pA.next;\n            pB = pB == null ? headA : pB.next;\n        }\n        return pA;\n    }\n}"
+  },
+  {
+    "id": "oa_256_remove_nth_node_cpp",
+    "name": "Remove Nth Node From End of List (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        ListNode dummy(0);\n        dummy.next = head;\n        ListNode* first = &dummy;\n        ListNode* second = &dummy;\n        for (int i = 0; i <= n; i++) {\n            first = first->next;\n        }\n        while (first != nullptr) {\n            first = first->next;\n            second = second->next;\n        }\n        second->next = second->next->next;\n        return dummy.next;\n    }\n};"
+  },
+  {
+    "id": "oa_256_remove_nth_node_java",
+    "name": "Remove Nth Node From End of List (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\nclass Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        ListNode dummy = new ListNode(0);\n        dummy.next = head;\n        ListNode first = dummy;\n        ListNode second = dummy;\n        for (int i = 0; i <= n; i++) {\n            first = first.next;\n        }\n        while (first != null) {\n            first = first.next;\n            second = second.next;\n        }\n        second.next = second.next.next;\n        return dummy.next;\n    }\n}"
+  },
+  {
+    "id": "oa_257_merge_two_sorted_lists_cpp",
+    "name": "Merge Two Sorted Lists (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {\n        ListNode dummy(0);\n        ListNode* tail = &dummy;\n        while (l1 && l2) {\n            if (l1->val < l2->val) {\n                tail->next = l1;\n                l1 = l1->next;\n            } else {\n                tail->next = l2;\n                l2 = l2->next;\n            }\n            tail = tail->next;\n        }\n        tail->next = l1 ? l1 : l2;\n        return dummy.next;\n    }\n};"
+  },
+  {
+    "id": "oa_257_merge_two_sorted_lists_java",
+    "name": "Merge Two Sorted Lists (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\nclass Solution {\n    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {\n        ListNode dummy = new ListNode(0);\n        ListNode tail = dummy;\n        while (l1 != null && l2 != null) {\n            if (l1.val < l2.val) {\n                tail.next = l1;\n                l1 = l1.next;\n            } else {\n                tail.next = l2;\n                l2 = l2.next;\n            }\n            tail = tail.next;\n        }\n        tail.next = (l1 != null) ? l1 : l2;\n        return dummy.next;\n    }\n}"
+  },
+  {
+    "id": "oa_258_palindrome_linked_list_cpp",
+    "name": "Palindrome Linked List (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    bool isPalindrome(ListNode* head) {\n        if (!head || !head->next) return true;\n        ListNode *slow = head, *fast = head;\n        while (fast->next && fast->next->next) {\n            slow = slow->next;\n            fast = fast->next->next;\n        }\n        ListNode *prev = nullptr, *curr = slow->next;\n        while (curr) {\n            ListNode* nxt = curr->next;\n            curr->next = prev;\n            prev = curr;\n            curr = nxt;\n        }\n        ListNode *p1 = head, *p2 = prev;\n        while (p2) {\n            if (p1->val != p2->val) return false;\n            p1 = p1->next;\n            p2 = p2->next;\n        }\n        return true;\n    }\n};"
+  },
+  {
+    "id": "oa_258_palindrome_linked_list_java",
+    "name": "Palindrome Linked List (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\nclass Solution {\n    public boolean isPalindrome(ListNode head) {\n        if (head == null || head.next == null) return true;\n        ListNode slow = head, fast = head;\n        while (fast.next != null && fast.next.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        ListNode prev = null, curr = slow.next;\n        while (curr != null) {\n            ListNode nxt = curr.next;\n            curr.next = prev;\n            prev = curr;\n            curr = nxt;\n        }\n        ListNode p1 = head, p2 = prev;\n        while (p2 != null) {\n            if (p1.val != p2.val) return false;\n            p1 = p1.next;\n            p2 = p2.next;\n        }\n        return true;\n    }\n}"
+  },
+  {
+    "id": "oa_259_reorder_list_cpp",
+    "name": "Reorder List (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    void reorderList(ListNode* head) {\n        if (!head || !head->next) return;\n        ListNode *slow = head, *fast = head;\n        while (fast->next && fast->next->next) {\n            slow = slow->next;\n            fast = fast->next->next;\n        }\n        ListNode *prev = nullptr, *curr = slow->next;\n        slow->next = nullptr;\n        while (curr) {\n            ListNode* nxt = curr->next;\n            curr->next = prev;\n            prev = curr;\n            curr = nxt;\n        }\n        ListNode *first = head, *second = prev;\n        while (second) {\n            ListNode *tmp1 = first->next, *tmp2 = second->next;\n            first->next = second;\n            second->next = tmp1;\n            first = tmp1;\n            second = tmp2;\n        }\n    }\n};"
+  },
+  {
+    "id": "oa_259_reorder_list_java",
+    "name": "Reorder List (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\nclass Solution {\n    public void reorderList(ListNode head) {\n        if (head == null || head.next == null) return;\n        ListNode slow = head, fast = head;\n        while (fast.next != null && fast.next.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        ListNode prev = null, curr = slow.next;\n        slow.next = null;\n        while (curr != null) {\n            ListNode nxt = curr.next;\n            curr.next = prev;\n            prev = curr;\n            curr = nxt;\n        }\n        ListNode first = head, second = prev;\n        while (second != null) {\n            ListNode tmp1 = first.next, tmp2 = second.next;\n            first.next = second;\n            second.next = tmp1;\n            first = tmp1;\n            second = tmp2;\n        }\n    }\n}"
+  },
+  {
+    "id": "oa_260_copy_list_with_random_pointer_cpp",
+    "name": "Copy List with Random Pointer (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "struct Node { int val; Node* next; Node* random; Node(int _val) : val(_val), next(nullptr), random(nullptr) {} };\nclass Solution {\npublic:\n    Node* copyRandomList(Node* head) {\n        if (!head) return nullptr;\n        Node* curr = head;\n        while (curr) {\n            Node* copy = new Node(curr->val);\n            copy->next = curr->next;\n            curr->next = copy;\n            curr = copy->next;\n        }\n        curr = head;\n        while (curr) {\n            if (curr->random) curr->next->random = curr->random->next;\n            curr = curr->next->next;\n        }\n        curr = head;\n        Node* copyHead = head->next;\n        while (curr) {\n            Node* copy = curr->next;\n            curr->next = copy->next;\n            curr = curr->next;\n            if (curr) copy->next = curr->next;\n        }\n        return copyHead;\n    }\n};"
+  },
+  {
+    "id": "oa_260_copy_list_with_random_pointer_java",
+    "name": "Copy List with Random Pointer (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "class Node { int val; Node next; Node random; public Node(int val) { this.val = val; this.next = null; this.random = null; } }\nclass Solution {\n    public Node copyRandomList(Node head) {\n        if (head == null) return null;\n        Node curr = head;\n        while (curr != null) {\n            Node copy = new Node(curr.val);\n            copy.next = curr.next;\n            curr.next = copy;\n            curr = copy.next;\n        }\n        curr = head;\n        while (curr != null) {\n            if (curr.random != null) curr.next.random = curr.random.next;\n            curr = curr.next.next;\n        }\n        curr = head;\n        Node copyHead = head.next;\n        while (curr != null) {\n            Node copy = curr.next;\n            curr.next = copy.next;\n            curr = curr.next;\n            if (curr != null) copy.next = curr.next;\n        }\n        return copyHead;\n    }\n}"
+  },
+  {
+    "id": "oa_261_rotate_list_cpp",
+    "name": "Rotate List (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    ListNode* rotateRight(ListNode* head, int k) {\n        if (!head || !head->next || k == 0) return head;\n        ListNode* tail = head;\n        int len = 1;\n        while (tail->next) {\n            tail = tail->next;\n            len++;\n        }\n        tail->next = head;\n        k %= len;\n        for (int i = 0; i < len - k; i++) {\n            tail = tail->next;\n        }\n        ListNode* newHead = tail->next;\n        tail->next = nullptr;\n        return newHead;\n    }\n};"
+  },
+  {
+    "id": "oa_261_rotate_list_java",
+    "name": "Rotate List (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\nclass Solution {\n    public ListNode rotateRight(ListNode head, int k) {\n        if (head == null || head.next == null || k == 0) return head;\n        ListNode tail = head;\n        int len = 1;\n        while (tail.next != null) {\n            tail = tail.next;\n            len++;\n        }\n        tail.next = head;\n        k %= len;\n        for (int i = 0; i < len - k; i++) {\n            tail = tail.next;\n        }\n        ListNode newHead = tail.next;\n        tail.next = null;\n        return newHead;\n    }\n}"
+  },
+  {
+    "id": "oa_262_swap_nodes_in_pairs_cpp",
+    "name": "Swap Nodes in Pairs (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    ListNode* swapPairs(ListNode* head) {\n        ListNode dummy(0);\n        dummy.next = head;\n        ListNode* prev = &dummy;\n        while (prev->next && prev->next->next) {\n            ListNode* first = prev->next;\n            ListNode* second = first->next;\n            first->next = second->next;\n            second->next = first;\n            prev->next = second;\n            prev = first;\n        }\n        return dummy.next;\n    }\n};"
+  },
+  {
+    "id": "oa_262_swap_nodes_in_pairs_java",
+    "name": "Swap Nodes in Pairs (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\nclass Solution {\n    public ListNode swapPairs(ListNode head) {\n        ListNode dummy = new ListNode(0);\n        dummy.next = head;\n        ListNode prev = dummy;\n        while (prev.next != null && prev.next.next != null) {\n            ListNode first = prev.next;\n            ListNode second = first.next;\n            first.next = second.next;\n            second.next = first;\n            prev.next = second;\n            prev = first;\n        }\n        return dummy.next;\n    }\n}"
+  },
+  {
+    "id": "oa_263_odd_even_linked_list_cpp",
+    "name": "Odd Even Linked List (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    ListNode* oddEvenList(ListNode* head) {\n        if (!head) return nullptr;\n        ListNode* odd = head;\n        ListNode* even = head->next;\n        ListNode* evenHead = even;\n        while (even && even->next) {\n            odd->next = even->next;\n            odd = odd->next;\n            even->next = odd->next;\n            even = even->next;\n        }\n        odd->next = evenHead;\n        return head;\n    }\n};"
+  },
+  {
+    "id": "oa_263_odd_even_linked_list_java",
+    "name": "Odd Even Linked List (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\nclass Solution {\n    public ListNode oddEvenList(ListNode head) {\n        if (head == null) return null;\n        ListNode odd = head;\n        ListNode even = head.next;\n        ListNode evenHead = even;\n        while (even != null && even.next != null) {\n            odd.next = even.next;\n            odd = odd.next;\n            even.next = odd.next;\n            even = even.next;\n        }\n        odd.next = evenHead;\n        return head;\n    }\n}"
+  },
+  {
+    "id": "oa_264_partition_list_cpp",
+    "name": "Partition List (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    ListNode* partition(ListNode* head, int x) {\n        ListNode beforeDummy(0), afterDummy(0);\n        ListNode* before = &beforeDummy;\n        ListNode* after = &afterDummy;\n        while (head) {\n            if (head->val < x) {\n                before->next = head;\n                before = before->next;\n            } else {\n                after->next = head;\n                after = after->next;\n            }\n            head = head->next;\n        }\n        after->next = nullptr;\n        before->next = afterDummy.next;\n        return beforeDummy.next;\n    }\n};"
+  },
+  {
+    "id": "oa_264_partition_list_java",
+    "name": "Partition List (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "linked_list",
+      "two_pointers"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Two Pointers"
+    ],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\nclass Solution {\n    public ListNode partition(ListNode head, int x) {\n        ListNode beforeDummy = new ListNode(0);\n        ListNode afterDummy = new ListNode(0);\n        ListNode before = beforeDummy;\n        ListNode after = afterDummy;\n        while (head != null) {\n            if (head.val < x) {\n                before.next = head;\n                before = before.next;\n            } else {\n                after.next = head;\n                after = after.next;\n            }\n            head = head.next;\n        }\n        after.next = null;\n        before.next = afterDummy.next;\n        return beforeDummy.next;\n    }\n}"
+  },
+  {
+    "id": "oa_265_add_two_numbers_cpp",
+    "name": "Add Two Numbers (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "struct ListNode { int val; ListNode *next; ListNode(int x) : val(x), next(nullptr) {} };\nclass Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        ListNode dummy(0);\n        ListNode* tail = &dummy;\n        int carry = 0;\n        while (l1 || l2 || carry) {\n            int sum = carry;\n            if (l1) { sum += l1->val; l1 = l1->next; }\n            if (l2) { sum += l2->val; l2 = l2->next; }\n            carry = sum / 10;\n            tail->next = new ListNode(sum % 10);\n            tail = tail->next;\n        }\n        return dummy.next;\n    }\n};"
+  },
+  {
+    "id": "oa_265_add_two_numbers_java",
+    "name": "Add Two Numbers (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "linked_list"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "class ListNode { int val; ListNode next; ListNode(int x) { val = x; } }\nclass Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        ListNode dummy = new ListNode(0);\n        ListNode tail = dummy;\n        int carry = 0;\n        while (l1 != null || l2 != null || carry != 0) {\n            int sum = carry;\n            if (l1 != null) { sum += l1.val; l1 = l1.next; }\n            if (l2 != null) { sum += l2.val; l2 = l2.next; }\n            carry = sum / 10;\n            tail.next = new ListNode(sum % 10);\n            tail = tail.next;\n        }\n        return dummy.next;\n    }\n}"
+  },
+  {
+    "id": "oa_266_max_depth_binary_tree_cpp",
+    "name": "Maximum Depth of Binary Tree (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\npublic:\n    int maxDepth(TreeNode* root) {\n        if (!root) return 0;\n        return 1 + std::max(maxDepth(root->left), maxDepth(root->right));\n    }\n};"
+  },
+  {
+    "id": "oa_266_max_depth_binary_tree_java",
+    "name": "Maximum Depth of Binary Tree (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    public int maxDepth(TreeNode root) {\n        if (root == null) return 0;\n        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));\n    }\n}"
+  },
+  {
+    "id": "oa_267_invert_binary_tree_cpp",
+    "name": "Invert Binary Tree (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        if (!root) return nullptr;\n        TreeNode* left = invertTree(root->left);\n        TreeNode* right = invertTree(root->right);\n        root->left = right;\n        root->right = left;\n        return root;\n    }\n};"
+  },
+  {
+    "id": "oa_267_invert_binary_tree_java",
+    "name": "Invert Binary Tree (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    public TreeNode invertTree(TreeNode root) {\n        if (root == null) return null;\n        TreeNode left = invertTree(root.left);\n        TreeNode right = invertTree(root.right);\n        root.left = right;\n        root.right = left;\n        return root;\n    }\n}"
+  },
+  {
+    "id": "oa_268_same_tree_cpp",
+    "name": "Same Tree (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\npublic:\n    bool isSameTree(TreeNode* p, TreeNode* q) {\n        if (!p && !q) return true;\n        if (!p || !q || p->val != q->val) return false;\n        return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);\n    }\n};"
+  },
+  {
+    "id": "oa_268_same_tree_java",
+    "name": "Same Tree (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    public boolean isSameTree(TreeNode p, TreeNode q) {\n        if (p == null && q == null) return true;\n        if (p == null || q == null || p.val != q.val) return false;\n        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);\n    }\n}"
+  },
+  {
+    "id": "oa_269_symmetric_tree_cpp",
+    "name": "Symmetric Tree (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\n    bool isMirror(TreeNode* t1, TreeNode* t2) {\n        if (!t1 && !t2) return true;\n        if (!t1 || !t2 || t1->val != t2->val) return false;\n        return isMirror(t1->left, t2->right) && isMirror(t1->right, t2->left);\n    }\npublic:\n    bool isSymmetric(TreeNode* root) {\n        return isMirror(root, root);\n    }\n};"
+  },
+  {
+    "id": "oa_269_symmetric_tree_java",
+    "name": "Symmetric Tree (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    private boolean isMirror(TreeNode t1, TreeNode t2) {\n        if (t1 == null && t2 == null) return true;\n        if (t1 == null || t2 == null || t1.val != t2.val) return false;\n        return isMirror(t1.left, t2.right) && isMirror(t1.right, t2.left);\n    }\n    public boolean isSymmetric(TreeNode root) {\n        return isMirror(root, root);\n    }\n}"
+  },
+  {
+    "id": "oa_270_level_order_traversal_cpp",
+    "name": "Binary Tree Level Order Traversal (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "bfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "BFS"
+    ],
+    "code": "#include <vector>\n#include <queue>\nusing namespace std;\nstruct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        vector<vector<int>> res;\n        if (!root) return res;\n        queue<TreeNode*> q;\n        q.push(root);\n        while (!q.empty()) {\n            int sz = q.size();\n            vector<int> level;\n            for (int i = 0; i < sz; i++) {\n                TreeNode* node = q.front(); q.pop();\n                level.push_back(node->val);\n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n            res.push_back(level);\n        }\n        return res;\n    }\n};"
+  },
+  {
+    "id": "oa_270_level_order_traversal_java",
+    "name": "Binary Tree Level Order Traversal (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "bfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "BFS"
+    ],
+    "code": "import java.util.*;\nclass TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        List<List<Integer>> res = new ArrayList<>();\n        if (root == null) return res;\n        Queue<TreeNode> q = new LinkedList<>();\n        q.add(root);\n        while (!q.isEmpty()) {\n            int sz = q.size();\n            List<Integer> level = new ArrayList<>();\n            for (int i = 0; i < sz; i++) {\n                TreeNode node = q.poll();\n                level.add(node.val);\n                if (node.left != null) q.add(node.left);\n                if (node.right != null) q.add(node.right);\n            }\n            res.add(level);\n        }\n        return res;\n    }\n}"
+  },
+  {
+    "id": "oa_271_subtree_of_another_tree_cpp",
+    "name": "Subtree of Another Tree (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\n    bool isSame(TreeNode* s, TreeNode* t) {\n        if (!s && !t) return true;\n        if (!s || !t || s->val != t->val) return false;\n        return isSame(s->left, t->left) && isSame(s->right, t->right);\n    }\npublic:\n    bool isSubtree(TreeNode* root, TreeNode* subRoot) {\n        if (!root) return false;\n        if (isSame(root, subRoot)) return true;\n        return isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);\n    }\n};"
+  },
+  {
+    "id": "oa_271_subtree_of_another_tree_java",
+    "name": "Subtree of Another Tree (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    private boolean isSame(TreeNode s, TreeNode t) {\n        if (s == null && t == null) return true;\n        if (s == null || t == null || s.val != t.val) return false;\n        return isSame(s.left, t.left) && isSame(s.right, t.right);\n    }\n    public boolean isSubtree(TreeNode root, TreeNode subRoot) {\n        if (root == null) return false;\n        if (isSame(root, subRoot)) return true;\n        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);\n    }\n}"
+  },
+  {
+    "id": "oa_272_lca_bst_cpp",
+    "name": "Lowest Common Ancestor of a BST (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "binary_search"
+    ],
+    "expected_tc": "O(log n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Binary Search"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        TreeNode* curr = root;\n        while (curr) {\n            if (p->val > curr->val && q->val > curr->val) {\n                curr = curr->right;\n            } else if (p->val < curr->val && q->val < curr->val) {\n                curr = curr->left;\n            } else {\n                return curr;\n            }\n        }\n        return nullptr;\n    }\n};"
+  },
+  {
+    "id": "oa_272_lca_bst_java",
+    "name": "Lowest Common Ancestor of a BST (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "binary_search"
+    ],
+    "expected_tc": "O(log n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Binary Search"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        TreeNode curr = root;\n        while (curr != null) {\n            if (p.val > curr.val && q.val > curr.val) {\n                curr = curr.right;\n            } else if (p.val < curr.val && q.val < curr.val) {\n                curr = curr.left;\n            } else {\n                return curr;\n            }\n        }\n        return null;\n    }\n}"
+  },
+  {
+    "id": "oa_273_lca_binary_tree_cpp",
+    "name": "Lowest Common Ancestor of a Binary Tree (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        if (!root || root == p || root == q) return root;\n        TreeNode* left = lowestCommonAncestor(root->left, p, q);\n        TreeNode* right = lowestCommonAncestor(root->right, p, q);\n        if (left && right) return root;\n        return left ? left : right;\n    }\n};"
+  },
+  {
+    "id": "oa_273_lca_binary_tree_java",
+    "name": "Lowest Common Ancestor of a Binary Tree (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        if (root == null || root == p || root == q) return root;\n        TreeNode left = lowestCommonAncestor(root.left, p, q);\n        TreeNode right = lowestCommonAncestor(root.right, p, q);\n        if (left != null && right != null) return root;\n        return left != null ? left : right;\n    }\n}"
+  },
+  {
+    "id": "oa_274_validate_bst_cpp",
+    "name": "Validate Binary Search Tree (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\n    bool validate(TreeNode* node, long long low, long long high) {\n        if (!node) return true;\n        if (node->val <= low || node->val >= high) return false;\n        return validate(node->left, low, node->val) && validate(node->right, node->val, high);\n    }\npublic:\n    bool isValidBST(TreeNode* root) {\n        return validate(root, -1e18, 1e18);\n    }\n};"
+  },
+  {
+    "id": "oa_274_validate_bst_java",
+    "name": "Validate Binary Search Tree (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    private boolean validate(TreeNode node, Long low, Long high) {\n        if (node == null) return true;\n        if ((low != null && node.val <= low) || (high != null && node.val >= high)) return false;\n        return validate(node.left, low, (long) node.val) && validate(node.right, (long) node.val, high);\n    }\n    public boolean isValidBST(TreeNode root) {\n        return validate(root, null, null);\n    }\n}"
+  },
+  {
+    "id": "oa_275_kth_smallest_bst_cpp",
+    "name": "Kth Smallest Element in a BST (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\n    int count = 0, ans = -1;\n    void inorder(TreeNode* root, int k) {\n        if (!root || ans != -1) return;\n        inorder(root->left, k);\n        count++;\n        if (count == k) {\n            ans = root->val;\n            return;\n        }\n        inorder(root->right, k);\n    }\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        inorder(root, k);\n        return ans;\n    }\n};"
+  },
+  {
+    "id": "oa_275_kth_smallest_bst_java",
+    "name": "Kth Smallest Element in a BST (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    private int count = 0, ans = -1;\n    private void inorder(TreeNode root, int k) {\n        if (root == null || ans != -1) return;\n        inorder(root.left, k);\n        count++;\n        if (count == k) {\n            ans = root.val;\n            return;\n        }\n        inorder(root.right, k);\n    }\n    public int kthSmallest(TreeNode root, int k) {\n        inorder(root, k);\n        return ans;\n    }\n}"
+  },
+  {
+    "id": "oa_276_binary_tree_right_side_view_cpp",
+    "name": "Binary Tree Right Side View (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "bfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "BFS"
+    ],
+    "code": "#include <vector>\n#include <queue>\nusing namespace std;\nstruct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\npublic:\n    vector<int> rightSideView(TreeNode* root) {\n        vector<int> res;\n        if (!root) return res;\n        queue<TreeNode*> q;\n        q.push(root);\n        while (!q.empty()) {\n            int sz = q.size();\n            for (int i = 0; i < sz; i++) {\n                TreeNode* node = q.front(); q.pop();\n                if (i == sz - 1) res.push_back(node->val);\n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n        }\n        return res;\n    }\n};"
+  },
+  {
+    "id": "oa_276_binary_tree_right_side_view_java",
+    "name": "Binary Tree Right Side View (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "bfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "BFS"
+    ],
+    "code": "import java.util.*;\nclass TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    public List<Integer> rightSideView(TreeNode root) {\n        List<Integer> res = new ArrayList<>();\n        if (root == null) return res;\n        Queue<TreeNode> q = new LinkedList<>();\n        q.add(root);\n        while (!q.isEmpty()) {\n            int sz = q.size();\n            for (int i = 0; i < sz; i++) {\n                TreeNode node = q.poll();\n                if (i == sz - 1) res.add(node.val);\n                if (node.left != null) q.add(node.left);\n                if (node.right != null) q.add(node.right);\n            }\n        }\n        return res;\n    }\n}"
+  },
+  {
+    "id": "oa_277_count_good_nodes_cpp",
+    "name": "Count Good Nodes in Binary Tree (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\n    int dfs(TreeNode* node, int maxVal) {\n        if (!node) return 0;\n        int count = 0;\n        if (node->val >= maxVal) {\n            count = 1;\n            maxVal = node->val;\n        }\n        return count + dfs(node->left, maxVal) + dfs(node->right, maxVal);\n    }\npublic:\n    int goodNodes(TreeNode* root) {\n        if (!root) return 0;\n        return dfs(root, root->val);\n    }\n};"
+  },
+  {
+    "id": "oa_277_count_good_nodes_java",
+    "name": "Count Good Nodes in Binary Tree (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    private int dfs(TreeNode node, int maxVal) {\n        if (node == null) return 0;\n        int count = 0;\n        if (node.val >= maxVal) {\n            count = 1;\n            maxVal = node.val;\n        }\n        return count + dfs(node.left, maxVal) + dfs(node.right, maxVal);\n    }\n    public int goodNodes(TreeNode root) {\n        if (root == null) return 0;\n        return dfs(root, root.val);\n    }\n}"
+  },
+  {
+    "id": "oa_278_flatten_binary_tree_cpp",
+    "name": "Flatten Binary Tree to Linked List (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "tree"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\npublic:\n    void flatten(TreeNode* root) {\n        TreeNode* curr = root;\n        while (curr) {\n            if (curr->left) {\n                TreeNode* prev = curr->left;\n                while (prev->right) prev = prev->right;\n                prev->right = curr->right;\n                curr->right = curr->left;\n                curr->left = nullptr;\n            }\n            curr = curr->right;\n        }\n    }\n};"
+  },
+  {
+    "id": "oa_278_flatten_binary_tree_java",
+    "name": "Flatten Binary Tree to Linked List (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "tree"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    public void flatten(TreeNode root) {\n        TreeNode curr = root;\n        while (curr != null) {\n            if (curr.left != null) {\n                TreeNode prev = curr.left;\n                while (prev.right != null) prev = prev.right;\n                prev.right = curr.right;\n                curr.right = curr.left;\n                curr.left = null;\n            }\n            curr = curr.right;\n        }\n    }\n}"
+  },
+  {
+    "id": "oa_279_path_sum_cpp",
+    "name": "Path Sum (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\npublic:\n    bool hasPathSum(TreeNode* root, int targetSum) {\n        if (!root) return false;\n        if (!root->left && !root->right) return targetSum == root->val;\n        return hasPathSum(root->left, targetSum - root->val) || hasPathSum(root->right, targetSum - root->val);\n    }\n};"
+  },
+  {
+    "id": "oa_279_path_sum_java",
+    "name": "Path Sum (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    public boolean hasPathSum(TreeNode root, int targetSum) {\n        if (root == null) return false;\n        if (root.left == null && root.right == null) return targetSum == root.val;\n        return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);\n    }\n}"
+  },
+  {
+    "id": "oa_280_sum_root_to_leaf_numbers_cpp",
+    "name": "Sum Root to Leaf Numbers (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "struct TreeNode { int val; TreeNode *left; TreeNode *right; TreeNode(int x) : val(x), left(nullptr), right(nullptr) {} };\nclass Solution {\n    int dfs(TreeNode* root, int currentSum) {\n        if (!root) return 0;\n        currentSum = currentSum * 10 + root->val;\n        if (!root->left && !root->right) return currentSum;\n        return dfs(root->left, currentSum) + dfs(root->right, currentSum);\n    }\npublic:\n    int sumNumbers(TreeNode* root) {\n        return dfs(root, 0);\n    }\n};"
+  },
+  {
+    "id": "oa_280_sum_root_to_leaf_numbers_java",
+    "name": "Sum Root to Leaf Numbers (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "tree",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class TreeNode { int val; TreeNode left; TreeNode right; TreeNode(int x) { val = x; } }\nclass Solution {\n    private int dfs(TreeNode root, int currentSum) {\n        if (root == null) return 0;\n        currentSum = currentSum * 10 + root.val;\n        if (root.left == null && root.right == null) return currentSum;\n        return dfs(root.left, currentSum) + dfs(root.right, currentSum);\n    }\n    public int sumNumbers(TreeNode root) {\n        return dfs(root, 0);\n    }\n}"
+  },
+  {
+    "id": "oa_281_valid_parentheses_cpp",
+    "name": "Valid Parentheses (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "stack"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "#include <string>\n#include <stack>\nusing namespace std;\nclass Solution {\npublic:\n    bool isValid(string s) {\n        stack<char> st;\n        for (char c : s) {\n            if (c == '(' || c == '{' || c == '[') {\n                st.push(c);\n            } else {\n                if (st.empty()) return false;\n                char top = st.top(); st.pop();\n                if ((c == ')' && top != '(') || (c == '}' && top != '{') || (c == ']' && top != '[')) return false;\n            }\n        }\n        return st.empty();\n    }\n};"
+  },
+  {
+    "id": "oa_281_valid_parentheses_java",
+    "name": "Valid Parentheses (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "stack"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "import java.util.*;\nclass Solution {\n    public boolean isValid(String s) {\n        Deque<Character> st = new ArrayDeque<>();\n        for (char c : s.toCharArray()) {\n            if (c == '(' || c == '{' || c == '[') {\n                st.push(c);\n            } else {\n                if (st.isEmpty()) return false;\n                char top = st.pop();\n                if ((c == ')' && top != '(') || (c == '}' && top != '{') || (c == ']' && top != '[')) return false;\n            }\n        }\n        return st.isEmpty();\n    }\n}"
+  },
+  {
+    "id": "oa_282_eval_reverse_polish_notation_cpp",
+    "name": "Evaluate Reverse Polish Notation (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "stack"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "#include <vector>\n#include <string>\n#include <stack>\nusing namespace std;\nclass Solution {\npublic:\n    int evalRPN(vector<string>& tokens) {\n        stack<int> st;\n        for (const string& t : tokens) {\n            if (t == \"+\" || t == \"-\" || t == \"*\" || t == \"/\") {\n                int b = st.top(); st.pop();\n                int a = st.top(); st.pop();\n                if (t == \"+\") st.push(a + b);\n                else if (t == \"-\") st.push(a - b);\n                else if (t == \"*\") st.push(a * b);\n                else if (t == \"/\") st.push(a / b);\n            } else {\n                st.push(stoi(t));\n            }\n        }\n        return st.top();\n    }\n};"
+  },
+  {
+    "id": "oa_282_eval_reverse_polish_notation_java",
+    "name": "Evaluate Reverse Polish Notation (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "stack"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "import java.util.*;\nclass Solution {\n    public int evalRPN(String[] tokens) {\n        Deque<Integer> st = new ArrayDeque<>();\n        for (String t : tokens) {\n            if (t.equals(\"+\") || t.equals(\"-\") || t.equals(\"*\") || t.equals(\"/\")) {\n                int b = st.pop();\n                int a = st.pop();\n                if (t.equals(\"+\")) st.push(a + b);\n                else if (t.equals(\"-\")) st.push(a - b);\n                else if (t.equals(\"*\")) st.push(a * b);\n                else if (t.equals(\"/\")) st.push(a / b);\n            } else {\n                st.push(Integer.parseInt(t));\n            }\n        }\n        return st.pop();\n    }\n}"
+  },
+  {
+    "id": "oa_283_simplify_path_cpp",
+    "name": "Simplify Path (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "stack",
+      "string"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "#include <string>\n#include <vector>\n#include <sstream>\nusing namespace std;\nclass Solution {\npublic:\n    string simplifyPath(string path) {\n        stringstream ss(path);\n        string segment;\n        vector<string> st;\n        while (getline(ss, segment, '/')) {\n            if (segment == \"\" || segment == \".\") continue;\n            if (segment == \"..\") {\n                if (!st.empty()) st.pop_back();\n            } else {\n                st.push_back(segment);\n            }\n        }\n        string res = \"\";\n        for (const string& dir : st) {\n            res += \"/\" + dir;\n        }\n        return res.empty() ? \"/\" : res;\n    }\n};"
+  },
+  {
+    "id": "oa_283_simplify_path_java",
+    "name": "Simplify Path (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "stack",
+      "string"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "import java.util.*;\nclass Solution {\n    public String simplifyPath(String path) {\n        Deque<String> st = new ArrayDeque<>();\n        for (String s : path.split(\"/\")) {\n            if (s.isEmpty() || s.equals(\".\")) continue;\n            if (s.equals(\"..\")) {\n                if (!st.isEmpty()) st.pop();\n            } else {\n                st.push(s);\n            }\n        }\n        StringBuilder res = new StringBuilder();\n        while (!st.isEmpty()) {\n            res.append(\"/\").append(st.pollLast());\n        }\n        return res.length() == 0 ? \"/\" : res.toString();\n    }\n}"
+  },
+  {
+    "id": "oa_284_min_stack_cpp",
+    "name": "Min Stack (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "stack"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "#include <stack>\nusing namespace std;\nclass MinStack {\n    stack<int> s;\n    stack<int> min_s;\npublic:\n    MinStack() {}\n    void push(int val) {\n        s.push(val);\n        if (min_s.empty() || val <= min_s.top()) min_s.push(val);\n    }\n    void pop() {\n        if (s.top() == min_s.top()) min_s.pop();\n        s.pop();\n    }\n    int top() { return s.top(); }\n    int getMin() { return min_s.top(); }\n};"
+  },
+  {
+    "id": "oa_284_min_stack_java",
+    "name": "Min Stack (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "stack"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "import java.util.*;\nclass MinStack {\n    private Deque<Integer> s = new ArrayDeque<>();\n    private Deque<Integer> minS = new ArrayDeque<>();\n    public MinStack() {}\n    public void push(int val) {\n        s.push(val);\n        if (minS.isEmpty() || val <= minS.peek()) minS.push(val);\n    }\n    public void pop() {\n        if (s.peek().equals(minS.peek())) minS.pop();\n        s.pop();\n    }\n    public int top() { return s.peek(); }\n    public int getMin() { return minS.peek(); }\n}"
+  },
+  {
+    "id": "oa_285_max_frequency_stack_cpp",
+    "name": "Maximum Frequency Stack (C++)",
+    "language": "cpp",
+    "rating": "Hard",
+    "tags": [
+      "stack",
+      "heap"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "#include <unordered_map>\n#include <stack>\nusing namespace std;\nclass FreqStack {\n    unordered_map<int, int> freq;\n    unordered_map<int, stack<int>> group;\n    int maxfreq = 0;\npublic:\n    FreqStack() {}\n    void push(int val) {\n        int f = ++freq[val];\n        if (f > maxfreq) maxfreq = f;\n        group[f].push(val);\n    }\n    int pop() {\n        int val = group[maxfreq].top();\n        group[maxfreq].pop();\n        freq[val]--;\n        if (group[maxfreq].empty()) maxfreq--;\n        return val;\n    }\n};"
+  },
+  {
+    "id": "oa_285_max_frequency_stack_java",
+    "name": "Maximum Frequency Stack (Java)",
+    "language": "java",
+    "rating": "Hard",
+    "tags": [
+      "stack",
+      "heap"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "import java.util.*;\nclass FreqStack {\n    private Map<Integer, Integer> freq = new HashMap<>();\n    private Map<Integer, Deque<Integer>> group = new HashMap<>();\n    private int maxfreq = 0;\n    public FreqStack() {}\n    public void push(int val) {\n        int f = freq.getOrDefault(val, 0) + 1;\n        freq.put(val, f);\n        if (f > maxfreq) maxfreq = f;\n        group.computeIfAbsent(f, z -> new ArrayDeque<>()).push(val);\n    }\n    public int pop() {\n        int val = group.get(maxfreq).pop();\n        freq.put(val, freq.get(val) - 1);\n        if (group.get(maxfreq).isEmpty()) maxfreq--;\n        return val;\n    }\n}"
+  },
+  {
+    "id": "oa_286_is_graph_bipartite_cpp",
+    "name": "Is Graph Bipartite (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "bfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "BFS"
+    ],
+    "code": "#include <vector>\n#include <queue>\nusing namespace std;\nclass Solution {\npublic:\n    bool isBipartite(vector<vector<int>>& graph) {\n        int n = graph.size();\n        vector<int> color(n, 0);\n        for (int i = 0; i < n; i++) {\n            if (color[i] != 0) continue;\n            queue<int> q;\n            q.push(i);\n            color[i] = 1;\n            while (!q.empty()) {\n                int u = q.front(); q.pop();\n                for (int v : graph[u]) {\n                    if (color[v] == 0) {\n                        color[v] = -color[u];\n                        q.push(v);\n                    } else if (color[v] == color[u]) {\n                        return false;\n                    }\n                }\n            }\n        }\n        return true;\n    }\n};"
+  },
+  {
+    "id": "oa_286_is_graph_bipartite_java",
+    "name": "Is Graph Bipartite (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "bfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "BFS"
+    ],
+    "code": "import java.util.*;\nclass Solution {\n    public boolean isBipartite(int[][] graph) {\n        int n = graph.length;\n        int[] color = new int[n];\n        for (int i = 0; i < n; i++) {\n            if (color[i] != 0) continue;\n            Queue<Integer> q = new LinkedList<>();\n            q.add(i);\n            color[i] = 1;\n            while (!q.isEmpty()) {\n                int u = q.poll();\n                for (int v : graph[u]) {\n                    if (color[v] == 0) {\n                        color[v] = -color[u];\n                        q.add(v);\n                    } else if (color[v] == color[u]) {\n                        return false;\n                    }\n                }\n            }\n        }\n        return true;\n    }\n}"
+  },
+  {
+    "id": "oa_287_all_paths_source_target_cpp",
+    "name": "All Paths From Source to Target (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "#include <vector>\nusing namespace std;\nclass Solution {\n    vector<vector<int>> res;\n    void dfs(const vector<vector<int>>& graph, int u, vector<int>& path) {\n        path.push_back(u);\n        if (u == (int)graph.size() - 1) {\n            res.push_back(path);\n        } else {\n            for (int v : graph[u]) {\n                dfs(graph, v, path);\n            }\n        }\n        path.pop_back();\n    }\npublic:\n    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {\n        vector<int> path;\n        dfs(graph, 0, path);\n        return res;\n    }\n};"
+  },
+  {
+    "id": "oa_287_all_paths_source_target_java",
+    "name": "All Paths From Source to Target (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "import java.util.*;\nclass Solution {\n    private List<List<Integer>> res = new ArrayList<>();\n    private void dfs(int[][] graph, int u, List<Integer> path) {\n        path.add(u);\n        if (u == graph.length - 1) {\n            res.add(new ArrayList<>(path));\n        } else {\n            for (int v : graph[u]) {\n                dfs(graph, v, path);\n            }\n        }\n        path.remove(path.size() - 1);\n    }\n    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {\n        dfs(graph, 0, new ArrayList<>());\n        return res;\n    }\n}"
+  },
+  {
+    "id": "oa_288_max_area_of_island_cpp",
+    "name": "Max Area of Island (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\n    int dfs(vector<vector<int>>& grid, int r, int c) {\n        if (r < 0 || r >= grid.size() || c < 0 || c >= grid[0].size() || grid[r][c] == 0) return 0;\n        grid[r][c] = 0;\n        return 1 + dfs(grid, r + 1, c) + dfs(grid, r - 1, c) + dfs(grid, r, c + 1) + dfs(grid, r, c - 1);\n    }\npublic:\n    int maxAreaOfIsland(vector<vector<int>>& grid) {\n        int maxArea = 0;\n        for (int r = 0; r < grid.size(); r++) {\n            for (int c = 0; c < grid[0].size(); c++) {\n                if (grid[r][c] == 1) {\n                    maxArea = max(maxArea, dfs(grid, r, c));\n                }\n            }\n        }\n        return maxArea;\n    }\n};"
+  },
+  {
+    "id": "oa_288_max_area_of_island_java",
+    "name": "Max Area of Island (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class Solution {\n    private int dfs(int[][] grid, int r, int c) {\n        if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length || grid[r][c] == 0) return 0;\n        grid[r][c] = 0;\n        return 1 + dfs(grid, r + 1, c) + dfs(grid, r - 1, c) + dfs(grid, r, c + 1) + dfs(grid, r, c - 1);\n    }\n    public int maxAreaOfIsland(int[][] grid) {\n        int maxArea = 0;\n        for (int r = 0; r < grid.length; r++) {\n            for (int c = 0; c < grid[0].length; c++) {\n                if (grid[r][c] == 1) {\n                    maxArea = Math.max(maxArea, dfs(grid, r, c));\n                }\n            }\n        }\n        return maxArea;\n    }\n}"
+  },
+  {
+    "id": "oa_289_number_of_enclaves_cpp",
+    "name": "Number of Enclaves (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "#include <vector>\nusing namespace std;\nclass Solution {\n    void dfs(vector<vector<int>>& grid, int r, int c) {\n        if (r < 0 || r >= grid.size() || c < 0 || c >= grid[0].size() || grid[r][c] == 0) return;\n        grid[r][c] = 0;\n        dfs(grid, r + 1, c); dfs(grid, r - 1, c); dfs(grid, r, c + 1); dfs(grid, r, c - 1);\n    }\npublic:\n    int numEnclaves(vector<vector<int>>& grid) {\n        int m = grid.size(), n = grid[0].size();\n        for (int i = 0; i < m; i++) {\n            if (grid[i][0] == 1) dfs(grid, i, 0);\n            if (grid[i][n - 1] == 1) dfs(grid, i, n - 1);\n        }\n        for (int j = 0; j < n; j++) {\n            if (grid[0][j] == 1) dfs(grid, 0, j);\n            if (grid[m - 1][j] == 1) dfs(grid, m - 1, j);\n        }\n        int count = 0;\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (grid[i][j] == 1) count++;\n            }\n        }\n        return count;\n    }\n};"
+  },
+  {
+    "id": "oa_289_number_of_enclaves_java",
+    "name": "Number of Enclaves (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class Solution {\n    private void dfs(int[][] grid, int r, int c) {\n        if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length || grid[r][c] == 0) return;\n        grid[r][c] = 0;\n        dfs(grid, r + 1, c); dfs(grid, r - 1, c); dfs(grid, r, c + 1); dfs(grid, r, c - 1);\n    }\n    public int numEnclaves(int[][] grid) {\n        int m = grid.length, n = grid[0].length;\n        for (int i = 0; i < m; i++) {\n            if (grid[i][0] == 1) dfs(grid, i, 0);\n            if (grid[i][n - 1] == 1) dfs(grid, i, n - 1);\n        }\n        for (int j = 0; j < n; j++) {\n            if (grid[0][j] == 1) dfs(grid, 0, j);\n            if (grid[m - 1][j] == 1) dfs(grid, m - 1, j);\n        }\n        int count = 0;\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (grid[i][j] == 1) count++;\n            }\n        }\n        return count;\n    }\n}"
+  },
+  {
+    "id": "oa_290_surrounded_regions_cpp",
+    "name": "Surrounded Regions (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "#include <vector>\nusing namespace std;\nclass Solution {\n    void dfs(vector<vector<char>>& board, int r, int c) {\n        if (r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c] != 'O') return;\n        board[r][c] = 'E';\n        dfs(board, r + 1, c); dfs(board, r - 1, c); dfs(board, r, c + 1); dfs(board, r, c - 1);\n    }\npublic:\n    void solve(vector<vector<char>>& board) {\n        if (board.empty()) return;\n        int m = board.size(), n = board[0].size();\n        for (int i = 0; i < m; i++) {\n            if (board[i][0] == 'O') dfs(board, i, 0);\n            if (board[i][n - 1] == 'O') dfs(board, i, n - 1);\n        }\n        for (int j = 0; j < n; j++) {\n            if (board[0][j] == 'O') dfs(board, 0, j);\n            if (board[m - 1][j] == 'O') dfs(board, m - 1, j);\n        }\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (board[i][j] == 'O') board[i][j] = 'X';\n                else if (board[i][j] == 'E') board[i][j] = 'O';\n            }\n        }\n    }\n};"
+  },
+  {
+    "id": "oa_290_surrounded_regions_java",
+    "name": "Surrounded Regions (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "class Solution {\n    private void dfs(char[][] board, int r, int c) {\n        if (r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c] != 'O') return;\n        board[r][c] = 'E';\n        dfs(board, r + 1, c); dfs(board, r - 1, c); dfs(board, r, c + 1); dfs(board, r, c - 1);\n    }\n    public void solve(char[][] board) {\n        if (board.length == 0) return;\n        int m = board.length, n = board[0].length;\n        for (int i = 0; i < m; i++) {\n            if (board[i][0] == 'O') dfs(board, i, 0);\n            if (board[i][n - 1] == 'O') dfs(board, i, n - 1);\n        }\n        for (int j = 0; j < n; j++) {\n            if (board[0][j] == 'O') dfs(board, 0, j);\n            if (board[m - 1][j] == 'O') dfs(board, m - 1, j);\n        }\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (board[i][j] == 'O') board[i][j] = 'X';\n                else if (board[i][j] == 'E') board[i][j] = 'O';\n            }\n        }\n    }\n}"
+  },
+  {
+    "id": "oa_291_pacific_atlantic_cpp",
+    "name": "Pacific Atlantic Water Flow (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "#include <vector>\nusing namespace std;\nclass Solution {\n    void dfs(const vector<vector<int>>& heights, vector<vector<bool>>& visited, int r, int c) {\n        visited[r][c] = true;\n        int dirs[4][2] = {{1,0},{-1,0},{0,1},{0,-1}};\n        for (auto& d : dirs) {\n            int nr = r + d[0], nc = c + d[1];\n            if (nr >= 0 && nr < heights.size() && nc >= 0 && nc < heights[0].size() && !visited[nr][nc] && heights[nr][nc] >= heights[r][c]) {\n                dfs(heights, visited, nr, nc);\n            }\n        }\n    }\npublic:\n    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {\n        int m = heights.size(), n = heights[0].size();\n        vector<vector<bool>> pac(m, vector<bool>(n, false));\n        vector<vector<bool>> atl(m, vector<bool>(n, false));\n        for (int i = 0; i < m; i++) { dfs(heights, pac, i, 0); dfs(heights, atl, i, n - 1); }\n        for (int j = 0; j < n; j++) { dfs(heights, pac, 0, j); dfs(heights, atl, m - 1, j); }\n        vector<vector<int>> res;\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (pac[i][j] && atl[i][j]) res.push_back({i, j});\n            }\n        }\n        return res;\n    }\n};"
+  },
+  {
+    "id": "oa_291_pacific_atlantic_java",
+    "name": "Pacific Atlantic Water Flow (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dfs"
+    ],
+    "expected_tc": "O(V + E)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "DFS"
+    ],
+    "code": "import java.util.*;\nclass Solution {\n    private void dfs(int[][] heights, boolean[][] visited, int r, int c) {\n        visited[r][c] = true;\n        int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};\n        for (int[] d : dirs) {\n            int nr = r + d[0], nc = c + d[1];\n            if (nr >= 0 && nr < heights.length && nc >= 0 && nc < heights[0].length && !visited[nr][nc] && heights[nr][nc] >= heights[r][c]) {\n                dfs(heights, visited, nr, nc);\n            }\n        }\n    }\n    public List<List<Integer>> pacificAtlantic(int[][] heights) {\n        int m = heights.length, n = heights[0].length;\n        boolean[][] pac = new boolean[m][n];\n        boolean[][] atl = new boolean[m][n];\n        for (int i = 0; i < m; i++) { dfs(heights, pac, i, 0); dfs(heights, atl, i, n - 1); }\n        for (int j = 0; j < n; j++) { dfs(heights, pac, 0, j); dfs(heights, atl, m - 1, j); }\n        List<List<Integer>> res = new ArrayList<>();\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (pac[i][j] && atl[i][j]) res.add(Arrays.asList(i, j));\n            }\n        }\n        return res;\n    }\n}"
+  },
+  {
+    "id": "oa_292_find_city_smallest_neighbors_cpp",
+    "name": "Find the City With Smallest Neighbors (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dijkstra"
+    ],
+    "expected_tc": "O((V + E) log V)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "Dijkstra"
+    ],
+    "code": "#include <vector>\n#include <queue>\nusing namespace std;\nclass Solution {\npublic:\n    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {\n        vector<vector<pair<int, int>>> adj(n);\n        for (auto& e : edges) {\n            adj[e[0]].push_back({e[1], e[2]});\n            adj[e[1]].push_back({e[0], e[2]});\n        }\n        int bestCity = -1, minReachable = n + 1;\n        for (int i = 0; i < n; i++) {\n            priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;\n            vector<int> dist(n, 1e9);\n            dist[i] = 0;\n            pq.push({0, i});\n            while (!pq.empty()) {\n                auto [d, u] = pq.top(); pq.pop();\n                if (d > dist[u]) continue;\n                for (auto& [v, w] : adj[u]) {\n                    if (dist[u] + w < dist[v]) {\n                        dist[v] = dist[u] + w;\n                        pq.push({dist[v], v});\n                    }\n                }\n            }\n            int reachable = 0;\n            for (int j = 0; j < n; j++) if (dist[j] <= distanceThreshold) reachable++;\n            if (reachable <= minReachable) {\n                minReachable = reachable;\n                bestCity = i;\n            }\n        }\n        return bestCity;\n    }\n};"
+  },
+  {
+    "id": "oa_292_find_city_smallest_neighbors_java",
+    "name": "Find the City With Smallest Neighbors (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "graph",
+      "dijkstra"
+    ],
+    "expected_tc": "O((V + E) log V)",
+    "expected_sc": "O(V + E)",
+    "expected_algorithms": [
+      "Dijkstra"
+    ],
+    "code": "import java.util.*;\nclass Solution {\n    public int findTheCity(int n, int[][] edges, int distanceThreshold) {\n        List<int[]>[] adj = new ArrayList[n];\n        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();\n        for (int[] e : edges) {\n            adj[e[0]].add(new int[]{e[1], e[2]});\n            adj[e[1]].add(new int[]{e[0], e[2]});\n        }\n        int bestCity = -1, minReachable = n + 1;\n        for (int i = 0; i < n; i++) {\n            PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));\n            int[] dist = new int[n];\n            Arrays.fill(dist, 1000000000);\n            dist[i] = 0;\n            pq.add(new int[]{0, i});\n            while (!pq.isEmpty()) {\n                int[] top = pq.poll();\n                int d = top[0], u = top[1];\n                if (d > dist[u]) continue;\n                for (int[] edge : adj[u]) {\n                    int v = edge[0], w = edge[1];\n                    if (dist[u] + w < dist[v]) {\n                        dist[v] = dist[u] + w;\n                        pq.add(new int[]{dist[v], v});\n                    }\n                }\n            }\n            int reachable = 0;\n            for (int j = 0; j < n; j++) if (dist[j] <= distanceThreshold) reachable++;\n            if (reachable <= minReachable) {\n                minReachable = reachable;\n                bestCity = i;\n            }\n        }\n        return bestCity;\n    }\n}"
+  },
+  {
+    "id": "oa_293_partition_equal_subset_sum_cpp",
+    "name": "Partition Equal Subset Sum (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "dp"
+    ],
+    "expected_tc": "O(n^2)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "#include <vector>\n#include <numeric>\nusing namespace std;\nclass Solution {\npublic:\n    bool canPartition(vector<int>& nums) {\n        int total = 0;\n        for (int num : nums) total += num;\n        if (total % 2 != 0) return false;\n        int target = total / 2;\n        vector<bool> dp(target + 1, false);\n        dp[0] = true;\n        for (int num : nums) {\n            for (int j = target; j >= num; j--) {\n                dp[j] = dp[j] || dp[j - num];\n            }\n        }\n        return dp[target];\n    }\n};"
+  },
+  {
+    "id": "oa_293_partition_equal_subset_sum_java",
+    "name": "Partition Equal Subset Sum (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "dp"
+    ],
+    "expected_tc": "O(n^2)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "class Solution {\n    public boolean canPartition(int[] nums) {\n        int total = 0;\n        for (int num : nums) total += num;\n        if (total % 2 != 0) return false;\n        int target = total / 2;\n        boolean[] dp = new boolean[target + 1];\n        dp[0] = true;\n        for (int num : nums) {\n            for (int j = target; j >= num; j--) {\n                dp[j] = dp[j] || dp[j - num];\n            }\n        }\n        return dp[target];\n    }\n}"
+  },
+  {
+    "id": "oa_294_target_sum_cpp",
+    "name": "Target Sum (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "dp"
+    ],
+    "expected_tc": "O(n^2)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "#include <vector>\n#include <numeric>\nusing namespace std;\nclass Solution {\npublic:\n    int findTargetSumWays(vector<int>& nums, int target) {\n        int sum = 0;\n        for (int n : nums) sum += n;\n        if ((sum + target) % 2 != 0 || sum < abs(target)) return 0;\n        int s1 = (sum + target) / 2;\n        vector<int> dp(s1 + 1, 0);\n        dp[0] = 1;\n        for (int num : nums) {\n            for (int j = s1; j >= num; j--) {\n                dp[j] += dp[j - num];\n            }\n        }\n        return dp[s1];\n    }\n};"
+  },
+  {
+    "id": "oa_294_target_sum_java",
+    "name": "Target Sum (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "dp"
+    ],
+    "expected_tc": "O(n^2)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "class Solution {\n    public int findTargetSumWays(int[] nums, int target) {\n        int sum = 0;\n        for (int n : nums) sum += n;\n        if ((sum + target) % 2 != 0 || sum < Math.abs(target)) return 0;\n        int s1 = (sum + target) / 2;\n        int[] dp = new int[s1 + 1];\n        dp[0] = 1;\n        for (int num : nums) {\n            for (int j = s1; j >= num; j--) {\n                dp[j] += dp[j - num];\n            }\n        }\n        return dp[s1];\n    }\n}"
+  },
+  {
+    "id": "oa_295_buy_sell_stock_cpp",
+    "name": "Best Time to Buy and Sell Stock (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "dp",
+      "kadanes_algorithm"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Kadane's Algorithm"
+    ],
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int minPrice = 1e9, maxProfit = 0;\n        for (int p : prices) {\n            if (p < minPrice) minPrice = p;\n            else if (p - minPrice > maxProfit) maxProfit = p - minPrice;\n        }\n        return maxProfit;\n    }\n};"
+  },
+  {
+    "id": "oa_295_buy_sell_stock_java",
+    "name": "Best Time to Buy and Sell Stock (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "dp",
+      "kadanes_algorithm"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [
+      "Kadane's Algorithm"
+    ],
+    "code": "class Solution {\n    public int maxProfit(int[] prices) {\n        int minPrice = Integer.MAX_VALUE, maxProfit = 0;\n        for (int p : prices) {\n            if (p < minPrice) minPrice = p;\n            else if (p - minPrice > maxProfit) maxProfit = p - minPrice;\n        }\n        return maxProfit;\n    }\n}"
+  },
+  {
+    "id": "oa_296_buy_sell_stock_ii_cpp",
+    "name": "Best Time to Buy and Sell Stock II (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "greedy"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "#include <vector>\nusing namespace std;\nclass Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int profit = 0;\n        for (int i = 1; i < (int)prices.size(); i++) {\n            if (prices[i] > prices[i - 1]) profit += prices[i] - prices[i - 1];\n        }\n        return profit;\n    }\n};"
+  },
+  {
+    "id": "oa_296_buy_sell_stock_ii_java",
+    "name": "Best Time to Buy and Sell Stock II (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "greedy"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "class Solution {\n    public int maxProfit(int[] prices) {\n        int profit = 0;\n        for (int i = 1; i < prices.length; i++) {\n            if (prices[i] > prices[i - 1]) profit += prices[i] - prices[i - 1];\n        }\n        return profit;\n    }\n}"
+  },
+  {
+    "id": "oa_297_max_product_subarray_cpp",
+    "name": "Maximum Product Subarray (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "dp"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int maxProduct(vector<int>& nums) {\n        int maxP = nums[0], minP = nums[0], res = nums[0];\n        for (int i = 1; i < (int)nums.size(); i++) {\n            if (nums[i] < 0) swap(maxP, minP);\n            maxP = max(nums[i], maxP * nums[i]);\n            minP = min(nums[i], minP * nums[i]);\n            res = max(res, maxP);\n        }\n        return res;\n    }\n};"
+  },
+  {
+    "id": "oa_297_max_product_subarray_java",
+    "name": "Maximum Product Subarray (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "dp"
+    ],
+    "expected_tc": "O(n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "class Solution {\n    public int maxProduct(int[] nums) {\n        int maxP = nums[0], minP = nums[0], res = nums[0];\n        for (int i = 1; i < nums.length; i++) {\n            if (nums[i] < 0) {\n                int tmp = maxP; maxP = minP; minP = tmp;\n            }\n            maxP = Math.max(nums[i], maxP * nums[i]);\n            minP = Math.min(nums[i], minP * nums[i]);\n            res = Math.max(res, maxP);\n        }\n        return res;\n    }\n}"
+  },
+  {
+    "id": "oa_298_longest_increasing_subsequence_cpp",
+    "name": "Longest Increasing Subsequence (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "dp"
+    ],
+    "expected_tc": "O(n^2)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        int n = nums.size();\n        vector<int> dp(n, 1);\n        int maxLen = 1;\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < i; j++) {\n                if (nums[i] > nums[j]) {\n                    dp[i] = max(dp[i], dp[j] + 1);\n                }\n            }\n            maxLen = max(maxLen, dp[i]);\n        }\n        return maxLen;\n    }\n};"
+  },
+  {
+    "id": "oa_298_longest_increasing_subsequence_java",
+    "name": "Longest Increasing Subsequence (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "dp"
+    ],
+    "expected_tc": "O(n^2)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "import java.util.*;\nclass Solution {\n    public int lengthOfLIS(int[] nums) {\n        int n = nums.length;\n        int[] dp = new int[n];\n        Arrays.fill(dp, 1);\n        int maxLen = 1;\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < i; j++) {\n                if (nums[i] > nums[j]) {\n                    dp[i] = Math.max(dp[i], dp[j] + 1);\n                }\n            }\n            maxLen = Math.max(maxLen, dp[i]);\n        }\n        return maxLen;\n    }\n}"
+  },
+  {
+    "id": "oa_299_triangle_cpp",
+    "name": "Triangle (C++)",
+    "language": "cpp",
+    "rating": "Medium",
+    "tags": [
+      "dp"
+    ],
+    "expected_tc": "O(n^2)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "#include <vector>\n#include <algorithm>\nusing namespace std;\nclass Solution {\npublic:\n    int minimumTotal(vector<vector<int>>& triangle) {\n        int n = triangle.size();\n        vector<int> dp = triangle.back();\n        for (int layer = n - 2; layer >= 0; layer--) {\n            for (int i = 0; i <= layer; i++) {\n                dp[i] = triangle[layer][i] + min(dp[i], dp[i + 1]);\n            }\n        }\n        return dp[0];\n    }\n};"
+  },
+  {
+    "id": "oa_299_triangle_java",
+    "name": "Triangle (Java)",
+    "language": "java",
+    "rating": "Medium",
+    "tags": [
+      "dp"
+    ],
+    "expected_tc": "O(n^2)",
+    "expected_sc": "O(n)",
+    "expected_algorithms": [],
+    "code": "import java.util.*;\nclass Solution {\n    public int minimumTotal(List<List<Integer>> triangle) {\n        int n = triangle.size();\n        int[] dp = new int[n];\n        for (int i = 0; i < n; i++) dp[i] = triangle.get(n - 1).get(i);\n        for (int layer = n - 2; layer >= 0; layer--) {\n            for (int i = 0; i <= layer; i++) {\n                dp[i] = triangle.get(layer).get(i) + Math.min(dp[i], dp[i + 1]);\n            }\n        }\n        return dp[0];\n    }\n}"
+  },
+  {
+    "id": "oa_300_number_complement_cpp",
+    "name": "Number Complement (C++)",
+    "language": "cpp",
+    "rating": "Easy",
+    "tags": [
+      "bit_manipulation"
+    ],
+    "expected_tc": "O(log n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "class Solution {\npublic:\n    int findComplement(int num) {\n        unsigned int mask = ~0;\n        while (num & mask) mask <<= 1;\n        return ~mask & ~num;\n    }\n};"
+  },
+  {
+    "id": "oa_300_number_complement_java",
+    "name": "Number Complement (Java)",
+    "language": "java",
+    "rating": "Easy",
+    "tags": [
+      "bit_manipulation"
+    ],
+    "expected_tc": "O(log n)",
+    "expected_sc": "O(1)",
+    "expected_algorithms": [],
+    "code": "class Solution {\n    public int findComplement(int num) {\n        int mask = ~0;\n        while ((num & mask) != 0) mask <<= 1;\n        return ~mask & ~num;\n    }\n}"
   }
 ]

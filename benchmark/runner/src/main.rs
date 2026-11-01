@@ -853,7 +853,10 @@ fn main() {
         .iter()
         .any(|a| a == "--real-verbose" || a == "--verbose");
     let is_debug = args.iter().any(|a| a == "--debug") || cfg!(debug_assertions);
-    let file_arg = args.iter().position(|a| a == "--file").and_then(|i| args.get(i + 1));
+    let file_arg = args
+        .iter()
+        .position(|a| a == "--file")
+        .and_then(|i| args.get(i + 1));
 
     let corpus_file = if let Some(f) = file_arg {
         f.as_str()
@@ -884,14 +887,14 @@ fn main() {
         println!("\n\n");
         evaluate_corpus(
             "benchmark/corpus/tough_benchmark.json",
-            "Tough & Complex Problems Benchmark (50 Cases)",
+            "Tough & Complex OA Benchmark Suite (600 Cases)",
         );
     } else if file_arg.is_some() {
         evaluate_corpus(corpus_file, &format!("Custom Corpus ({corpus_file})"));
     } else if is_tough {
         evaluate_corpus(
             "benchmark/corpus/tough_benchmark.json",
-            "Tough & Complex Problems Benchmark (50 Cases)",
+            "Tough & Complex OA Benchmark Suite (600 Cases)",
         );
     } else if is_dev2 {
         evaluate_corpus(

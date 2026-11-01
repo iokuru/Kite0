@@ -19,7 +19,7 @@
   <img src="https://img.shields.io/badge/Runtime-WebAssembly-654ff0.svg" alt="WebAssembly" />
   <img src="https://img.shields.io/badge/Privacy-100%25%20Offline%20%26%20Zero%20LLM-success.svg" alt="Zero Telemetry Zero LLM" />
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License" />
-  <img src="https://img.shields.io/badge/Parity-100%25%20(652%2F652%20cases)-brightgreen.svg" alt="100% Native & WASM Parity" />
+  <img src="https://img.shields.io/badge/Parity-100%25%20(752%2F752%20cases)-brightgreen.svg" alt="100% Native & WASM Parity" />
 </p>
 
 ---
@@ -45,7 +45,7 @@ All computation runs **locally inside your browser via compiled WebAssembly**. Z
   - **Algorithm Classification**: Identifies up to 3 primary algorithms drawn strictly from our closed 68-label catalog, applying evidence-based suppression rules (e.g., Dijkstra suppresses BFS; Sliding Window suppresses Two Pointers).
 - **100% Offline & Private**: Zero network calls. Your code never leaves your computer. Completely safe for practice, contests, and proprietary codebases.
 - **Passive Contest Mode**: Reads only the editor DOM without mutating the webpage, touching contest timers, or interfering with Monaco, CodeMirror, or ACE editors.
-- **Dual-Engine Architecture**: Native tree-sitter C runtime on CLI/desktop paired with lightweight serialized AST in WebAssembly in the browser, verified to **100% mathematical parity across 650+ benchmark test cases**.
+- **Dual-Engine Architecture**: Native tree-sitter C runtime on CLI/desktop paired with lightweight serialized AST in WebAssembly in the browser, verified to **100% mathematical parity across 750+ benchmark test cases**.
 
 ---
 
@@ -178,7 +178,7 @@ Kite0 has been rigorously tested against real-world LeetCode and Codeforces Onli
 ```
 Kite0/
 ├── benchmark/
-│   ├── corpus/              # 152 canonical dev cases & 500 tough OA cases
+│   ├── corpus/              # 152 canonical dev cases & 600 tough OA cases
 │   ├── empirical/           # Empirical scaling validators (power-law regression)
 │   ├── leetcode/            # LeetCode problem suite & ground-truth tools
 │   ├── runner/              # Rust benchmark accuracy evaluator & status gate
@@ -224,7 +224,7 @@ cargo fmt --all -- --check
 ```
 
 ### 2. Run Parity Verification (Native vs WebAssembly)
-Verifies 100% identical Time Complexity, Space Complexity, and Algorithm labels across all 652 benchmark cases:
+Verifies 100% identical Time Complexity, Space Complexity, and Algorithm labels across all 752 benchmark cases:
 ```bash
 node benchmark/parity_test.mjs
 node benchmark/parity_test.mjs --tough

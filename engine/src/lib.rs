@@ -100,8 +100,7 @@ fn canonical_complexities(
             && (preprocessed.contains("while (") || preprocessed.contains("while("));
         let tc = if is_nested { "O(n^2)" } else { "O(n)" };
         Some((tc, "O(1)"))
-    } else if (preprocessed.contains("factorial(n - 1)")
-        || preprocessed.contains("factorial(n-1)"))
+    } else if (preprocessed.contains("factorial(n - 1)") || preprocessed.contains("factorial(n-1)"))
         && (preprocessed.contains("factorial(") || preprocessed.contains("factorial ("))
     {
         Some(("O(n)", "O(n)"))

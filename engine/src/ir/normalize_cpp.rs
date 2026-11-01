@@ -234,18 +234,22 @@ impl<'a> CppNormalizer<'a> {
                 } else {
                     self.module.alloc_expr(IrExpr::Var("n".to_string()))
                 };
-                let cond_expr = self.module.alloc_expr(IrExpr::Binary(
-                    BinaryOp::Lt,
-                    iter_var,
-                    bound_expr,
-                ));
+                let cond_expr =
+                    self.module
+                        .alloc_expr(IrExpr::Binary(BinaryOp::Lt, iter_var, bound_expr));
 
                 let zero = self.module.alloc_expr(IrExpr::LiteralInt(0));
-                let init_stmt = self.module.alloc_stmt(IrStmt::Assign("__iter".to_string(), zero));
+                let init_stmt = self
+                    .module
+                    .alloc_stmt(IrStmt::Assign("__iter".to_string(), zero));
 
                 let one = self.module.alloc_expr(IrExpr::LiteralInt(1));
-                let next_iter = self.module.alloc_expr(IrExpr::Binary(BinaryOp::Add, iter_var, one));
-                let step_stmt = self.module.alloc_stmt(IrStmt::Assign("__iter".to_string(), next_iter));
+                let next_iter =
+                    self.module
+                        .alloc_expr(IrExpr::Binary(BinaryOp::Add, iter_var, one));
+                let step_stmt = self
+                    .module
+                    .alloc_stmt(IrStmt::Assign("__iter".to_string(), next_iter));
 
                 let stmt = IrStmt::For {
                     init: Some(init_stmt),

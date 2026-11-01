@@ -536,7 +536,8 @@ fn has_sieve_structure(source: &str) -> bool {
                                         if inner_step.contains(&step1)
                                             || inner_step.contains(&step2)
                                         {
-                                            let body_candidate = inner_hdr_slice[inner_close + 1..].trim_start();
+                                            let body_candidate =
+                                                inner_hdr_slice[inner_close + 1..].trim_start();
                                             let inner_body = if body_candidate.starts_with('{') {
                                                 let mut depth = 0;
                                                 let mut end_idx = body_candidate.len();
@@ -717,7 +718,6 @@ pub(crate) fn contains_any(source: &str, patterns: &[&str]) -> bool {
     patterns.iter().any(|&p| source.contains(p))
 }
 
-
 pub struct AlgorithmDetector;
 
 impl AlgorithmDetector {
@@ -732,8 +732,21 @@ impl AlgorithmDetector {
         let has_prime_ident = contains_any(
             source,
             &[
-                "p * p", "p*p", "i * i", "i*i", "d * d", "d*d", "isPrime", "is_prime",
-                "primes", "prime", "sieve", "seive", "composite", "isComp", "not_prime",
+                "p * p",
+                "p*p",
+                "i * i",
+                "i*i",
+                "d * d",
+                "d*d",
+                "isPrime",
+                "is_prime",
+                "primes",
+                "prime",
+                "sieve",
+                "seive",
+                "composite",
+                "isComp",
+                "not_prime",
             ],
         );
         let has_sieve_step = contains_any(
@@ -770,14 +783,7 @@ impl AlgorithmDetector {
         // 4. Sparse Table
         if contains_any(
             source,
-            &[
-                "st[",
-                "st.",
-                " st(",
-                "\nst(",
-                "SparseTable",
-                "sparse_table",
-            ],
+            &["st[", "st.", " st(", "\nst(", "SparseTable", "sparse_table"],
         ) && contains_any(
             source,
             &[
@@ -943,7 +949,14 @@ impl AlgorithmDetector {
             || source.contains("root.left"))
             && (source.contains("left") && source.contains("right"))
             && (source.contains("max(") || source.contains("Math.max("))
-            && (source.contains("gain") || source.contains("Gain") || source.contains("diameter") || source.contains("Diameter") || source.contains("path") || source.contains("price") || source.contains("rob") || source.contains("dp"));
+            && (source.contains("gain")
+                || source.contains("Gain")
+                || source.contains("diameter")
+                || source.contains("Diameter")
+                || source.contains("path")
+                || source.contains("price")
+                || source.contains("rob")
+                || source.contains("dp"));
         if has_tree_par_dp || has_binary_tree_dp {
             detected.push(AllowedAlgorithm::TreeDp);
         }
@@ -1225,7 +1238,8 @@ impl AlgorithmDetector {
             || source.contains("Node[2]")
             || source.contains("is_end")
             || source.contains("isEnd")
-            || (source.contains("TrieNode") && (source.contains("child") || source.contains("children")))
+            || (source.contains("TrieNode")
+                && (source.contains("child") || source.contains("children")))
         {
             detected.push(AllowedAlgorithm::Trie);
         }
@@ -1368,10 +1382,7 @@ impl AlgorithmDetector {
         }
 
         // 33. Heap / Priority Queue
-        if has_heap_base
-            && !has_two_heaps
-            && !detected.contains(&AllowedAlgorithm::Dijkstra)
-        {
+        if has_heap_base && !has_two_heaps && !detected.contains(&AllowedAlgorithm::Dijkstra) {
             detected.push(AllowedAlgorithm::HeapPriorityQueue);
         }
 
@@ -1924,8 +1935,7 @@ impl AlgorithmDetector {
         let has_sweep_line = contains_any(source, &["events", "Event", "points", "endpoints"])
             && contains_any(source, &["sort", "Sort"])
             && contains_any(source, &["+1", "-1", "START", "END", "type", "delta"]);
-        if (has_sweep_line
-            || contains_any(source, &["sweepLine", "sweep_line", "SweepLine"]))
+        if (has_sweep_line || contains_any(source, &["sweepLine", "sweep_line", "SweepLine"]))
             && !detected.contains(&AllowedAlgorithm::Intervals)
         {
             detected.push(AllowedAlgorithm::SweepLine);

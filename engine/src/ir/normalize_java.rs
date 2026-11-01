@@ -233,18 +233,22 @@ impl<'a> JavaNormalizer<'a> {
                 } else {
                     self.module.alloc_expr(IrExpr::Var("n".to_string()))
                 };
-                let cond_expr = self.module.alloc_expr(IrExpr::Binary(
-                    BinaryOp::Lt,
-                    iter_var,
-                    bound_expr,
-                ));
+                let cond_expr =
+                    self.module
+                        .alloc_expr(IrExpr::Binary(BinaryOp::Lt, iter_var, bound_expr));
 
                 let zero = self.module.alloc_expr(IrExpr::LiteralInt(0));
-                let init_stmt = self.module.alloc_stmt(IrStmt::Assign("__iter".to_string(), zero));
+                let init_stmt = self
+                    .module
+                    .alloc_stmt(IrStmt::Assign("__iter".to_string(), zero));
 
                 let one = self.module.alloc_expr(IrExpr::LiteralInt(1));
-                let next_iter = self.module.alloc_expr(IrExpr::Binary(BinaryOp::Add, iter_var, one));
-                let step_stmt = self.module.alloc_stmt(IrStmt::Assign("__iter".to_string(), next_iter));
+                let next_iter =
+                    self.module
+                        .alloc_expr(IrExpr::Binary(BinaryOp::Add, iter_var, one));
+                let step_stmt = self
+                    .module
+                    .alloc_stmt(IrStmt::Assign("__iter".to_string(), next_iter));
 
                 let stmt = IrStmt::For {
                     init: Some(init_stmt),
@@ -381,27 +385,27 @@ impl<'a> JavaNormalizer<'a> {
                                 };
                                 self.module.allocations.push(alloc.clone());
                                 return Some(self.module.alloc_stmt(IrStmt::Alloc(alloc)));
-                            } else if v.kind() == "object_creation_expression" {
-                                if is_java_container(&type_text) {
-                                    let args = v.child_by_field_name("arguments");
-                                    let size_expr = if let Some(a) = args {
-                                        a.children
-                                            .iter()
-                                            .find(|c| {
-                                                c.kind() != "(" && c.kind() != ")" && c.kind() != ","
-                                            })
-                                            .map(|s| self.lower_expr(s))
-                                    } else {
-                                        None
-                                    };
-                                    let alloc = IrAlloc {
-                                        var: var_name.clone(),
-                                        type_name: type_text.clone(),
-                                        size: size_expr,
-                                    };
-                                    self.module.allocations.push(alloc.clone());
-                                    return Some(self.module.alloc_stmt(IrStmt::Alloc(alloc)));
-                                }
+                            } else if v.kind() == "object_creation_expression"
+                                && is_java_container(&type_text)
+                            {
+                                let args = v.child_by_field_name("arguments");
+                                let size_expr = if let Some(a) = args {
+                                    a.children
+                                        .iter()
+                                        .find(|c| {
+                                            c.kind() != "(" && c.kind() != ")" && c.kind() != ","
+                                        })
+                                        .map(|s| self.lower_expr(s))
+                                } else {
+                                    None
+                                };
+                                let alloc = IrAlloc {
+                                    var: var_name.clone(),
+                                    type_name: type_text.clone(),
+                                    size: size_expr,
+                                };
+                                self.module.allocations.push(alloc.clone());
+                                return Some(self.module.alloc_stmt(IrStmt::Alloc(alloc)));
                             }
                         }
 
@@ -642,7 +646,7 @@ impl<'a> JavaNormalizer<'a> {
 fn is_java_container(t: &str) -> bool {
     let t = t.trim();
     let name = t.split('<').next().unwrap_or(t).trim();
-    let unqualified = name.split('.').last().unwrap_or(name);
+    let unqualified = name.split('.').next_back().unwrap_or(name);
     matches!(
         unqualified,
         "List"
