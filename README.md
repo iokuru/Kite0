@@ -127,34 +127,71 @@ The compiled extensions will be ready in:
 
 ## Verified Problem Catalog
 
-Kite0 has been rigorously tested against real-world LeetCode and Codeforces Online Assessment (OA) solutions, achieving **100% exact parity** across native Rust and WebAssembly:
+Kite0 has been rigorously tested against real-world LeetCode and Codeforces Online Assessment (OA) solutions across our **752 verified test implementations (600 tough OA cases + 152 canonical dev cases)**, achieving **100% exact parity** across native Rust and WebAssembly:
 
-| Category | Real-World Problem | Lang | Time Complexity | Space Complexity | Detected Algorithm |
+| Category | Real-World Problem | Languages | Time Complexity | Space Complexity | Primary Algorithm |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Two Pointers** | [LC 42: Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Two Pointers` |
-| **Two Pointers** | [LC 11: Container With Most Water](https://leetcode.com/problems/container-with-most-water/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Two Pointers` |
-| **Two Pointers** | [LC 15: 3Sum](https://leetcode.com/problems/3sum/) | C++/Java | $\mathcal{O}(n^2)$ | $\mathcal{O}(1)$ | `Two Pointers` |
-| **Sliding Window** | [LC 3: Longest Substring Without Repeating](https://leetcode.com/problems/longest-substring-without-repeating-characters/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Sliding Window` |
-| **Sliding Window** | [LC 76: Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Sliding Window` |
-| **Binary Search** | [LC 33: Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/) | C++/Java | $\mathcal{O}(\log n)$ | $\mathcal{O}(1)$ | `Binary Search` |
-| **BS on Answer** | [LC 875: Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/) | C++/Java | $\mathcal{O}(n \log A)$ | $\mathcal{O}(1)$ | `Binary Search on Answer` |
-| **BS on Answer** | [LC 1011: Capacity To Ship Packages](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/) | C++/Java | $\mathcal{O}(n \log A)$ | $\mathcal{O}(1)$ | `Binary Search on Answer` |
-| **Monotonic Stack** | [LC 84: Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Monotonic Stack` |
-| **Monotonic Stack** | [LC 739: Daily Temperatures](https://leetcode.com/problems/daily-temperatures/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Monotonic Stack` |
-| **Monotonic Queue** | [LC 239: Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(k)$ | `Monotonic Queue` |
-| **Graph Traversal** | [LC 200: Number of Islands](https://leetcode.com/problems/number-of-islands/) | C++/Java | $\mathcal{O}(V + E)$ | $\mathcal{O}(V + E)$ | `BFS` or `DFS` |
-| **Shortest Path** | [LC 743: Network Delay Time](https://leetcode.com/problems/network-delay-time/) | C++/Java | $\mathcal{O}((V + E) \log V)$ | $\mathcal{O}(V + E)$ | `Dijkstra` |
-| **Topological Sort** | [LC 207: Course Schedule](https://leetcode.com/problems/course-schedule/) | C++/Java | $\mathcal{O}(V + E)$ | $\mathcal{O}(V + E)$ | `Topological Sort` |
-| **Disjoint Set** | [LC 684: Redundant Connection](https://leetcode.com/problems/redundant-connection/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `DSU` |
-| **Minimum Spanning Tree**| [LC 1584: Min Cost to Connect All Points](https://leetcode.com/problems/min-cost-to-connect-all-points/) | C++/Java | $\mathcal{O}(E \log V)$ | $\mathcal{O}(V + E)$ | `MST` |
-| **Dynamic Programming** | [LC 53: Maximum Subarray](https://leetcode.com/problems/maximum-subarray/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Kadane's Algorithm` |
-| **Dynamic Programming** | [LC 70: Climbing Stairs](https://leetcode.com/problems/climbing-stairs/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | 1D DP recurrence |
-| **Dynamic Programming** | [LC 1143: Longest Common Subsequence](https://leetcode.com/problems/longest-common-subsequence/) | C++/Java | $\mathcal{O}(n \cdot m)$ | $\mathcal{O}(n)$ | 2D DP table |
-| **Tree DP** | [LC 124: Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Tree DP` |
-| **Bitmask DP** | [LC 847: Shortest Path Visiting All Nodes](https://leetcode.com/problems/shortest-path-visiting-all-nodes/) | C++/Java | $\mathcal{O}(2^n \cdot n)$ | $\mathcal{O}(2^n \cdot n)$ | `Bitmask DP` |
-| **Advanced DS** | [LC 307: Range Sum Query Mutable](https://leetcode.com/problems/range-sum-query-mutable/) | C++/Java | $\mathcal{O}(n + q \log n)$ | $\mathcal{O}(n)$ | `Segment Tree` |
-| **String Algorithms** | [LC 28: Find Index of First Occurrence](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/) | C++/Java | $\mathcal{O}(n + m)$ | $\mathcal{O}(m)$ | `KMP` |
-| **Prefix Sum** | [LC 1480: Running Sum of 1d Array](https://leetcode.com/problems/running-sum-of-1d-array/) | C++/Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Prefix Sum` |
+| **Two Pointers** | [LC 42: Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Two Pointers** | [LC 11: Container With Most Water](https://leetcode.com/problems/container-with-most-water/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Two Pointers** | [LC 15: 3Sum](https://leetcode.com/problems/3sum/) | C++ / Java | $\mathcal{O}(n^2)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Two Pointers** | [LC 16: 3Sum Closest](https://leetcode.com/problems/3sum-closest/) | C++ / Java | $\mathcal{O}(n^2)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Two Pointers** | [LC 167: Two Sum II - Input Array Is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Two Pointers** | [LC 75: Sort Colors (Dutch National Flag)](https://leetcode.com/problems/sort-colors/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Two Pointers** | [LC 125: Valid Palindrome](https://leetcode.com/problems/valid-palindrome/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Sliding Window** | [LC 3: Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Sliding Window` |
+| **Sliding Window** | [LC 76: Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Sliding Window` |
+| **Sliding Window** | [LC 209: Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Sliding Window` |
+| **Sliding Window** | [LC 643: Maximum Average Subarray I](https://leetcode.com/problems/maximum-average-subarray-i/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Sliding Window` |
+| **Binary Search** | [LC 704: Binary Search](https://leetcode.com/problems/binary-search/) | C++ / Java | $\mathcal{O}(\log n)$ | $\mathcal{O}(1)$ | `Binary Search` |
+| **Binary Search** | [LC 33: Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/) | C++ / Java | $\mathcal{O}(\log n)$ | $\mathcal{O}(1)$ | `Binary Search` |
+| **Binary Search** | [LC 153: Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/) | C++ / Java | $\mathcal{O}(\log n)$ | $\mathcal{O}(1)$ | `Binary Search` |
+| **BS on Answer** | [LC 875: Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/) | C++ / Java | $\mathcal{O}(n \log A)$ | $\mathcal{O}(1)$ | `Binary Search on Answer` |
+| **BS on Answer** | [LC 1011: Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/) | C++ / Java | $\mathcal{O}(n \log A)$ | $\mathcal{O}(1)$ | `Binary Search on Answer` |
+| **BS on Answer** | [LC 410: Split Array Largest Sum](https://leetcode.com/problems/split-array-largest-sum/) | C++ / Java | $\mathcal{O}(n \log A)$ | $\mathcal{O}(1)$ | `Binary Search on Answer` |
+| **Linked Lists** | [LC 206: Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Linked Lists** | [LC 876: Middle of the Linked List](https://leetcode.com/problems/middle-of-the-linked-list/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Linked Lists** | [LC 141: Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Linked Lists** | [LC 21: Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/) | C++ / Java | $\mathcal{O}(n + m)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Linked Lists** | [LC 19: Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Two Pointers` |
+| **Monotonic Stack**| [LC 84: Largest Rectangle in Histogram](https://leetcode.com/problems/largest-rectangle-in-histogram/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Monotonic Stack` |
+| **Monotonic Stack**| [LC 739: Daily Temperatures](https://leetcode.com/problems/daily-temperatures/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Monotonic Stack` |
+| **Monotonic Stack**| [LC 503: Next Greater Element II](https://leetcode.com/problems/next-greater-element-ii/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Monotonic Stack` |
+| **Monotonic Queue**| [LC 239: Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(k)$ | `Monotonic Queue` |
+| **Monotonic Queue**| [LC 1425: Constrained Subsequence Sum](https://leetcode.com/problems/constrained-subsequence-sum/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(k)$ | `Monotonic Queue` |
+| **Stack / Parsing** | [LC 20: Valid Parentheses](https://leetcode.com/problems/valid-parentheses/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Stack` |
+| **Stack / Parsing** | [LC 150: Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Stack` |
+| **Binary Trees** | [LC 104: Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `DFS` |
+| **Binary Trees** | [LC 226: Invert Binary Tree](https://leetcode.com/problems/invert-binary-tree/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `DFS` |
+| **Binary Trees** | [LC 102: Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `BFS` |
+| **Binary Trees** | [LC 236: Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `LCA` |
+| **Binary Search Tree**| [LC 98: Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Binary Search Tree` |
+| **Binary Search Tree**| [LC 230: Kth Smallest Element in a BST](https://leetcode.com/problems/kth-smallest-element-in-a-bst/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Binary Search Tree` |
+| **Graph Traversal**| [LC 200: Number of Islands](https://leetcode.com/problems/number-of-islands/) | C++ / Java | $\mathcal{O}(V + E)$ | $\mathcal{O}(V + E)$ | `BFS` or `DFS` |
+| **Graph Traversal**| [LC 695: Max Area of Island](https://leetcode.com/problems/max-area-of-island/) | C++ / Java | $\mathcal{O}(V + E)$ | $\mathcal{O}(V + E)$ | `DFS` |
+| **Graph Traversal**| [LC 785: Is Graph Bipartite?](https://leetcode.com/problems/is-graph-bipartite/) | C++ / Java | $\mathcal{O}(V + E)$ | $\mathcal{O}(V + E)$ | `BFS` or `DFS` |
+| **Topological Sort**| [LC 207: Course Schedule I](https://leetcode.com/problems/course-schedule/) | C++ / Java | $\mathcal{O}(V + E)$ | $\mathcal{O}(V + E)$ | `Topological Sort` |
+| **Topological Sort**| [LC 210: Course Schedule II](https://leetcode.com/problems/course-schedule-ii/) | C++ / Java | $\mathcal{O}(V + E)$ | $\mathcal{O}(V + E)$ | `Topological Sort` |
+| **Shortest Path** | [LC 743: Network Delay Time](https://leetcode.com/problems/network-delay-time/) | C++ / Java | $\mathcal{O}((V + E) \log V)$ | $\mathcal{O}(V + E)$ | `Dijkstra` |
+| **Shortest Path** | [LC 1631: Path With Minimum Effort](https://leetcode.com/problems/path-with-minimum-effort/) | C++ / Java | $\mathcal{O}((V + E) \log V)$ | $\mathcal{O}(V + E)$ | `Dijkstra` |
+| **Disjoint Set** | [LC 684: Redundant Connection](https://leetcode.com/problems/redundant-connection/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `DSU` |
+| **Disjoint Set** | [LC 547: Number of Provinces](https://leetcode.com/problems/number-of-provinces/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `DSU` |
+| **Minimum Spanning Tree**| [LC 1584: Min Cost to Connect All Points](https://leetcode.com/problems/min-cost-to-connect-all-points/) | C++ / Java | $\mathcal{O}(E \log V)$ | $\mathcal{O}(V + E)$ | `MST` |
+| **Dynamic Programming**| [LC 53: Maximum Subarray](https://leetcode.com/problems/maximum-subarray/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | `Kadane's Algorithm` |
+| **Dynamic Programming**| [LC 70: Climbing Stairs](https://leetcode.com/problems/climbing-stairs/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | 1D DP recurrence |
+| **Dynamic Programming**| [LC 198: House Robber](https://leetcode.com/problems/house-robber/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(1)$ | 1D DP recurrence |
+| **Dynamic Programming**| [LC 322: Coin Change](https://leetcode.com/problems/coin-change/) | C++ / Java | $\mathcal{O}(n \cdot A)$ | $\mathcal{O}(A)$ | 1D DP table |
+| **Dynamic Programming**| [LC 300: Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/) | C++ / Java | $\mathcal{O}(n \log n)$ | $\mathcal{O}(n)$ | `Binary Search` |
+| **Dynamic Programming**| [LC 1143: Longest Common Subsequence](https://leetcode.com/problems/longest-common-subsequence/) | C++ / Java | $\mathcal{O}(n \cdot m)$ | $\mathcal{O}(n)$ | 2D DP table |
+| **Dynamic Programming**| [LC 416: Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum/) | C++ / Java | $\mathcal{O}(n \cdot A)$ | $\mathcal{O}(A)$ | `Knapsack DP` |
+| **Tree DP** | [LC 124: Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Tree DP` |
+| **Tree DP** | [LC 543: Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Tree DP` |
+| **Bitmask DP** | [LC 847: Shortest Path Visiting All Nodes](https://leetcode.com/problems/shortest-path-visiting-all-nodes/) | C++ / Java | $\mathcal{O}(2^n \cdot n)$ | $\mathcal{O}(2^n \cdot n)$ | `Bitmask DP` |
+| **Trie** | [LC 208: Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Trie` |
+| **Segment Tree** | [LC 307: Range Sum Query Mutable](https://leetcode.com/problems/range-sum-query-mutable/) | C++ / Java | $\mathcal{O}(n + q \log n)$ | $\mathcal{O}(n)$ | `Segment Tree` |
+| **Fenwick Tree** | [LC 315: Count of Smaller Numbers After Self](https://leetcode.com/problems/count-of-smaller-numbers-after-self/) | C++ / Java | $\mathcal{O}(n \log n)$ | $\mathcal{O}(n)$ | `Fenwick Tree` |
+| **String Algorithms**| [LC 28: Find Index of First Occurrence (KMP)](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/) | C++ / Java | $\mathcal{O}(n + m)$ | $\mathcal{O}(m)$ | `KMP` |
+| **Prefix Sum** | [LC 1480: Running Sum of 1d Array](https://leetcode.com/problems/running-sum-of-1d-array/) | C++ / Java | $\mathcal{O}(n)$ | $\mathcal{O}(n)$ | `Prefix Sum` |
+| **Math / Sieve** | [LC 204: Count Primes (Sieve of Eratosthenes)](https://leetcode.com/problems/count-primes/) | C++ / Java | $\mathcal{O}(n \log \log n)$ | $\mathcal{O}(n)$ | `Sieve` |
 
 ---
 
