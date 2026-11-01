@@ -56,12 +56,14 @@ We welcome ideas for new loop structures, standard library container cost models
 
 We maintain extensive benchmark corpora:
 - `benchmark/corpus/snippets.json`: 152 canonical dev cases (76 C++, 76 Java).
-- `benchmark/corpus/tough_benchmark.json`: 600 tough OA benchmark cases.
+- `benchmark/corpus/dev2.json`: 70 synthetic stress cases (35 C++, 35 Java).
+- `benchmark/corpus/tough_benchmark.json`: 600 tough OA benchmark cases (300 C++, 300 Java).
 
 To add a verified test case:
-1. Provide valid C++ or Java code.
-2. Specify exact expected $TC$, $SC$, and catalog algorithm.
-3. Ensure both native and WebAssembly parity tests pass:
+1. Provide valid, syntactically sound C++ or Java code.
+2. Ensure you test multiple code variations (dense zero-whitespace formatting, varied variable names, 0-indexed vs. 1-indexed, and container vs. array forms).
+3. Specify exact expected $TC$, $SC$, and catalog algorithm.
+4. Ensure both native and WebAssembly parity tests pass:
    ```bash
    node benchmark/parity_test.mjs
    node benchmark/parity_test.mjs --tough
@@ -76,7 +78,7 @@ To add a verified test case:
 
 ### Extending Platform Adapters
 
-Platform adapters live in `extension/src/adapters/`. Each adapter implements `PlatformAdapter`:
+Platform adapters live in `extension/src/platform/`. Each adapter implements `PlatformAdapter`:
 ```typescript
 export interface PlatformAdapter {
   matches(url: string): boolean;
