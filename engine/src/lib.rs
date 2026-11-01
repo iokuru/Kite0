@@ -92,14 +92,22 @@ fn canonical_complexities(
         Some(("O(n)", "O(n)"))
     } else if detected.contains(&AllowedAlgorithm::KadanesAlgorithm) {
         Some(("O(n)", "O(1)"))
-    } else if detected.contains(&AllowedAlgorithm::TwoPointers)
-        || detected.contains(&AllowedAlgorithm::SlidingWindow)
-    {
-        let is_nested = (preprocessed.contains("for (int i = 0")
-            || preprocessed.contains("for (int i = 0;"))
-            && (preprocessed.contains("while (") || preprocessed.contains("while("));
+    } else if detected.contains(&AllowedAlgorithm::TwoPointers) {
+        let compact: String = preprocessed
+            .chars()
+            .filter(|c| !c.is_whitespace())
+            .collect();
+        let is_nested = (compact.contains("for(") || compact.contains("for;"))
+            && (compact.contains("while(l<r")
+                || compact.contains("while(left<right")
+                || compact.contains("while(low<high")
+                || compact.contains("while(j<k")
+                || compact.contains("while(start<end")
+                || compact.contains("while(lo<hi"));
         let tc = if is_nested { "O(n^2)" } else { "O(n)" };
         Some((tc, "O(1)"))
+    } else if detected.contains(&AllowedAlgorithm::SlidingWindow) {
+        Some(("O(n)", "O(1)"))
     } else if (preprocessed.contains("factorial(n - 1)") || preprocessed.contains("factorial(n-1)"))
         && (preprocessed.contains("factorial(") || preprocessed.contains("factorial ("))
     {

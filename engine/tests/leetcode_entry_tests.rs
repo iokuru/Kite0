@@ -530,3 +530,43 @@ fn test_comma_expr_two_pointer_cpp() {
     assert_eq!(res.tc, "O(n)");
     assert_eq!(res.sc, "O(1)");
 }
+
+#[test]
+fn test_threesum_user_screenshot() {
+    let code = r#"
+    class Solution {
+        public List<List<Integer>> threeSum(int[] n) {
+            List<List<Integer>> ans = new ArrayList<>();
+
+            Arrays.sort(n);
+
+            for(int i=0; i<n.length; ++i){
+                int l=i+1, r = n.length-1;
+
+                if(i>0 && n[i]==n[i-1]) continue;
+
+                while(l<r){
+                    int sum = n[i] + n[l] + n[r];
+
+                    if(sum == 0){
+                        ans.add(Arrays.asList(n[i], n[l], n[r]));
+
+                        while(l<r && n[l] == n[l+1]) l++;
+                        while(l<r && n[r] == n[r-1]) r--;
+
+                        l++; r--;
+                    }
+                    else if(sum < 0) l++;
+                    else r--;
+                }
+            }
+        }
+    }
+    "#;
+    let res = analyze(code, "java");
+    println!(
+        "TC: {}, SC: {}, Algos: {:?}",
+        res.tc, res.sc, res.algorithms
+    );
+    assert_eq!(res.tc, "O(n^2)");
+}
