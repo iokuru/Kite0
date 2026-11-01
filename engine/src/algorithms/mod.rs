@@ -1169,6 +1169,7 @@ impl AlgorithmDetector {
         }
 
         // 20. Two Pointers
+        let compact_src: String = source.chars().filter(|c| !c.is_whitespace()).collect();
         let has_two_pointers_bounds = source.contains("l < r")
             || source.contains("l <= r")
             || source.contains("left < right")
@@ -1180,19 +1181,43 @@ impl AlgorithmDetector {
             || source.contains("start < end")
             || source.contains("start <= end")
             || source.contains("i < j")
-            || source.contains("i <= j");
+            || source.contains("i <= j")
+            || compact_src.contains("l<r")
+            || compact_src.contains("l<=r")
+            || compact_src.contains("left<right")
+            || compact_src.contains("left<=right")
+            || compact_src.contains("low<high")
+            || compact_src.contains("low<=high")
+            || compact_src.contains("lo<hi")
+            || compact_src.contains("lo<=hi")
+            || compact_src.contains("start<end")
+            || compact_src.contains("start<=end")
+            || compact_src.contains("i<j")
+            || compact_src.contains("i<=j");
         let has_two_pointers_adv = (source.contains("l++")
+            || source.contains("++l")
             || source.contains("left++")
+            || source.contains("++left")
             || source.contains("low++")
+            || source.contains("++low")
             || source.contains("lo++")
+            || source.contains("++lo")
             || source.contains("start++")
-            || source.contains("i++"))
+            || source.contains("++start")
+            || source.contains("i++")
+            || source.contains("++i"))
             && (source.contains("r--")
+                || source.contains("--r")
                 || source.contains("right--")
+                || source.contains("--right")
                 || source.contains("high--")
+                || source.contains("--high")
                 || source.contains("hi--")
+                || source.contains("--hi")
                 || source.contains("end--")
-                || source.contains("j--"));
+                || source.contains("--end")
+                || source.contains("j--")
+                || source.contains("--j"));
         let is_two_pointers = ((has_two_pointers_bounds && has_two_pointers_adv)
             || has_two_pointers_structure(source))
             && !is_binary_search;
@@ -1205,10 +1230,24 @@ impl AlgorithmDetector {
             || source.contains("for (int right = 0")
             || source.contains("for (int j = 0")
             || source.contains("for (int end = 0")
+            || compact_src.contains("for(intr=0")
+            || compact_src.contains("for(intright=0")
+            || compact_src.contains("for(intj=0")
+            || compact_src.contains("for(intend=0")
+            || compact_src.contains("for(inti=0")
             || source.contains("r++")
-            || source.contains("right++"))
+            || source.contains("++r")
+            || source.contains("right++")
+            || source.contains("++right")
+            || source.contains("end++")
+            || source.contains("++end"))
             && (source.contains("while (") || source.contains("while("))
-            && (source.contains("l++") || source.contains("left++") || source.contains("start++"));
+            && (source.contains("l++")
+                || source.contains("++l")
+                || source.contains("left++")
+                || source.contains("++left")
+                || source.contains("start++")
+                || source.contains("++start"));
         if has_sliding_window
             && !detected.contains(&AllowedAlgorithm::TwoPointers)
             && !is_binary_search

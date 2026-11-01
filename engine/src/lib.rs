@@ -98,12 +98,17 @@ fn canonical_complexities(
             .filter(|c| !c.is_whitespace())
             .collect();
         let is_nested = (compact.contains("for(") || compact.contains("for;"))
-            && (compact.contains("while(l<r")
-                || compact.contains("while(left<right")
-                || compact.contains("while(low<high")
-                || compact.contains("while(j<k")
-                || compact.contains("while(start<end")
-                || compact.contains("while(lo<hi"));
+            && (compact.contains("while(l<")
+                || compact.contains("while(left<")
+                || compact.contains("while(low<")
+                || compact.contains("while(j<")
+                || compact.contains("while(start<")
+                || compact.contains("while(lo<")
+                || compact.contains("while(r>")
+                || compact.contains("while(right>")
+                || compact.contains("while(high>")
+                || compact.contains("while(hi>")
+                || compact.contains("while(end>"));
         let tc = if is_nested { "O(n^2)" } else { "O(n)" };
         Some((tc, "O(1)"))
     } else if detected.contains(&AllowedAlgorithm::SlidingWindow) {

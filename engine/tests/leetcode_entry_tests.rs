@@ -570,3 +570,120 @@ fn test_threesum_user_screenshot() {
     );
     assert_eq!(res.tc, "O(n^2)");
 }
+
+#[test]
+fn test_threesum_cpp_compact_whitespace_variation() {
+    let code = r#"
+    class Solution {
+    public:
+        vector<vector<int>> threeSum(vector<int>& nums) {
+            sort(nums.begin(),nums.end());
+            int n=nums.size();
+            vector<vector<int>> res;
+            for(int i=0;i<n;++i){
+                if(i>0&&nums[i]==nums[i-1])continue;
+                int l=i+1,r=n-1;
+                while(l<r){
+                    int s=nums[i]+nums[l]+nums[r];
+                    if(s==0){
+                        res.push_back({nums[i],nums[l],nums[r]});
+                        while(l<r&&nums[l]==nums[l+1])++l;
+                        while(l<r&&nums[r]==nums[r-1])--r;
+                        ++l;--r;
+                    }else if(s<0)++l;
+                    else --r;
+                }
+            }
+            return res;
+        }
+    };
+    "#;
+    let res = analyze(code, "cpp");
+    assert_eq!(res.tc, "O(n^2)");
+    assert_eq!(res.sc, "O(1)");
+    assert!(res.algorithms.contains(&"Two Pointers".to_string()));
+}
+
+#[test]
+fn test_threesum_java_left_right_naming_variation() {
+    let code = r#"
+    class Solution {
+        public List<List<Integer>> threeSum(int[] a) {
+            Arrays.sort(a);
+            List<List<Integer>> out = new ArrayList<>();
+            for (int idx = 0; idx < a.length - 2; idx++) {
+                if (idx > 0 && a[idx] == a[idx - 1]) continue;
+                int left = idx + 1, right = a.length - 1;
+                while (left < right) {
+                    int val = a[idx] + a[left] + a[right];
+                    if (val == 0) {
+                        out.add(Arrays.asList(a[idx], a[left], a[right]));
+                        while (left < right && a[left] == a[left + 1]) left++;
+                        while (left < right && a[right] == a[right - 1]) right--;
+                        left++; right--;
+                    } else if (val < 0) left++;
+                    else right--;
+                }
+            }
+            return out;
+        }
+    }
+    "#;
+    let res = analyze(code, "java");
+    assert_eq!(res.tc, "O(n^2)");
+    assert_eq!(res.sc, "O(1)");
+    assert!(res.algorithms.contains(&"Two Pointers".to_string()));
+}
+
+#[test]
+fn test_threesum_java_low_high_lte_variation() {
+    let code = r#"
+    class Solution {
+        public List<List<Integer>> threeSum(int[] nums) {
+            Arrays.sort(nums);
+            List<List<Integer>> ans = new ArrayList<>();
+            for(int i=0;i<nums.length;i++){
+                int low=i+1,high=nums.length-1;
+                while(low<=high){
+                    int sum=nums[i]+nums[low]+nums[high];
+                    if(sum==0){ans.add(Arrays.asList(nums[i],nums[low],nums[high]));low++;high--;}
+                    else if(sum<0)low++;
+                    else high--;
+                }
+            }
+            return ans;
+        }
+    }
+    "#;
+    let res = analyze(code, "java");
+    assert_eq!(res.tc, "O(n^2)");
+    assert_eq!(res.sc, "O(1)");
+    assert!(res.algorithms.contains(&"Two Pointers".to_string()));
+}
+
+#[test]
+fn test_sliding_window_dense_whitespace_variation() {
+    let code = r#"
+    class Solution {
+    public:
+        int lengthOfLongestSubstring(string s) {
+            int n=s.size();
+            vector<int> cnt(128,0);
+            int ans=0,l=0;
+            for(int r=0;r<n;++r){
+                ++cnt[s[r]];
+                while(cnt[s[r]]>1){
+                    --cnt[s[l]];
+                    ++l;
+                }
+                ans=max(ans,r-l+1);
+            }
+            return ans;
+        }
+    };
+    "#;
+    let res = analyze(code, "cpp");
+    assert_eq!(res.tc, "O(n)");
+    assert_eq!(res.sc, "O(1)");
+    assert!(res.algorithms.contains(&"Sliding Window".to_string()));
+}
