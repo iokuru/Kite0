@@ -1232,6 +1232,8 @@ impl AlgorithmDetector {
 
         // 24. Sorting (only when main technique)
         if (source.contains("std::sort")
+            || source.contains("sort(")
+            || source.contains("sort (")
             || source.contains("Arrays.sort")
             || source.contains("Collections.sort"))
             && detected.is_empty()
