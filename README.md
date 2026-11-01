@@ -66,38 +66,61 @@ Both languages compile down to a shared **Language-Agnostic Arena-Allocated Inte
 
 ## Quick Start & Installation
 
-### Option 1: Load in Chrome / Brave / Edge (Developer Mode)
+You can install and use Kite0 **without touching any terminal or command line**, or build it locally from source.
 
-1. Clone or download this repository:
-   ```bash
-   git clone https://github.com/iokuru/Kite0.git
-   cd Kite0/extension
-   npm install
-   npm run package
-   ```
-2. Open your browser and go to `chrome://extensions/`.
-3. Enable **Developer mode** (toggle in the top-right corner).
-4. Click **Load unpacked** and select the `Kite0/extension/dist-chrome` folder.
-5. Pin Kite0 to your extension bar!
+### Non-Terminal Installation (No CLI Required)
 
-### Option 2: Load in Firefox
+#### For Google Chrome, Brave, Microsoft Edge, or Opera:
+1. **Download the Extension**:
+   - Download the latest **`kiteo-chrome-v0.1.1.zip`** from [Releases](https://github.com/iokuru/Kite0/releases) (or grab it directly from [`extension/dist-packages/`](extension/dist-packages/)).
+2. **Extract the ZIP Archive**:
+   - Right-click the `.zip` file and select **Extract All...** to a folder on your computer (e.g., `Downloads/kiteo-chrome`).
+3. **Load into Your Browser**:
+   - Open your browser and navigate to:
+     - Chrome / Brave / Opera: `chrome://extensions/`
+     - Microsoft Edge: `edge://extensions/`
+   - In the top-right corner, toggle **Developer mode** to **ON**.
+   - Click the **Load unpacked** button in the top-left corner.
+   - Select the extracted folder containing `manifest.json`.
+4. **Pin & Use**:
+   - Click the puzzle piece icon on your browser toolbar and pin **Kite0**.
+   - Open any problem on LeetCode or Codeforces—the Kite0 assistant will appear passively right next to the code editor!
 
-1. Build or download the Firefox distribution:
-   ```bash
-   cd Kite0/extension
-   npm install
-   npm run package
-   ```
-2. Open Firefox and go to `about:debugging#/runtime/this-firefox`.
-3. Click **Load Temporary Add-on...**.
-4. Select `Kite0/extension/dist-firefox/manifest.json`.
+#### For Mozilla Firefox:
+1. Download **`kiteo-firefox-v0.1.1.zip`** from [Releases](https://github.com/iokuru/Kite0/releases) (or [`extension/dist-packages/`](extension/dist-packages/)).
+2. Extract the archive to a folder.
+3. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`.
+4. Click **Load Temporary Add-on...**.
+5. Select the `manifest.json` file inside the extracted folder.
 
-### Option 3: Browser Standalone Test Page
+---
 
-You can test Kite0 without visiting an external platform:
-1. Open `extension/public/test-page.html` in your browser.
-2. Paste any standard C++ or Java solution.
-3. Click **Analyze** to inspect immediate AST normalizer and complexity output.
+### Non-Terminal Web Playground (Zero Install)
+
+You can run static analysis immediately without installing an extension or opening a terminal:
+1. Double-click or open [`extension/dist/test-page.html`](extension/dist/test-page.html) directly in any web browser.
+2. Select your language (**C++** or **Java**) from the dropdown.
+3. Paste any solution code into the editor box.
+4. Click **Analyze Code** — Time Complexity, Space Complexity, and Detected Algorithms appear instantly on-screen powered by WebAssembly.
+
+---
+
+### Developer Installation (Build From Source via Terminal)
+
+If you are developing or compiling the extension locally:
+```bash
+# 1. Clone repository
+git clone https://github.com/iokuru/Kite0.git
+cd Kite0/extension
+
+# 2. Install dependencies & build production packages
+npm install
+npm run package
+```
+The compiled extensions will be ready in:
+- `extension/dist-chrome/` (Unpacked Chrome/Edge MV3)
+- `extension/dist-firefox/` (Unpacked Firefox MV3)
+- `extension/dist-packages/` (Pre-packaged `.zip` archives)
 
 ---
 
