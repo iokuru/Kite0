@@ -10,6 +10,7 @@
   <a href="#supported-platforms--languages">Supported Targets</a> •
   <a href="#how-it-works">Architecture</a> •
   <a href="#verified-problem-catalog">Verified Problems</a> •
+  <a href="#rigorous-multi-variation-testing--verification">Testing Methodology</a> •
   <a href="#development--testing">Development</a> •
   <a href="#contributing">Contributing</a>
 </p>
@@ -228,6 +229,47 @@ Kite0/
 │   └── src/                 # Platform adapters, popup UI, content scripts
 └── website/                 # Documentation & interactive web landing site
 ```
+
+---
+
+## Rigorous Multi-Variation Testing & Verification
+
+A robust static analyzer cannot rely on textbook code snippets or brittle formatting assumptions. In competitive programming and technical interviews, solutions are written under strict time pressure with wildly varying code styles, idiosyncratic loop constructs, and zero-whitespace formatting.
+
+To guarantee mathematical correctness and developer trust, **Kite0 was verified through a multi-tiered testing methodology covering hundreds of code variations across both C++ and Java**:
+
+### 1. Multi-Variation Stress Testing Per Problem
+For every problem and algorithmic pattern in our catalog, we authored and validated **multiple real-world code variations**:
+- **Formatting & Whitespace Diversity**: From ultra-compact, zero-whitespace contest submissions (e.g., `for(int i=0;i<n;++i){while(l<r){...}}`) to standard, clean idiomatic formatting.
+- **Syntactic Loop Varieties**: Standard 3-part `for` loops, range-based and enhanced `for-each` loops (`for (int x : nums)`), `while` loops, and `do-while` constructs.
+- **Boundary & Indexing Conventions**: 0-indexed vs. 1-indexed array traversals, pointer offsets (`i < n - 2`, `i <= n - 1`), and decrementing step-bounds (`while (n-- > 0)`).
+- **Data Structure Variations**: Primitive arrays (`int[]`, raw pointer offsets) versus standard library abstractions (`std::vector`, `std::deque`, `ArrayList`, `ArrayDeque`, `LinkedList`).
+- **Identifier Diversity**: Variable naming variations across standard conventions (`l`/`r`, `low`/`high`, `left`/`right`, `lo`/`hi`, `j`/`k`, `p`/`q`, `idx`).
+- **Modular Code Structures**: Multi-method class architectures, helper function reachability, and pass-by-reference state mutators.
+
+### 2. 1:1 Cross-Language Symmetry (C++ & Java)
+Every problem in our benchmark suites is implemented with **100% exact symmetry across C++ and Java**:
+- Both languages are lowered into a shared, language-agnostic Intermediate Representation (IR).
+- Both language frontends must derive the **exact same Time Complexity, Space Complexity, and Algorithm classification** on corresponding implementations.
+
+### 3. Dual-Engine Bit-Level Parity (Native Rust vs. WebAssembly)
+Kite0 runs on two distinct execution targets:
+1. **Native Rust Binary**: Uses compiled C tree-sitter libraries for CLI, desktop, and CI evaluation.
+2. **WebAssembly (`wasm32-unknown-unknown`)**: Runs inside the browser with `web-tree-sitter` for 100% client-side privacy.
+
+Every commit runs [`benchmark/parity_test.mjs`](benchmark/parity_test.mjs) across **all 752 test cases**, enforcing **100% mathematical parity** across Time Complexity, Space Complexity, and Algorithm labels between the native engine and WebAssembly runtime.
+
+### 4. Comprehensive Benchmark Corpora
+- **Canonical Reference Suite (`snippets.json` — 152 cases / 76 problems)**: Covers fundamental algorithmic archetypes across C++ and Java.
+- **Synthetic Stress Suite (`dev2.json` — 70 cases / 35 problems)**: Targets tricky induction bounds, nested loops, break/continue flow, and pointer aliasing.
+- **Tough OA & Competitive Programming Suite (`tough_benchmark.json` — 600 cases / 300 problems)**: Real-world LeetCode (Hard/Medium) and Codeforces (Div 1/Div 2) problems spanning all 68 taxonomy labels.
+- **Total Suite**: **822+ verified test cases and benchmark problems**.
+
+### 5. Empirical CPU Scaling Validation
+Beyond static symbolic evaluation, [`benchmark/empirical/validator.mjs`](benchmark/empirical/validator.mjs) runs empirical execution benchmarks across doubling input sizes ($N = 10^3 \to 8 \times 10^6$). It fits power-law log-log regression curves ($\Delta \ln T / \Delta \ln N$) to verify that our symbolic Big-O derivations match real CPU cycle scaling.
+
+### 6. Formal Property-Based Testing (`proptest`)
+Using property-based testing, we prove mathematical invariants (commutativity, associativity, and dominance elimination in complexity algebra) over tens of thousands of randomly synthesized AST and IR expressions.
 
 ---
 
