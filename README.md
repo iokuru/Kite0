@@ -73,7 +73,7 @@ You can install and use Kite0 **without touching any terminal or command line**,
 
 #### For Google Chrome, Brave, Microsoft Edge, or Opera:
 1. **Download the Extension**:
-   - Download the latest **`kiteo-chrome-v0.1.1.zip`** from [Releases](https://github.com/iokuru/Kite0/releases) (or grab it directly from [`extension/dist-packages/`](extension/dist-packages/)).
+   - Download **[`kiteo-chrome-v0.1.1.zip`](extension/dist-packages/kiteo-chrome-v0.1.1.zip)** directly from the [`extension/dist-packages/`](extension/dist-packages/) directory.
 2. **Extract the ZIP Archive**:
    - Right-click the `.zip` file and select **Extract All...** to a folder on your computer (e.g., `Downloads/kiteo-chrome`).
 3. **Load into Your Browser**:
@@ -88,7 +88,7 @@ You can install and use Kite0 **without touching any terminal or command line**,
    - Open any problem on LeetCode or Codeforces—the Kite0 assistant will appear passively right next to the code editor!
 
 #### For Mozilla Firefox:
-1. Download **`kiteo-firefox-v0.1.1.zip`** from [Releases](https://github.com/iokuru/Kite0/releases) (or [`extension/dist-packages/`](extension/dist-packages/)).
+1. Download **[`kiteo-firefox-v0.1.1.zip`](extension/dist-packages/kiteo-firefox-v0.1.1.zip)** directly from [`extension/dist-packages/`](extension/dist-packages/).
 2. Extract the archive to a folder.
 3. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`.
 4. Click **Load Temporary Add-on...**.

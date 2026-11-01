@@ -20,7 +20,7 @@ The official browser extension for **Kite0** — a non-generative, 100% offline 
 ## Non-Terminal Installation (No Coding or CLI Required)
 
 ### 1. Chromium Browsers (Chrome, Brave, Edge, Opera)
-1. Download **`kiteo-chrome-v0.1.1.zip`** from [GitHub Releases](https://github.com/iokuru/Kite0/releases) (or grab it from [`dist-packages/`](dist-packages/)).
+1. Download **[`kiteo-chrome-v0.1.1.zip`](dist-packages/kiteo-chrome-v0.1.1.zip)** directly from [`dist-packages/`](dist-packages/).
 2. Right-click the `.zip` file and extract it to a folder on your computer.
 3. Open your browser and navigate to:
    - Chrome / Brave / Opera: `chrome://extensions/`
@@ -30,7 +30,7 @@ The official browser extension for **Kite0** — a non-generative, 100% offline 
 6. Click the extension puzzle icon in your browser toolbar and pin **Kite0**.
 
 ### 2. Mozilla Firefox
-1. Download **`kiteo-firefox-v0.1.1.zip`** from [GitHub Releases](https://github.com/iokuru/Kite0/releases) (or [`dist-packages/`](dist-packages/)).
+1. Download **[`kiteo-firefox-v0.1.1.zip`](dist-packages/kiteo-firefox-v0.1.1.zip)** directly from [`dist-packages/`](dist-packages/).
 2. Extract the `.zip` archive.
 3. In Firefox, navigate to `about:debugging#/runtime/this-firefox`.
 4. Click **Load Temporary Add-on...**.

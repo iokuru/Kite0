@@ -20,4 +20,6 @@ playwright-report/
 dist-*/
 extension/dist-*/
 *.zip
+!extension/dist-packages/
+!extension/dist-packages/*.zip
 .astro/
